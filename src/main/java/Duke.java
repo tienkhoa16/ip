@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Duke {
     public static final String HORIZONTAL_LINE = "\t____________________________________________________________";
-    public static String[] tasks = new String[100]; // Store user's tasks
+    public static Task[] tasks = new Task[100];     // Store user's tasks
     public static int taskNumber = 0;               // Manage number of tasks added
 
     /**
@@ -61,9 +61,16 @@ public class Duke {
 
         // Repeat until command is "bye"
         while (!command.equals("bye")) {
-            switch (command) {
+            String[] words = command.split(" ");    // Split command using space as delimiter
+
+            switch (words[0]) {
             case "list":    // If command is "list", list tasks added so far
                 listTasks();
+                break;
+            case "done":    // If command is "done ...", mark the respective task as done
+                // Get index of the task user wants to mark as done
+                int taskIndex = Integer.parseInt(words[1]) - 1;
+                markTaskAsDone(taskIndex);
                 break;
             default:        // By default, add user's command as a new task to tasks array
                 addTask(command);
@@ -81,7 +88,7 @@ public class Duke {
      * @param task
      */
     public static void addTask(String task) {
-        tasks[taskNumber] = task;
+        tasks[taskNumber] = new Task(task);
         taskNumber++;
 
         System.out.println(HORIZONTAL_LINE);
@@ -96,8 +103,23 @@ public class Duke {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("\t Here are the tasks in your list:");
         for (int i = 0; i < taskNumber; i++) {
-            System.out.println("\t " + (i + 1) + ". " + tasks[i]);
+            System.out.println("\t " + (i + 1) + ". " + tasks[i].toString());
         }
+        System.out.println(HORIZONTAL_LINE + "\n");
+    }
+
+    /**
+     * Marks a task of taskIndex as done and notifies user.
+     *
+     * @param taskIndex
+     */
+    public static void markTaskAsDone(int taskIndex) {
+        tasks[taskIndex].markAsDone();  // Update status of task
+
+        // Notify user that task is marked as done
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("\t Nice! I've marked this task as done: ");
+        System.out.println("\t   " + tasks[taskIndex].toString());
         System.out.println(HORIZONTAL_LINE + "\n");
     }
 
