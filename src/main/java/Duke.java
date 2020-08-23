@@ -85,14 +85,14 @@ public class Duke {
      * Adds a new task to tasks array.
      * After the task is added, notifies user.
      *
-     * @param task
+     * @param task Task description.
      */
     public static void addTask(String task) {
-        tasks[taskNumber] = new Task(task);
+        tasks[taskNumber] = new Task(task);         // Create a new Task instance
         taskNumber++;
 
         System.out.println(HORIZONTAL_LINE);
-        System.out.println("\t added: " + task); //  Notify user that the task is recorded
+        System.out.println("\t added: " + task);    //  Notify user that the task is recorded
         System.out.println(HORIZONTAL_LINE + "\n");
     }
 
@@ -102,6 +102,8 @@ public class Duke {
     public static void listTasks() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("\t Here are the tasks in your list:");
+
+        // Iterate through tasks array and print each task with its status and description
         for (int i = 0; i < taskNumber; i++) {
             System.out.println("\t " + (i + 1) + ". " + tasks[i].toString());
         }
@@ -111,7 +113,7 @@ public class Duke {
     /**
      * Marks a task of taskIndex as done and notifies user.
      *
-     * @param taskIndex
+     * @param taskIndex Index of task want to mark as done.
      */
     public static void markTaskAsDone(int taskIndex) {
         tasks[taskIndex].markAsDone();  // Update status of task

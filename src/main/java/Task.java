@@ -6,7 +6,7 @@ public class Task {
      * Constructs a new Task object.
      * Be default, initially, task status is set as not done.
      *
-     * @param description Task description
+     * @param description Task description.
      */
     public Task(String description) {
         this.description = description;
