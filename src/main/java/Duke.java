@@ -21,6 +21,7 @@ public class Duke {
     public static final String COMMAND_DONE_WORD = "done";          // Keyword for marking a task as done
     public static final String COMMAND_TODO_WORD = "todo";          // Keyword for adding a new todo
     public static final String COMMAND_DEADLINE_WORD = "deadline";  // Keyword for adding a new deadline
+    public static final String COMMAND_EVENT_WORD = "event";        // Keyword for adding a new event
 
     public static final String MESSAGE_LIST_TITLE = "Here are the tasks in your list:";
     public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
@@ -141,12 +142,64 @@ public class Duke {
             return executeAddTodo(commandArgs);
         case COMMAND_DEADLINE_WORD:
             return executeAddDeadline(commandArgs);
+        case COMMAND_EVENT_WORD:
+            return executeAddEvent(commandArgs);
         case COMMAND_BYE_WORD:
             executeExitProgramRequest();
             // Fallthrough
         default:
             return displayMessageForInvalidInput();
         }
+    }
+
+    /**
+     * Adds a new event to tasks array.
+     *
+     * @param commandArgs Full command args string from the user.
+     * @return Feedback display message for adding a new event.
+     */
+    public static String executeAddEvent(String commandArgs) {
+        final Event decodeResult = decodeEventFromString(commandArgs);
+
+        return executeAddTask(decodeResult);
+    }
+
+    /**
+     * Decodes an event from it's supposed string representation.
+     *
+     * @param encoded string to be decoded.
+     * @return Event object of description and time.
+     */
+    public static Event decodeEventFromString(String encoded) {
+        final Event decodedEvent = makeEventFromData(
+                extractDescriptionFromString(encoded),
+                extractEventTimeFromString(encoded)
+        );
+        return decodedEvent;
+    }
+
+    /**
+     * Creates an event from the given data.
+     *
+     * @param description Description of event.
+     * @param time Event time without data prefix.
+     * @return constructed person.
+     */
+    private static Event makeEventFromData(String description, String time) {
+        return new Event(description, time);
+    }
+
+    /**
+     * Extracts substring representing event time from command arguments.
+     *
+     * @param encoded string to be decoded.
+     * @return Event time argument WITHOUT prefix.
+     */
+    public static String extractEventTimeFromString(String encoded) {
+        final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
+
+        return removePrefixSign(encoded.substring(indexOfEventPrefix, encoded.length()).trim(),
+                TASK_DATA_PREFIX_EVENT);
     }
 
     /**
@@ -179,7 +232,7 @@ public class Duke {
      * Creates a deadline from the given data.
      *
      * @param description Description of deadline.
-     * @param date        Deadline date without data prefix.
+     * @param date Deadline date without data prefix.
      * @return constructed person.
      */
     private static Deadline makeDeadlineFromData(String description, String date) {
@@ -189,8 +242,8 @@ public class Duke {
     /**
      * Extracts substring representing deadline date from command arguments.
      *
-     * @param encoded string to be decoded
-     * @return deadline date argument WITHOUT prefix
+     * @param encoded string to be decoded.
+     * @return deadline date argument WITHOUT prefix.
      */
     public static String extractDeadlineDateFromString(String encoded) {
         final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
@@ -294,8 +347,8 @@ public class Duke {
     /**
      * Converts task number in user's command (starting from 1)
      * to the corresponding task index  in tasks list (starting from 0).
-     * In the case of "done ..." command, the command argument is the task number
-     * to be marked as done.
+     * In the case of "done ..." command,
+     * the command argument is the task number to be marked as done.
      *
      * @param commandArgs User's argument passed in the command.
      * @return Task index.
@@ -345,9 +398,9 @@ public class Duke {
     /**
      * Removes sign(/by, /at, etc) from parameter string
      *
-     * @param s    Parameter as a string
-     * @param sign Parameter sign to be removed
-     * @return string without the sign
+     * @param s Parameter as a string.
+     * @param sign Parameter sign to be removed.
+     * @return string without the sign.
      */
     public static String removePrefixSign(String s, String sign) {
         return s.replace(sign, "").trim();

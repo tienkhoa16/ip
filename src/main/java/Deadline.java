@@ -6,7 +6,7 @@ public class Deadline extends Task {
      * Constructs a new Deadline object inheriting from Task class.
      *
      * @param description Deadline description.
-     * @param by          Deadline date.
+     * @param by Deadline date.
      */
     public Deadline(String description, String by) {
         super(description);
