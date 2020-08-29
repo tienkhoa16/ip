@@ -19,10 +19,13 @@ public class Duke {
     public static final String COMMAND_BYE_WORD = "bye";        // Keyword for exiting program
     public static final String COMMAND_ADD_WORD = "add";        // Keyword for adding a new task
     public static final String COMMAND_DONE_WORD = "done";      // Keyword for marking a task as done
+    public static final String COMMAND_TODO_WORD = "todo";      // Keyword for adding a new todo
 
     public static final String COMMAND_LIST_MESSAGE_TITLE = "Here are the tasks in your list:";
     public static final String COMMAND_DONE_MESSAGE_TITLE = "Nice! I've marked this task as done:";
-
+    public static final String COMMAND_ADD_MESSAGE_TITLE = "added: ";
+    public static final String COMMAND_TODO_MESSAGE_TITLE = "Got it. I've added this task:";
+    public static final String COMMAND_TODO_MESSAGE_CONCLUSION = "Now you have %d tasks in the list.";
     public static final String MESSAGE_FOR_INVALID_INPUT = "Invalid command.";
 
     public static final String SEPARATOR_TASK_NUMBER_TASK_DESC = ". ";
@@ -39,7 +42,6 @@ public class Duke {
      * text file will be processed.
      */
     public static final Scanner SCANNER = new Scanner(System.in);
-    public static final String COMMAND_ADD_MESSAGE_TITLE = "added: ";
 
     /**
      * List of all tasks.
@@ -131,14 +133,35 @@ public class Duke {
             return executeListAllTasks();
         case COMMAND_DONE_WORD:
             return executeMarkTaskAsDone(commandArgs);
-        case COMMAND_ADD_WORD:
-            return executeAddTask(commandArgs);
+        case COMMAND_TODO_WORD:
+            return executeAddTodo(commandArgs);
         case COMMAND_BYE_WORD:
             executeExitProgramRequest();
             // Fallthrough
         default:
             return displayMessageForInvalidInput();
         }
+    }
+
+    /**
+     * Adds a new todo to tasks array.
+     *
+     * @param todoDescription Todo description.
+     * @return Feedback display message for adding a new todo.
+     */
+    public static String executeAddTodo(String todoDescription) {
+        // Create a new Todo instance
+        Todo todo = new Todo(todoDescription);
+
+        // Add the new todo to tasks array
+        tasks[taskCount] = todo;
+        taskCount++;
+
+        return String.format(HORIZONTAL_LINE + LS
+                + COMMAND_TODO_MESSAGE_TITLE + LS
+                + todo.toString() + LS
+                + COMMAND_TODO_MESSAGE_CONCLUSION + System.lineSeparator()
+                + HORIZONTAL_LINE, taskCount);
     }
 
     /**
