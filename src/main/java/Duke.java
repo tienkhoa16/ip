@@ -1,18 +1,72 @@
 import java.util.Scanner;
 
 public class Duke {
-    public static final String HORIZONTAL_LINE = "\t____________________________________________________________";
-    public static Task[] tasks = new Task[100];     // Store user's tasks
-    public static int taskNumber = 0;               // Manage number of tasks added
+
+    /**
+     * A decorative prefix added to the beginning of lines.
+     */
+    public static final String LINE_PREFIX = "\t ";
+
+    public static final String HORIZONTAL_LINE = LINE_PREFIX
+            + "____________________________________________________________";
+
+    /**
+     * A platform independent line separator.
+     */
+    private static final String LS = System.lineSeparator() + LINE_PREFIX;
+
+    public static final String COMMAND_LIST_WORD = "list";      // Keyword for listing tasks
+    public static final String COMMAND_BYE_WORD = "bye";        // Keyword for exiting program
+    public static final String COMMAND_ADD_WORD = "add";        // Keyword for adding a new task
+    public static final String COMMAND_DONE_WORD = "done";      // Keyword for marking a task as done
+
+    public static final String COMMAND_LIST_MESSAGE_TITLE = "Here are the tasks in your list:";
+    public static final String COMMAND_DONE_MESSAGE_TITLE = "Nice! I've marked this task as done:";
+
+    public static final String MESSAGE_FOR_INVALID_INPUT = "Invalid command.";
+
+    public static final String SEPARATOR_TASK_NUMBER_TASK_DESC = ". ";
+
+    /**
+     * Maximum number of persons that can be held.
+     */
+    public static final int MAX_CAPACITY = 100;
+
+    /*
+     * This variable is declared for the whole class (instead of declaring it
+     * inside the getCommand() method to facilitate automated testing using
+     * the I/O redirection technique. If not, only the first line of the input
+     * text file will be processed.
+     */
+    public static final Scanner SCANNER = new Scanner(System.in);
+    public static final String COMMAND_ADD_MESSAGE_TITLE = "added: ";
+
+    /**
+     * List of all tasks.
+     */
+    public static Task[] tasks;
+
+    /**
+     * Total number of tasks in the list.
+     */
+    public static int taskCount;
+
+    /**
+     * Initializes tasks list and the number of tasks in the list.
+     */
+    private static void initTasksList() {
+        tasks = new Task[MAX_CAPACITY];
+        taskCount = 0;
+    }
 
     /**
      * Greet user.
      */
     public static void printHello() {
         System.out.println(HORIZONTAL_LINE);
-        System.out.println("\t Hello dude! I'm Duke");
-        System.out.println("\t How can I help you?");
-        System.out.println(HORIZONTAL_LINE + "\n");
+        System.out.println(LINE_PREFIX + "Hello dude! I'm Duke");
+        System.out.println(LINE_PREFIX + "How can I help you?");
+        System.out.println(HORIZONTAL_LINE + System.lineSeparator());
     }
 
     /**
@@ -20,114 +74,181 @@ public class Duke {
      */
     public static void printBye() {
         System.out.println(HORIZONTAL_LINE);
-        System.out.println("\t Bye buddy. Hope to see you again soon!");
+        System.out.println(LINE_PREFIX + "Bye buddy. Hope to see you again soon!");
         System.out.println(HORIZONTAL_LINE);
     }
 
     /**
-     * Returns user's command.
+     * Prompts for the command and reads the text entered by the user.
      *
-     * @return User's command.
+     * @return Full line entered by the user.
      */
     public static String getCommand() {
-        Scanner in = new Scanner(System.in);
-        return in.nextLine();
+        System.out.print("Enter your command: ");
+        String inputLine = SCANNER.nextLine();
+        // Silently consume all blank lines
+        while (inputLine.trim().isEmpty()) {
+            System.out.print("Enter your command: ");
+            inputLine = SCANNER.nextLine();
+        }
+        return inputLine;
     }
 
     /**
      * Echos user's command.
-     * If the command is "bye", exits method.
-     * Otherwise, echos user's command.
+     *
+     * @param userCommand User's raw input.
      */
-    public static void echoCommand() {
-        String command = getCommand();
+    public static void echoCommand(String userCommand) {
+        showResultToUser(userCommand);
+    }
 
-        // Repeat until command is "bye"
-        while (!command.equals("bye")) {
-            System.out.println(HORIZONTAL_LINE);
-            System.out.println("\t " + command);
-            System.out.println(HORIZONTAL_LINE + "\n");
-            command = getCommand();
+    /**
+     * Splits raw user input into command word and command arguments string.
+     *
+     * @param rawUserInput User's raw input.
+     * @return size 2 array; first element is the command type and second element is the arguments string.
+     */
+    public static String[] splitCommandWordAndArgs(String rawUserInput) {
+        final String[] split = rawUserInput.trim().split("\\s+", 2);
+        return split.length == 2 ? split : new String[]{split[0], ""}; // else case: no parameters
+    }
+
+    /**
+     * Replies to user's command.
+     *
+     * @param userInputString Raw input from user.
+     * @return Feedback about how the command was executed.
+     */
+    public static String replyCommand(String userInputString) {
+
+        final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
+        final String commandType = commandTypeAndParams[0];
+        final String commandArgs = commandTypeAndParams[1];
+
+        switch (commandType) {
+        case COMMAND_LIST_WORD:
+            return executeListAllTasks();
+        case COMMAND_DONE_WORD:
+            return executeMarkTaskAsDone(commandArgs);
+        case COMMAND_ADD_WORD:
+            return executeAddTask(commandArgs);
+        case COMMAND_BYE_WORD:
+            executeExitProgramRequest();
+            // Fallthrough
+        default:
+            return displayMessageForInvalidInput();
         }
     }
 
     /**
-     * Replies user's command.
-     * If the command is "bye", exits method.
-     * Otherwise, replies user accordingly to the command.
+     * Returns a message when user's command keyword does not belong to any valid keywords.
+     *
+     * @return Invalid input message.
      */
-    public static void replyCommand() {
-        String command = getCommand();  // Get user's command
-
-        // Repeat until command is "bye"
-        while (!command.equals("bye")) {
-            String[] words = command.split(" ");    // Split command using space as delimiter
-
-            switch (words[0]) {
-            case "list":    // If command is "list", list tasks added so far
-                listTasks();
-                break;
-            case "done":    // If command is "done ...", mark the respective task as done
-                // Get index of the task user wants to mark as done
-                int taskIndex = Integer.parseInt(words[1]) - 1;
-                markTaskAsDone(taskIndex);
-                break;
-            default:        // By default, add user's command as a new task to tasks array
-                addTask(command);
-                break;
-            }
-
-            command = getCommand(); // Get user's following command
-        }
+    public static String displayMessageForInvalidInput() {
+        return MESSAGE_FOR_INVALID_INPUT;
     }
 
     /**
      * Adds a new task to tasks array.
-     * After the task is added, notifies user.
      *
-     * @param task Task description.
+     * @param taskDescription Task description.
+     * @return Feedback display message for adding a new task.
      */
-    public static void addTask(String task) {
-        tasks[taskNumber] = new Task(task);         // Create a new Task instance
-        taskNumber++;
+    public static String executeAddTask(String taskDescription) {
+        // Create a new Task instance
+        tasks[taskCount] = new Task(taskDescription);
+        taskCount++;
 
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("\t added: " + task);    //  Notify user that the task is recorded
-        System.out.println(HORIZONTAL_LINE + "\n");
+        return HORIZONTAL_LINE + LS
+                + COMMAND_ADD_MESSAGE_TITLE + taskDescription + System.lineSeparator()
+                + HORIZONTAL_LINE;
     }
 
     /**
      * Lists out tasks added so far with their status.
      */
-    public static void listTasks() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("\t Here are the tasks in your list:");
+    public static String executeListAllTasks() {
+        String feedback = HORIZONTAL_LINE + LS
+                + COMMAND_LIST_MESSAGE_TITLE + LS;
 
         // Iterate through tasks array and print each task with its status and description
-        for (int i = 0; i < taskNumber; i++) {
-            System.out.println("\t " + (i + 1) + ". " + tasks[i].toString());
+        for (int i = 0; i < taskCount; i++) {
+            feedback += (i + 1) + SEPARATOR_TASK_NUMBER_TASK_DESC
+                    + tasks[i].toString() + LS;
         }
-        System.out.println(HORIZONTAL_LINE + "\n");
+
+        feedback += System.lineSeparator() + HORIZONTAL_LINE + System.lineSeparator();
+        return feedback;
     }
 
     /**
-     * Marks a task of taskIndex as done and notifies user.
+     * Marks a task in the tasks array as done.
      *
-     * @param taskIndex Index of task want to mark as done.
+     * @param commandArgs Full command args string from the user.
+     * @return Feedback display message for marking the task as done.
      */
-    public static void markTaskAsDone(int taskIndex) {
-        tasks[taskIndex].markAsDone();  // Update status of task
+    public static String executeMarkTaskAsDone(String commandArgs) {
+        int taskIndex = extractTaskIndexFromInputString(commandArgs);
 
-        // Notify user that task is marked as done
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("\t Nice! I've marked this task as done: ");
-        System.out.println("\t   " + tasks[taskIndex].toString());
-        System.out.println(HORIZONTAL_LINE + "\n");
+        // Update status of task
+        tasks[taskIndex].markAsDone();
+
+        return HORIZONTAL_LINE + LS
+                + COMMAND_DONE_MESSAGE_TITLE + LS
+                + tasks[taskIndex].toString() + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator();
+    }
+
+    /**
+     * Converts task number in user's command (starting from 1)
+     * to the corresponding task index  in tasks list (starting from 0).
+     * In the case of "done ..." command, the command argument is the task number
+     * to be marked as done.
+     *
+     * @param commandArgs User's argument passed in the command.
+     * @return Task index.
+     */
+    public static int extractTaskIndexFromInputString(String commandArgs) {
+        return Integer.parseInt(commandArgs) - 1;
     }
 
     public static void main(String[] args) {
-        printHello();   // Greet user
-        replyCommand(); // Get user's command and reply properly
-        printBye();     // Bye user
+        // Initialize tasks list
+        initTasksList();
+
+        // Greet user
+        printHello();
+
+        while (true) {
+            String userCommand = getCommand();
+            String feedback = replyCommand(userCommand);
+            showResultToUser(feedback);
+        }
+    }
+
+    /**
+     * Shows a result message to the user.
+     *
+     * @param result Result message to be displayed.
+     */
+    public static void showResultToUser(String result) {
+        System.out.println(result);
+    }
+
+    /**
+     * Requests to terminate the program.
+     */
+    public static void executeExitProgramRequest() {
+        exitProgram();
+    }
+
+    /**
+     * Displays the goodbye message and exits the runtime.
+     */
+    private static void exitProgram() {
+        printBye();
+        System.exit(0);
     }
 }

@@ -1,4 +1,5 @@
 public class Task {
+
     protected String description;   // Task description
     protected boolean isDone;       // Task status
 
@@ -19,7 +20,8 @@ public class Task {
      * @return Icon according task's status.
      */
     public String getStatusIcon() {
-        return (isDone ? "\u2713" : "\u2718"); // Return tick or X symbols
+        // Return tick or X symbols
+        return (isDone ? "\u2713" : "\u2718");
     }
 
     /**
