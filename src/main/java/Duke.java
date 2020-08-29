@@ -306,7 +306,7 @@ public class Duke {
                 + MESSAGE_ADD_TITLE + LS
                 + task.toString() + LS
                 + MESSAGE_ADD_CONCLUSION + System.lineSeparator()
-                + HORIZONTAL_LINE, taskCount);
+                + HORIZONTAL_LINE + System.lineSeparator(), taskCount);
     }
 
     /**
@@ -314,15 +314,15 @@ public class Duke {
      */
     public static String executeListAllTasks() {
         String feedback = HORIZONTAL_LINE + LS
-                + MESSAGE_LIST_TITLE + LS;
+                + MESSAGE_LIST_TITLE + System.lineSeparator();
 
         // Iterate through tasks array and print each task with its status and description
         for (int i = 0; i < taskCount; i++) {
-            feedback += (i + 1) + SEPARATOR_TASK_NUMBER_TASK_DESC
-                    + tasks[i].toString() + LS;
+            feedback += LINE_PREFIX + (i + 1) + SEPARATOR_TASK_NUMBER_TASK_DESC
+                    + tasks[i].toString() + System.lineSeparator();
         }
 
-        feedback += System.lineSeparator() + HORIZONTAL_LINE + System.lineSeparator();
+        feedback += HORIZONTAL_LINE + System.lineSeparator();
         return feedback;
     }
 
