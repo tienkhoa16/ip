@@ -13,22 +13,26 @@ public class Duke {
     /**
      * A platform independent line separator.
      */
-    private static final String LS = System.lineSeparator() + LINE_PREFIX;
+    public static final String LS = System.lineSeparator() + LINE_PREFIX;
 
-    public static final String COMMAND_LIST_WORD = "list";      // Keyword for listing tasks
-    public static final String COMMAND_BYE_WORD = "bye";        // Keyword for exiting program
-    public static final String COMMAND_ADD_WORD = "add";        // Keyword for adding a new task
-    public static final String COMMAND_DONE_WORD = "done";      // Keyword for marking a task as done
-    public static final String COMMAND_TODO_WORD = "todo";      // Keyword for adding a new todo
+    public static final String COMMAND_LIST_WORD = "list";          // Keyword for listing tasks
+    public static final String COMMAND_BYE_WORD = "bye";            // Keyword for exiting program
+    public static final String COMMAND_ADD_WORD = "add";            // Keyword for adding a new task
+    public static final String COMMAND_DONE_WORD = "done";          // Keyword for marking a task as done
+    public static final String COMMAND_TODO_WORD = "todo";          // Keyword for adding a new todo
+    public static final String COMMAND_DEADLINE_WORD = "deadline";  // Keyword for adding a new deadline
 
-    public static final String COMMAND_LIST_MESSAGE_TITLE = "Here are the tasks in your list:";
-    public static final String COMMAND_DONE_MESSAGE_TITLE = "Nice! I've marked this task as done:";
-    public static final String COMMAND_ADD_MESSAGE_TITLE = "added: ";
-    public static final String COMMAND_TODO_MESSAGE_TITLE = "Got it. I've added this task:";
-    public static final String COMMAND_TODO_MESSAGE_CONCLUSION = "Now you have %d tasks in the list.";
+    public static final String MESSAGE_LIST_TITLE = "Here are the tasks in your list:";
+    public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
+    public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
+    public static final String MESSAGE_ADD_CONCLUSION = "Now you have %d tasks in the list.";
     public static final String MESSAGE_FOR_INVALID_INPUT = "Invalid command.";
 
     public static final String SEPARATOR_TASK_NUMBER_TASK_DESC = ". ";
+
+    // These are the prefix strings to define the data type of a command parameter
+    public static final String TASK_DATA_PREFIX_DEADLINE = "/by";
+    public static final String TASK_DATA_PREFIX_EVENT = "/at";
 
     /**
      * Maximum number of persons that can be held.
@@ -135,12 +139,82 @@ public class Duke {
             return executeMarkTaskAsDone(commandArgs);
         case COMMAND_TODO_WORD:
             return executeAddTodo(commandArgs);
+        case COMMAND_DEADLINE_WORD:
+            return executeAddDeadline(commandArgs);
         case COMMAND_BYE_WORD:
             executeExitProgramRequest();
             // Fallthrough
         default:
             return displayMessageForInvalidInput();
         }
+    }
+
+    /**
+     * Adds a new deadline to tasks array.
+     *
+     * @param commandArgs Full command args string from the user.
+     * @return Feedback display message for adding a new deadline.
+     */
+    public static String executeAddDeadline(String commandArgs) {
+        final Deadline decodeResult = decodeDeadlineFromString(commandArgs);
+
+        return executeAddTask(decodeResult);
+    }
+
+    /**
+     * Decodes a deadline from it's supposed string representation.
+     *
+     * @param encoded string to be decoded.
+     * @return Deadline object of description and date.
+     */
+    public static Deadline decodeDeadlineFromString(String encoded) {
+        final Deadline decodedDeadline = makeDeadlineFromData(
+                extractDescriptionFromString(encoded),
+                extractDeadlineDateFromString(encoded)
+        );
+        return decodedDeadline;
+    }
+
+    /**
+     * Creates a deadline from the given data.
+     *
+     * @param description Description of deadline.
+     * @param date        Deadline date without data prefix.
+     * @return constructed person.
+     */
+    private static Deadline makeDeadlineFromData(String description, String date) {
+        return new Deadline(description, date);
+    }
+
+    /**
+     * Extracts substring representing deadline date from command arguments.
+     *
+     * @param encoded string to be decoded
+     * @return deadline date argument WITHOUT prefix
+     */
+    public static String extractDeadlineDateFromString(String encoded) {
+        final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
+
+        return removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
+                TASK_DATA_PREFIX_DEADLINE);
+    }
+
+    /**
+     * Extracts substring representing task description from command arguments.
+     *
+     * @param encoded command arguments.
+     * @return Task description.
+     */
+    public static String extractDescriptionFromString(String encoded) {
+        final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
+        final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
+
+        /*
+         * Description is leading substring up to data prefix string.
+         * If prefix of deadline exits, prefix of event doesn't and vice versa.
+         */
+        int indexOfFirstPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
+        return encoded.substring(0, indexOfFirstPrefix).trim();
     }
 
     /**
@@ -153,15 +227,7 @@ public class Duke {
         // Create a new Todo instance
         Todo todo = new Todo(todoDescription);
 
-        // Add the new todo to tasks array
-        tasks[taskCount] = todo;
-        taskCount++;
-
-        return String.format(HORIZONTAL_LINE + LS
-                + COMMAND_TODO_MESSAGE_TITLE + LS
-                + todo.toString() + LS
-                + COMMAND_TODO_MESSAGE_CONCLUSION + System.lineSeparator()
-                + HORIZONTAL_LINE, taskCount);
+        return executeAddTask(todo);
     }
 
     /**
@@ -176,17 +242,18 @@ public class Duke {
     /**
      * Adds a new task to tasks array.
      *
-     * @param taskDescription Task description.
+     * @param task Task object to be added.
      * @return Feedback display message for adding a new task.
      */
-    public static String executeAddTask(String taskDescription) {
-        // Create a new Task instance
-        tasks[taskCount] = new Task(taskDescription);
+    public static String executeAddTask(Task task) {
+        tasks[taskCount] = task;
         taskCount++;
 
-        return HORIZONTAL_LINE + LS
-                + COMMAND_ADD_MESSAGE_TITLE + taskDescription + System.lineSeparator()
-                + HORIZONTAL_LINE;
+        return String.format(HORIZONTAL_LINE + LS
+                + MESSAGE_ADD_TITLE + LS
+                + task.toString() + LS
+                + MESSAGE_ADD_CONCLUSION + System.lineSeparator()
+                + HORIZONTAL_LINE, taskCount);
     }
 
     /**
@@ -194,7 +261,7 @@ public class Duke {
      */
     public static String executeListAllTasks() {
         String feedback = HORIZONTAL_LINE + LS
-                + COMMAND_LIST_MESSAGE_TITLE + LS;
+                + MESSAGE_LIST_TITLE + LS;
 
         // Iterate through tasks array and print each task with its status and description
         for (int i = 0; i < taskCount; i++) {
@@ -219,7 +286,7 @@ public class Duke {
         tasks[taskIndex].markAsDone();
 
         return HORIZONTAL_LINE + LS
-                + COMMAND_DONE_MESSAGE_TITLE + LS
+                + MESSAGE_DONE_TITLE + LS
                 + tasks[taskIndex].toString() + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator();
     }
@@ -270,8 +337,19 @@ public class Duke {
     /**
      * Displays the goodbye message and exits the runtime.
      */
-    private static void exitProgram() {
+    public static void exitProgram() {
         printBye();
         System.exit(0);
+    }
+
+    /**
+     * Removes sign(/by, /at, etc) from parameter string
+     *
+     * @param s    Parameter as a string
+     * @param sign Parameter sign to be removed
+     * @return string without the sign
+     */
+    public static String removePrefixSign(String s, String sign) {
+        return s.replace(sign, "").trim();
     }
 }
