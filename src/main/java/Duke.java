@@ -67,7 +67,7 @@ public class Duke {
     }
 
     /**
-     * Greet user.
+     * Greets user.
      */
     public static void printHello() {
         System.out.println(HORIZONTAL_LINE);
@@ -77,9 +77,9 @@ public class Duke {
     }
 
     /**
-     * Bye user.
+     * Farewells user.
      */
-    public static void printBye() {
+    public static void printFarewell() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println(LINE_PREFIX + "Bye buddy. Hope to see you again soon!");
         System.out.println(HORIZONTAL_LINE);
@@ -114,7 +114,7 @@ public class Duke {
      * Splits raw user input into command word and command arguments string.
      *
      * @param rawUserInput User's raw input.
-     * @return size 2 array; first element is the command type and second element is the arguments string.
+     * @return Size 2 array; first element is the command type and second element is the arguments string.
      */
     public static String[] splitCommandWordAndArgs(String rawUserInput) {
         final String[] split = rawUserInput.trim().split("\\s+", 2);
@@ -183,7 +183,7 @@ public class Duke {
      *
      * @param description Description of event.
      * @param time Event time without data prefix.
-     * @return constructed person.
+     * @return Constructed event.
      */
     private static Event makeEventFromData(String description, String time) {
         return new Event(description, time);
@@ -233,7 +233,7 @@ public class Duke {
      *
      * @param description Description of deadline.
      * @param date Deadline date without data prefix.
-     * @return constructed person.
+     * @return Constructed deadline.
      */
     private static Deadline makeDeadlineFromData(String description, String date) {
         return new Deadline(description, date);
@@ -243,7 +243,7 @@ public class Duke {
      * Extracts substring representing deadline date from command arguments.
      *
      * @param encoded string to be decoded.
-     * @return deadline date argument WITHOUT prefix.
+     * @return Deadline date argument WITHOUT prefix.
      */
     public static String extractDeadlineDateFromString(String encoded) {
         final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
@@ -264,14 +264,15 @@ public class Duke {
 
         /*
          * Description is leading substring up to data prefix string.
-         * If prefix of deadline exits, prefix of event doesn't and vice versa.
+         * If prefix of deadline exists (indexOfDeadlinePrefix >= 0),
+         * prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
          */
-        int indexOfFirstPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
-        return encoded.substring(0, indexOfFirstPrefix).trim();
+        int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
+        return encoded.substring(0, indexOfExistingPrefix).trim();
     }
 
     /**
-     * Adds a new todo to tasks array.
+     * Adds a new Todo to tasks array.
      *
      * @param todoDescription Todo description.
      * @return Feedback display message for adding a new todo.
@@ -347,8 +348,8 @@ public class Duke {
     /**
      * Converts task number in user's command (starting from 1)
      * to the corresponding task index  in tasks list (starting from 0).
-     * In the case of "done ..." command,
-     * the command argument is the task number to be marked as done.
+     * In the case of "done X" command,
+     * the command argument X is the task number to be marked as done.
      *
      * @param commandArgs User's argument passed in the command.
      * @return Task index.
@@ -388,21 +389,21 @@ public class Duke {
     }
 
     /**
-     * Displays the goodbye message and exits the runtime.
+     * Displays the farewell message and exits the runtime.
      */
     public static void exitProgram() {
-        printBye();
+        printFarewell();
         System.exit(0);
     }
 
     /**
-     * Removes sign(/by, /at, etc) from parameter string
+     * Removes a sign (/by, /at, etc.) from parameter string.
      *
-     * @param s Parameter as a string.
+     * @param string Parameter as a string.
      * @param sign Parameter sign to be removed.
-     * @return string without the sign.
+     * @return String without the sign.
      */
-    public static String removePrefixSign(String s, String sign) {
-        return s.replace(sign, "").trim();
+    public static String removePrefixSign(String string, String sign) {
+        return string.replace(sign, "").trim();
     }
 }
