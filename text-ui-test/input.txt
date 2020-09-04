@@ -7,4 +7,10 @@ done 1
 done 2
 done 3
 list
+todo
+deadline
+deadline read book
+deadline /by Sunday
+event return book
+event /at Monday
 bye

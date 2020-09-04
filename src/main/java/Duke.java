@@ -6,6 +6,7 @@ public class Duke {
      * A decorative prefix added to the beginning of lines.
      */
     public static final String LINE_PREFIX = "\t ";
+    public static final String SAD_FACE = "\u2639 ";
 
     public static final String HORIZONTAL_LINE = LINE_PREFIX
             + "____________________________________________________________";
@@ -27,10 +28,10 @@ public class Duke {
     public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
     public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
     public static final String MESSAGE_ADD_CONCLUSION = "Now you have %d tasks in the list.";
-    public static final String MESSAGE_FOR_INVALID_INPUT_WORD = "\u2639  OOPS!!! I'm sorry, but I don't know what " +
-            "that means :-(";
-    public static final String MESSAGE_FOR_EMPTY_DESCRIPTION = "\u2639  The description of %s cannot be empty.";
-    public static final String MESSAGE_FOR_EMPTY_TIME = "\u2639  The date/time of %s cannot be empty.";
+    public static final String MESSAGE_FOR_INVALID_INPUT_WORD = SAD_FACE + "OOPS!!! I'm sorry, " +
+            "but I don't know what that means :-(";
+    public static final String MESSAGE_FOR_EMPTY_DESCRIPTION = SAD_FACE + "The description of %s cannot be empty.";
+    public static final String MESSAGE_FOR_EMPTY_TIME = SAD_FACE + "The date/time of %s cannot be empty.";
 
     public static final String SEPARATOR_TASK_NUMBER_TASK_DESC = ". ";
 
@@ -171,6 +172,7 @@ public class Duke {
 
     /**
      * Adds a new event to tasks array.
+     * If event description or event date is missing, error feedback message is returned.
      *
      * @param commandArgs Full command args string from the user.
      * @return Feedback display message for adding a new event.
@@ -183,7 +185,7 @@ public class Duke {
 
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
-            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);;
+            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);
         } catch (StringIndexOutOfBoundsException e) {
             feedbackMessage = displayMessageForEmptyTime(TASK_TYPE);
         }
@@ -233,6 +235,7 @@ public class Duke {
 
     /**
      * Adds a new deadline to tasks array.
+     * If deadline description or deadline date is missing, error feedback message is returned.
      *
      * @param commandArgs Full command args string from the user.
      * @return Feedback display message for adding a new deadline.
@@ -243,7 +246,6 @@ public class Duke {
 
         try {
             final Deadline decodeResult = decodeDeadlineFromString(commandArgs);
-
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
             feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);
@@ -316,11 +318,13 @@ public class Duke {
 
     /**
      * Adds a new Todo to tasks array.
+     * If todo description is missing, error feedback message is returned.
      *
      * @param todoDescription Todo description.
      * @return Feedback display message for adding a new todo.
      */
     public static String executeAddTodo(String todoDescription) {
+        final String TASK_TYPE = "a todo";
         String feedbackMessage = null;
 
         try {
@@ -328,7 +332,7 @@ public class Duke {
             Todo todo = new Todo(todoDescription);
             feedbackMessage = executeAddTask(todo);
         } catch (DukeException e) {
-            feedbackMessage = displayMessageForEmptyDescription("a todo");
+            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);
         }
 
         return feedbackMessage;
