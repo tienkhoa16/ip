@@ -7,8 +7,9 @@ public class Event extends Task {
      *
      * @param description Event description.
      * @param at Event time.
+     * @throws DukeException If event description is empty.
      */
-    public Event(String description, String at) {
+    public Event(String description, String at) throws DukeException {
         super(description);
         this.at = at;
     }

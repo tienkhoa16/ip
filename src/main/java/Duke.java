@@ -27,7 +27,10 @@ public class Duke {
     public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
     public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
     public static final String MESSAGE_ADD_CONCLUSION = "Now you have %d tasks in the list.";
-    public static final String MESSAGE_FOR_INVALID_INPUT = "Invalid command.";
+    public static final String MESSAGE_FOR_INVALID_INPUT_WORD = "\u2639  OOPS!!! I'm sorry, but I don't know what " +
+            "that means :-(";
+    public static final String MESSAGE_FOR_EMPTY_DESCRIPTION = "\u2639  The description of %s cannot be empty.";
+    public static final String MESSAGE_FOR_EMPTY_TIME = "\u2639  The date/time of %s cannot be empty.";
 
     public static final String SEPARATOR_TASK_NUMBER_TASK_DESC = ". ";
 
@@ -57,6 +60,20 @@ public class Duke {
      * Total number of tasks in the list.
      */
     public static int taskCount;
+
+    public static void main(String[] args) {
+        // Initialize tasks list
+        initTasksList();
+
+        // Greet user
+        printHello();
+
+        while (true) {
+            String userCommand = getCommand();
+            String feedback = replyCommand(userCommand);
+            showResultToUser(feedback);
+        }
+    }
 
     /**
      * Initializes tasks list and the number of tasks in the list.
@@ -148,7 +165,7 @@ public class Duke {
             executeExitProgramRequest();
             // Fallthrough
         default:
-            return displayMessageForInvalidInput();
+            return displayMessageForInvalidInputWord();
         }
     }
 
@@ -159,9 +176,19 @@ public class Duke {
      * @return Feedback display message for adding a new event.
      */
     public static String executeAddEvent(String commandArgs) {
-        final Event decodeResult = decodeEventFromString(commandArgs);
+        final String TASK_TYPE = "an event";
+        String feedbackMessage = null;
+        try {
+            final Event decodeResult = decodeEventFromString(commandArgs);
 
-        return executeAddTask(decodeResult);
+            feedbackMessage = executeAddTask(decodeResult);
+        } catch (DukeException e) {
+            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);;
+        } catch (StringIndexOutOfBoundsException e) {
+            feedbackMessage = displayMessageForEmptyTime(TASK_TYPE);
+        }
+
+        return feedbackMessage;
     }
 
     /**
@@ -169,8 +196,9 @@ public class Duke {
      *
      * @param encoded string to be decoded.
      * @return Event object of description and time.
+     * @throws DukeException If deadline description is empty.
      */
-    public static Event decodeEventFromString(String encoded) {
+    public static Event decodeEventFromString(String encoded) throws DukeException {
         final Event decodedEvent = makeEventFromData(
                 extractDescriptionFromString(encoded),
                 extractEventTimeFromString(encoded)
@@ -184,8 +212,9 @@ public class Duke {
      * @param description Description of event.
      * @param time Event time without data prefix.
      * @return Constructed event.
+     * @throws DukeException If event description is empty.
      */
-    private static Event makeEventFromData(String description, String time) {
+    private static Event makeEventFromData(String description, String time) throws DukeException {
         return new Event(description, time);
     }
 
@@ -209,9 +238,20 @@ public class Duke {
      * @return Feedback display message for adding a new deadline.
      */
     public static String executeAddDeadline(String commandArgs) {
-        final Deadline decodeResult = decodeDeadlineFromString(commandArgs);
+        final String TASK_TYPE = "a deadline";
+        String feedbackMessage = null;
 
-        return executeAddTask(decodeResult);
+        try {
+            final Deadline decodeResult = decodeDeadlineFromString(commandArgs);
+
+            feedbackMessage = executeAddTask(decodeResult);
+        } catch (DukeException e) {
+            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);
+        } catch (StringIndexOutOfBoundsException e) {
+            feedbackMessage = displayMessageForEmptyTime(TASK_TYPE);
+        }
+
+        return feedbackMessage;
     }
 
     /**
@@ -219,8 +259,9 @@ public class Duke {
      *
      * @param encoded string to be decoded.
      * @return Deadline object of description and date.
+     * @throws DukeException If deadline description is empty.
      */
-    public static Deadline decodeDeadlineFromString(String encoded) {
+    public static Deadline decodeDeadlineFromString(String encoded) throws DukeException {
         final Deadline decodedDeadline = makeDeadlineFromData(
                 extractDescriptionFromString(encoded),
                 extractDeadlineDateFromString(encoded)
@@ -234,8 +275,9 @@ public class Duke {
      * @param description Description of deadline.
      * @param date Deadline date without data prefix.
      * @return Constructed deadline.
+     * @throws DukeException If deadline description is empty.
      */
-    private static Deadline makeDeadlineFromData(String description, String date) {
+    private static Deadline makeDeadlineFromData(String description, String date) throws DukeException {
         return new Deadline(description, date);
     }
 
@@ -257,8 +299,9 @@ public class Duke {
      *
      * @param encoded command arguments.
      * @return Task description.
+     * @throws StringIndexOutOfBoundsException If date/time for deadline/event is not given.
      */
-    public static String extractDescriptionFromString(String encoded) {
+    public static String extractDescriptionFromString(String encoded) throws StringIndexOutOfBoundsException {
         final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
         final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
 
@@ -278,10 +321,41 @@ public class Duke {
      * @return Feedback display message for adding a new todo.
      */
     public static String executeAddTodo(String todoDescription) {
-        // Create a new Todo instance
-        Todo todo = new Todo(todoDescription);
+        String feedbackMessage = null;
 
-        return executeAddTask(todo);
+        try {
+            // Create a new Todo instance
+            Todo todo = new Todo(todoDescription);
+            feedbackMessage = executeAddTask(todo);
+        } catch (DukeException e) {
+            feedbackMessage = displayMessageForEmptyDescription("a todo");
+        }
+
+        return feedbackMessage;
+    }
+
+    /**
+     * Returns a message when task description is not found.
+     *
+     * @param taskType String stating which task type's description is missing.
+     * @return Empty description message.
+     */
+    public static String displayMessageForEmptyDescription(String taskType) {
+        return String.format(HORIZONTAL_LINE + LS +
+                MESSAGE_FOR_EMPTY_DESCRIPTION + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator(), taskType);
+    }
+
+    /**
+     * Returns a message when date/time for deadline/event is not found.
+     *
+     * @param taskType String stating which task type's date/time is missing.
+     * @return Empty date/time message.
+     */
+    public static String displayMessageForEmptyTime(String taskType) {
+        return String.format(HORIZONTAL_LINE + LS +
+                MESSAGE_FOR_EMPTY_TIME + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator(), taskType);
     }
 
     /**
@@ -289,8 +363,10 @@ public class Duke {
      *
      * @return Invalid input message.
      */
-    public static String displayMessageForInvalidInput() {
-        return MESSAGE_FOR_INVALID_INPUT;
+    public static String displayMessageForInvalidInputWord() {
+        return HORIZONTAL_LINE + LS +
+                MESSAGE_FOR_INVALID_INPUT_WORD + System.lineSeparator() +
+                HORIZONTAL_LINE + System.lineSeparator();
     }
 
     /**
@@ -356,20 +432,6 @@ public class Duke {
      */
     public static int extractTaskIndexFromInputString(String commandArgs) {
         return Integer.parseInt(commandArgs) - 1;
-    }
-
-    public static void main(String[] args) {
-        // Initialize tasks list
-        initTasksList();
-
-        // Greet user
-        printHello();
-
-        while (true) {
-            String userCommand = getCommand();
-            String feedback = replyCommand(userCommand);
-            showResultToUser(feedback);
-        }
     }
 
     /**

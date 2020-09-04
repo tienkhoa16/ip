@@ -7,8 +7,9 @@ public class Deadline extends Task {
      *
      * @param description Deadline description.
      * @param by Deadline date.
+     * @throws DukeException If deadline description is empty.
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws DukeException {
         super(description);
         this.by = by;
     }
