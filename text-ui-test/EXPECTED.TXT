@@ -57,27 +57,47 @@ Enter your command: 	 __________________________________________________________
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 ☹ The description of a todo cannot be empty.
+	 ☹  OOPS!!! The description of a todo cannot be empty.
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 ☹ The date/time of a deadline cannot be empty.
+	 ☹  OOPS!!! The date/time of a deadline cannot be empty.
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 ☹ The date/time of a deadline cannot be empty.
+	 ☹  OOPS!!! The date/time of a deadline cannot be empty.
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 ☹ The description of a deadline cannot be empty.
+	 ☹  OOPS!!! The description of a deadline cannot be empty.
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 ☹ The date/time of an event cannot be empty.
+	 ☹  OOPS!!! The date/time of an event cannot be empty.
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 ☹ The description of an event cannot be empty.
+	 ☹  OOPS!!! The description of an event cannot be empty.
+	 ____________________________________________________________
+
+Enter your command: 	 ____________________________________________________________
+	 ☹  OOPS!!! The date/time of a deadline cannot be empty.
+	 ____________________________________________________________
+
+Enter your command: 	 ____________________________________________________________
+	 ☹  OOPS!!! The date/time of an event cannot be empty.
+	 ____________________________________________________________
+
+Enter your command: 	 ____________________________________________________________
+	 ☹  OOPS!!! Task number is out of range
+	 ____________________________________________________________
+
+Enter your command: 	 ____________________________________________________________
+	 ☹  OOPS!!! Task number is out of range
+	 ____________________________________________________________
+
+Enter your command: 	 ____________________________________________________________
+	 ☹  OOPS!!! read book has been done earlier
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________

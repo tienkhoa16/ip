@@ -13,4 +13,9 @@ deadline read book
 deadline /by Sunday
 event return book
 event /at Monday
+deadline read book /by
+event return book /by
+done 1000
+done -10
+done 1
 bye

@@ -39,8 +39,13 @@ public class Task {
 
     /**
      * Marks task status as done.
+     *
+     * @throws DukeException If task has been marked as done.
      */
-    public void markAsDone() {
+    public void markAsDone() throws DukeException {
+        if (isDone) {
+            throw new DukeException();
+        }
         isDone = true;
     }
 

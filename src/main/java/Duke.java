@@ -6,7 +6,7 @@ public class Duke {
      * A decorative prefix added to the beginning of lines.
      */
     public static final String LINE_PREFIX = "\t ";
-    public static final String SAD_FACE = "\u2639 ";
+    public static final String SAD_FACE = "\u2639  OOPS!!! ";
 
     public static final String HORIZONTAL_LINE = LINE_PREFIX
             + "____________________________________________________________";
@@ -28,10 +28,17 @@ public class Duke {
     public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
     public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
     public static final String MESSAGE_ADD_CONCLUSION = "Now you have %d tasks in the list.";
-    public static final String MESSAGE_FOR_INVALID_INPUT_WORD = SAD_FACE + "OOPS!!! I'm sorry, " +
-            "but I don't know what that means :-(";
-    public static final String MESSAGE_FOR_EMPTY_DESCRIPTION = SAD_FACE + "The description of %s cannot be empty.";
-    public static final String MESSAGE_FOR_EMPTY_TIME = SAD_FACE + "The date/time of %s cannot be empty.";
+
+    public static final String MESSAGE_FOR_INVALID_INPUT_WORD = SAD_FACE +
+            "I'm sorry, but I don't know what that means :-(";
+    public static final String MESSAGE_FOR_EMPTY_DESCRIPTION = SAD_FACE +
+            "The description of %s cannot be empty.";
+    public static final String MESSAGE_FOR_EMPTY_TIME = SAD_FACE +
+            "The date/time of %s cannot be empty.";
+    public static final String MESSAGE_FOR_DUPLICATED_MARK = SAD_FACE +
+            "%s has been done earlier";
+    public static final String MESSAGE_FOR_INVALID_MARK = SAD_FACE +
+            "Task number is out of range";
 
     public static final String SEPARATOR_TASK_NUMBER_TASK_DESC = ". ";
 
@@ -225,12 +232,18 @@ public class Duke {
      *
      * @param encoded string to be decoded.
      * @return Event time argument WITHOUT prefix.
+     * @throws StringIndexOutOfBoundsException If event time is empty.
      */
-    public static String extractEventTimeFromString(String encoded) {
+    public static String extractEventTimeFromString(String encoded) throws StringIndexOutOfBoundsException {
         final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
 
-        return removePrefixSign(encoded.substring(indexOfEventPrefix, encoded.length()).trim(),
+        String eventTime = removePrefixSign(encoded.substring(indexOfEventPrefix, encoded.length()).trim(),
                 TASK_DATA_PREFIX_EVENT);
+
+        if (eventTime.isEmpty()) {
+            throw new StringIndexOutOfBoundsException();
+        }
+        return eventTime;
     }
 
     /**
@@ -288,12 +301,18 @@ public class Duke {
      *
      * @param encoded string to be decoded.
      * @return Deadline date argument WITHOUT prefix.
+     * @throws StringIndexOutOfBoundsException If deadline date is empty.
      */
-    public static String extractDeadlineDateFromString(String encoded) {
+    public static String extractDeadlineDateFromString(String encoded) throws StringIndexOutOfBoundsException {
         final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
 
-        return removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
+        String deadlineDate = removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
                 TASK_DATA_PREFIX_DEADLINE);
+
+        if (deadlineDate.isEmpty()) {
+            throw new StringIndexOutOfBoundsException();
+        }
+        return deadlineDate;
     }
 
     /**
@@ -416,13 +435,59 @@ public class Duke {
     public static String executeMarkTaskAsDone(String commandArgs) {
         int taskIndex = extractTaskIndexFromInputString(commandArgs);
 
-        // Update status of task
-        tasks[taskIndex].markAsDone();
+        try {
+            // Update status of task
+            tasks[taskIndex].markAsDone();
 
+            return displayMessageForSuccessfulMark(tasks[taskIndex]);
+        } catch (DukeException e) {
+            return displayMessageForDuplicatedMark(tasks[taskIndex]);
+        } catch (NullPointerException e) {
+            return displayMessageForInvalidTask();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return displayMessageForInvalidTask();
+        }
+    }
+
+    /**
+     * Returns a message when user inputs a task number out of range.
+     *
+     * @return Message for invalid task number.
+     */
+    public static String displayMessageForInvalidTask() {
+        /*
+         * Task number displayed to user is task index in tasks array + 1
+         * because task index in array starts from 0
+         * while task number displayed to user starts from 1.
+         */
+        return HORIZONTAL_LINE + LS +
+                MESSAGE_FOR_INVALID_MARK + System.lineSeparator() +
+                HORIZONTAL_LINE + System.lineSeparator();
+    }
+
+    /**
+     * Returns a message when user marks a task as done successfully.
+     *
+     * @param task Task object to be marked as done.
+     * @return Message for successfully mark task as done.
+     */
+    public static String displayMessageForSuccessfulMark(Task task) {
         return HORIZONTAL_LINE + LS
                 + MESSAGE_DONE_TITLE + LS
-                + tasks[taskIndex].toString() + System.lineSeparator()
+                + task.toString() + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator();
+    }
+
+    /**
+     * Returns an error message when user marks a task as done but it has been done earlier.
+     *
+     * @param task Task object marked as done earlier.
+     * @return Duplicated marked as done message.
+     */
+    public static String displayMessageForDuplicatedMark(Task task) {
+        return String.format(HORIZONTAL_LINE + LS +
+                MESSAGE_FOR_DUPLICATED_MARK + System.lineSeparator() +
+                HORIZONTAL_LINE + System.lineSeparator(), task.getDescription());
     }
 
     /**
