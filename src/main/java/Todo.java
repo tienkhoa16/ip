@@ -4,8 +4,9 @@ public class Todo extends Task {
      * Constructs a new Todo object inheriting from Task class.
      *
      * @param description Todo description.
+     * @throws DukeException If todo description is empty.
      */
-    public Todo(String description) {
+    public Todo(String description) throws DukeException {
         super(description);
     }
 

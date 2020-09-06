@@ -5,11 +5,15 @@ public class Task {
 
     /**
      * Constructs a new Task object.
-     * Be default, initially, task status is set as not done.
+     * By default, initially, task status is set as not done.
      *
      * @param description Task description.
+     * @throws DukeException If task description is empty.
      */
-    public Task(String description) {
+    public Task(String description) throws DukeException {
+        if (description.isEmpty()) {
+            throw new DukeException();
+        }
         this.description = description;
         this.isDone = false;
     }
@@ -35,8 +39,13 @@ public class Task {
 
     /**
      * Marks task status as done.
+     *
+     * @throws DukeException If task has been marked as done.
      */
-    public void markAsDone() {
+    public void markAsDone() throws DukeException {
+        if (isDone) {
+            throw new DukeException();
+        }
         isDone = true;
     }
 
