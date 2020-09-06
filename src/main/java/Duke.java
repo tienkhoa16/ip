@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Duke {
 
@@ -38,18 +39,15 @@ public class Duke {
     public static final String MESSAGE_FOR_DUPLICATED_MARK = SAD_FACE +
             "%s has been done earlier";
     public static final String MESSAGE_FOR_INVALID_MARK = SAD_FACE +
-            "Task number is out of range";
+            "Task ID is out of range";
+    public static final String MESSAGE_FOR_INVALID_ID = SAD_FACE +
+            "Expected an integer for task ID";
 
-    public static final String SEPARATOR_TASK_NUMBER_TASK_DESC = ". ";
+    public static final String SEPARATOR_TASK_ID_TASK_DESC = ". ";
 
     // These are the prefix strings to define the data type of a command parameter
     public static final String TASK_DATA_PREFIX_DEADLINE = "/by";
     public static final String TASK_DATA_PREFIX_EVENT = "/at";
-
-    /**
-     * Maximum number of persons that can be held.
-     */
-    public static final int MAX_CAPACITY = 100;
 
     /*
      * This variable is declared for the whole class (instead of declaring it
@@ -62,7 +60,7 @@ public class Duke {
     /**
      * List of all tasks.
      */
-    public static Task[] tasks;
+    public static ArrayList<Task> tasks;
 
     /**
      * Total number of tasks in the list.
@@ -87,7 +85,7 @@ public class Duke {
      * Initializes tasks list and the number of tasks in the list.
      */
     private static void initTasksList() {
-        tasks = new Task[MAX_CAPACITY];
+        tasks = new ArrayList<>();
         taskCount = 0;
     }
 
@@ -173,7 +171,7 @@ public class Duke {
             executeExitProgramRequest();
             // Fallthrough
         default:
-            return displayMessageForInvalidInputWord();
+            return getMessageForInvalidInputWord();
         }
     }
 
@@ -192,9 +190,9 @@ public class Duke {
 
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
-            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
         } catch (StringIndexOutOfBoundsException e) {
-            feedbackMessage = displayMessageForEmptyTime(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
         }
 
         return feedbackMessage;
@@ -261,9 +259,9 @@ public class Duke {
             final Deadline decodeResult = decodeDeadlineFromString(commandArgs);
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
-            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
         } catch (StringIndexOutOfBoundsException e) {
-            feedbackMessage = displayMessageForEmptyTime(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
         }
 
         return feedbackMessage;
@@ -351,7 +349,7 @@ public class Duke {
             Todo todo = new Todo(todoDescription);
             feedbackMessage = executeAddTask(todo);
         } catch (DukeException e) {
-            feedbackMessage = displayMessageForEmptyDescription(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
         }
 
         return feedbackMessage;
@@ -363,9 +361,9 @@ public class Duke {
      * @param taskType String stating which task type's description is missing.
      * @return Empty description message.
      */
-    public static String displayMessageForEmptyDescription(String taskType) {
-        return String.format(HORIZONTAL_LINE + LS +
-                MESSAGE_FOR_EMPTY_DESCRIPTION + System.lineSeparator()
+    public static String getMessageForEmptyDescription(String taskType) {
+        return String.format(HORIZONTAL_LINE + LS
+                + MESSAGE_FOR_EMPTY_DESCRIPTION + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator(), taskType);
     }
 
@@ -375,9 +373,9 @@ public class Duke {
      * @param taskType String stating which task type's date/time is missing.
      * @return Empty date/time message.
      */
-    public static String displayMessageForEmptyTime(String taskType) {
-        return String.format(HORIZONTAL_LINE + LS +
-                MESSAGE_FOR_EMPTY_TIME + System.lineSeparator()
+    public static String getMessageForEmptyTime(String taskType) {
+        return String.format(HORIZONTAL_LINE + LS
+                + MESSAGE_FOR_EMPTY_TIME + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator(), taskType);
     }
 
@@ -386,7 +384,7 @@ public class Duke {
      *
      * @return Invalid input message.
      */
-    public static String displayMessageForInvalidInputWord() {
+    public static String getMessageForInvalidInputWord() {
         return HORIZONTAL_LINE + LS +
                 MESSAGE_FOR_INVALID_INPUT_WORD + System.lineSeparator() +
                 HORIZONTAL_LINE + System.lineSeparator();
@@ -399,7 +397,7 @@ public class Duke {
      * @return Feedback display message for adding a new task.
      */
     public static String executeAddTask(Task task) {
-        tasks[taskCount] = task;
+        tasks.add(task);
         taskCount++;
 
         return String.format(HORIZONTAL_LINE + LS
@@ -418,8 +416,8 @@ public class Duke {
 
         // Iterate through tasks array and print each task with its status and description
         for (int i = 0; i < taskCount; i++) {
-            feedback += LINE_PREFIX + (i + 1) + SEPARATOR_TASK_NUMBER_TASK_DESC
-                    + tasks[i].toString() + System.lineSeparator();
+            feedback += LINE_PREFIX + (i + 1) + SEPARATOR_TASK_ID_TASK_DESC
+                    + tasks.get(i).toString() + System.lineSeparator();
         }
 
         feedback += HORIZONTAL_LINE + System.lineSeparator();
@@ -433,36 +431,50 @@ public class Duke {
      * @return Feedback display message for marking the task as done.
      */
     public static String executeMarkTaskAsDone(String commandArgs) {
-        int taskIndex = extractTaskIndexFromInputString(commandArgs);
+        int taskIndex = 0;
 
         try {
-            // Update status of task
-            tasks[taskIndex].markAsDone();
+            taskIndex = extractTaskIndexFromInputString(commandArgs);
 
-            return displayMessageForSuccessfulMark(tasks[taskIndex]);
+            // Update status of task
+            tasks.get(taskIndex).markAsDone();
+            return getMessageForSuccessfulMark(tasks.get(taskIndex));
         } catch (DukeException e) {
-            return displayMessageForDuplicatedMark(tasks[taskIndex]);
+            return getMessageForDuplicatedMark(tasks.get(taskIndex));
         } catch (NullPointerException e) {
-            return displayMessageForInvalidTask();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return displayMessageForInvalidTask();
+            return getMessageForInvalidMark();
+        } catch (IndexOutOfBoundsException e) {
+            return getMessageForInvalidMark();
+        } catch (NumberFormatException e) {
+            return getMessageForInvalidId();
         }
     }
 
     /**
-     * Returns a message when user inputs a task number out of range.
+     * Returns a message when task ID to be marked as done is not an integer.
      *
-     * @return Message for invalid task number.
+     * @return Message for invalid task ID.
      */
-    public static String displayMessageForInvalidTask() {
+    public static String getMessageForInvalidId() {
+        return HORIZONTAL_LINE + LS
+                + MESSAGE_FOR_INVALID_ID + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator();
+    }
+
+    /**
+     * Returns a message when user inputs a task ID out of range.
+     *
+     * @return Message for invalid task ID.
+     */
+    public static String getMessageForInvalidMark() {
         /*
-         * Task number displayed to user is task index in tasks array + 1
+         * Task ID displayed to user is task index in tasks array + 1
          * because task index in array starts from 0
-         * while task number displayed to user starts from 1.
+         * while task ID displayed to user starts from 1.
          */
-        return HORIZONTAL_LINE + LS +
-                MESSAGE_FOR_INVALID_MARK + System.lineSeparator() +
-                HORIZONTAL_LINE + System.lineSeparator();
+        return HORIZONTAL_LINE + LS
+                + MESSAGE_FOR_INVALID_MARK + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator();
     }
 
     /**
@@ -471,7 +483,7 @@ public class Duke {
      * @param task Task object to be marked as done.
      * @return Message for successfully mark task as done.
      */
-    public static String displayMessageForSuccessfulMark(Task task) {
+    public static String getMessageForSuccessfulMark(Task task) {
         return HORIZONTAL_LINE + LS
                 + MESSAGE_DONE_TITLE + LS
                 + task.toString() + System.lineSeparator()
@@ -484,17 +496,17 @@ public class Duke {
      * @param task Task object marked as done earlier.
      * @return Duplicated marked as done message.
      */
-    public static String displayMessageForDuplicatedMark(Task task) {
+    public static String getMessageForDuplicatedMark(Task task) {
         return String.format(HORIZONTAL_LINE + LS +
                 MESSAGE_FOR_DUPLICATED_MARK + System.lineSeparator() +
                 HORIZONTAL_LINE + System.lineSeparator(), task.getDescription());
     }
 
     /**
-     * Converts task number in user's command (starting from 1)
+     * Converts task ID in user's command (starting from 1)
      * to the corresponding task index  in tasks list (starting from 0).
      * In the case of "done X" command,
-     * the command argument X is the task number to be marked as done.
+     * the command argument X is the task ID to be marked as done.
      *
      * @param commandArgs User's argument passed in the command.
      * @return Task index.

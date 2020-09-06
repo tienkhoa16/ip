@@ -18,4 +18,5 @@ event return book /by
 done 1000
 done -10
 done 1
+done xyz
 bye
