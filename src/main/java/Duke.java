@@ -1,53 +1,15 @@
 import java.util.Scanner;
-import java.util.ArrayList;
+import duke.task.TaskManager;
+import static duke.constant.Constant.HORIZONTAL_LINE;
+import static duke.constant.Constant.LINE_PREFIX;
+import static duke.constant.Constant.COMMAND_LIST_WORD;
+import static duke.constant.Constant.COMMAND_DONE_WORD;
+import static duke.constant.Constant.COMMAND_TODO_WORD;
+import static duke.constant.Constant.COMMAND_DEADLINE_WORD;
+import static duke.constant.Constant.COMMAND_EVENT_WORD;
+import static duke.constant.Constant.COMMAND_BYE_WORD;
 
 public class Duke {
-
-    /**
-     * A decorative prefix added to the beginning of lines.
-     */
-    public static final String LINE_PREFIX = "\t ";
-    public static final String SAD_FACE = "\u2639  OOPS!!! ";
-
-    public static final String HORIZONTAL_LINE = LINE_PREFIX
-            + "____________________________________________________________";
-
-    /**
-     * A platform independent line separator.
-     */
-    public static final String LS = System.lineSeparator() + LINE_PREFIX;
-
-    public static final String COMMAND_LIST_WORD = "list";          // Keyword for listing tasks
-    public static final String COMMAND_BYE_WORD = "bye";            // Keyword for exiting program
-    public static final String COMMAND_ADD_WORD = "add";            // Keyword for adding a new task
-    public static final String COMMAND_DONE_WORD = "done";          // Keyword for marking a task as done
-    public static final String COMMAND_TODO_WORD = "todo";          // Keyword for adding a new todo
-    public static final String COMMAND_DEADLINE_WORD = "deadline";  // Keyword for adding a new deadline
-    public static final String COMMAND_EVENT_WORD = "event";        // Keyword for adding a new event
-
-    public static final String MESSAGE_LIST_TITLE = "Here are the tasks in your list:";
-    public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
-    public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
-    public static final String MESSAGE_ADD_CONCLUSION = "Now you have %d tasks in the list.";
-
-    public static final String MESSAGE_FOR_INVALID_INPUT_WORD = SAD_FACE +
-            "I'm sorry, but I don't know what that means :-(";
-    public static final String MESSAGE_FOR_EMPTY_DESCRIPTION = SAD_FACE +
-            "The description of %s cannot be empty.";
-    public static final String MESSAGE_FOR_EMPTY_TIME = SAD_FACE +
-            "The date/time of %s cannot be empty.";
-    public static final String MESSAGE_FOR_DUPLICATED_MARK = SAD_FACE +
-            "%s has been done earlier";
-    public static final String MESSAGE_FOR_INVALID_MARK = SAD_FACE +
-            "Task ID is out of range";
-    public static final String MESSAGE_FOR_INVALID_ID = SAD_FACE +
-            "Expected an integer for task ID";
-
-    public static final String SEPARATOR_TASK_ID_TASK_DESC = ". ";
-
-    // These are the prefix strings to define the data type of a command parameter
-    public static final String TASK_DATA_PREFIX_DEADLINE = "/by";
-    public static final String TASK_DATA_PREFIX_EVENT = "/at";
 
     /*
      * This variable is declared for the whole class (instead of declaring it
@@ -60,16 +22,11 @@ public class Duke {
     /**
      * List of all tasks.
      */
-    public static ArrayList<Task> tasks;
-
-    /**
-     * Total number of tasks in the list.
-     */
-    public static int taskCount;
+    protected static TaskManager tasks;
 
     public static void main(String[] args) {
         // Initialize tasks list
-        initTasksList();
+        tasks = new TaskManager();
 
         // Greet user
         printHello();
@@ -79,14 +36,6 @@ public class Duke {
             String feedback = replyCommand(userCommand);
             showResultToUser(feedback);
         }
-    }
-
-    /**
-     * Initializes tasks list and the number of tasks in the list.
-     */
-    private static void initTasksList() {
-        tasks = new ArrayList<>();
-        taskCount = 0;
     }
 
     /**
@@ -158,361 +107,21 @@ public class Duke {
 
         switch (commandType) {
         case COMMAND_LIST_WORD:
-            return executeListAllTasks();
+            return tasks.executeListAllTasks();
         case COMMAND_DONE_WORD:
-            return executeMarkTaskAsDone(commandArgs);
+            return tasks.executeMarkTaskAsDone(commandArgs);
         case COMMAND_TODO_WORD:
-            return executeAddTodo(commandArgs);
+            return tasks.executeAddTodo(commandArgs);
         case COMMAND_DEADLINE_WORD:
-            return executeAddDeadline(commandArgs);
+            return tasks.executeAddDeadline(commandArgs);
         case COMMAND_EVENT_WORD:
-            return executeAddEvent(commandArgs);
+            return tasks.executeAddEvent(commandArgs);
         case COMMAND_BYE_WORD:
             executeExitProgramRequest();
             // Fallthrough
         default:
-            return getMessageForInvalidInputWord();
+            return tasks.getMessageForInvalidInputWord();
         }
-    }
-
-    /**
-     * Adds a new event to tasks array.
-     * If event description or event date is missing, error feedback message is returned.
-     *
-     * @param commandArgs Full command args string from the user.
-     * @return Feedback display message for adding a new event.
-     */
-    public static String executeAddEvent(String commandArgs) {
-        final String TASK_TYPE = "an event";
-        String feedbackMessage = null;
-        try {
-            final Event decodeResult = decodeEventFromString(commandArgs);
-
-            feedbackMessage = executeAddTask(decodeResult);
-        } catch (DukeException e) {
-            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
-        } catch (StringIndexOutOfBoundsException e) {
-            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
-        }
-
-        return feedbackMessage;
-    }
-
-    /**
-     * Decodes an event from it's supposed string representation.
-     *
-     * @param encoded string to be decoded.
-     * @return Event object of description and time.
-     * @throws DukeException If deadline description is empty.
-     */
-    public static Event decodeEventFromString(String encoded) throws DukeException {
-        final Event decodedEvent = makeEventFromData(
-                extractDescriptionFromString(encoded),
-                extractEventTimeFromString(encoded)
-        );
-        return decodedEvent;
-    }
-
-    /**
-     * Creates an event from the given data.
-     *
-     * @param description Description of event.
-     * @param time Event time without data prefix.
-     * @return Constructed event.
-     * @throws DukeException If event description is empty.
-     */
-    private static Event makeEventFromData(String description, String time) throws DukeException {
-        return new Event(description, time);
-    }
-
-    /**
-     * Extracts substring representing event time from command arguments.
-     *
-     * @param encoded string to be decoded.
-     * @return Event time argument WITHOUT prefix.
-     * @throws StringIndexOutOfBoundsException If event time is empty.
-     */
-    public static String extractEventTimeFromString(String encoded) throws StringIndexOutOfBoundsException {
-        final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
-
-        String eventTime = removePrefixSign(encoded.substring(indexOfEventPrefix, encoded.length()).trim(),
-                TASK_DATA_PREFIX_EVENT);
-
-        if (eventTime.isEmpty()) {
-            throw new StringIndexOutOfBoundsException();
-        }
-        return eventTime;
-    }
-
-    /**
-     * Adds a new deadline to tasks array.
-     * If deadline description or deadline date is missing, error feedback message is returned.
-     *
-     * @param commandArgs Full command args string from the user.
-     * @return Feedback display message for adding a new deadline.
-     */
-    public static String executeAddDeadline(String commandArgs) {
-        final String TASK_TYPE = "a deadline";
-        String feedbackMessage = null;
-
-        try {
-            final Deadline decodeResult = decodeDeadlineFromString(commandArgs);
-            feedbackMessage = executeAddTask(decodeResult);
-        } catch (DukeException e) {
-            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
-        } catch (StringIndexOutOfBoundsException e) {
-            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
-        }
-
-        return feedbackMessage;
-    }
-
-    /**
-     * Decodes a deadline from it's supposed string representation.
-     *
-     * @param encoded string to be decoded.
-     * @return Deadline object of description and date.
-     * @throws DukeException If deadline description is empty.
-     */
-    public static Deadline decodeDeadlineFromString(String encoded) throws DukeException {
-        final Deadline decodedDeadline = makeDeadlineFromData(
-                extractDescriptionFromString(encoded),
-                extractDeadlineDateFromString(encoded)
-        );
-        return decodedDeadline;
-    }
-
-    /**
-     * Creates a deadline from the given data.
-     *
-     * @param description Description of deadline.
-     * @param date Deadline date without data prefix.
-     * @return Constructed deadline.
-     * @throws DukeException If deadline description is empty.
-     */
-    private static Deadline makeDeadlineFromData(String description, String date) throws DukeException {
-        return new Deadline(description, date);
-    }
-
-    /**
-     * Extracts substring representing deadline date from command arguments.
-     *
-     * @param encoded string to be decoded.
-     * @return Deadline date argument WITHOUT prefix.
-     * @throws StringIndexOutOfBoundsException If deadline date is empty.
-     */
-    public static String extractDeadlineDateFromString(String encoded) throws StringIndexOutOfBoundsException {
-        final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
-
-        String deadlineDate = removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
-                TASK_DATA_PREFIX_DEADLINE);
-
-        if (deadlineDate.isEmpty()) {
-            throw new StringIndexOutOfBoundsException();
-        }
-        return deadlineDate;
-    }
-
-    /**
-     * Extracts substring representing task description from command arguments.
-     *
-     * @param encoded command arguments.
-     * @return Task description.
-     * @throws StringIndexOutOfBoundsException If date/time for deadline/event is not given.
-     */
-    public static String extractDescriptionFromString(String encoded) throws StringIndexOutOfBoundsException {
-        final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
-        final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
-
-        /*
-         * Description is leading substring up to data prefix string.
-         * If prefix of deadline exists (indexOfDeadlinePrefix >= 0),
-         * prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
-         */
-        int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
-        return encoded.substring(0, indexOfExistingPrefix).trim();
-    }
-
-    /**
-     * Adds a new Todo to tasks array.
-     * If todo description is missing, error feedback message is returned.
-     *
-     * @param todoDescription Todo description.
-     * @return Feedback display message for adding a new todo.
-     */
-    public static String executeAddTodo(String todoDescription) {
-        final String TASK_TYPE = "a todo";
-        String feedbackMessage = null;
-
-        try {
-            // Create a new Todo instance
-            Todo todo = new Todo(todoDescription);
-            feedbackMessage = executeAddTask(todo);
-        } catch (DukeException e) {
-            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
-        }
-
-        return feedbackMessage;
-    }
-
-    /**
-     * Returns a message when task description is not found.
-     *
-     * @param taskType String stating which task type's description is missing.
-     * @return Empty description message.
-     */
-    public static String getMessageForEmptyDescription(String taskType) {
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_EMPTY_DESCRIPTION + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), taskType);
-    }
-
-    /**
-     * Returns a message when date/time for deadline/event is not found.
-     *
-     * @param taskType String stating which task type's date/time is missing.
-     * @return Empty date/time message.
-     */
-    public static String getMessageForEmptyTime(String taskType) {
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_EMPTY_TIME + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), taskType);
-    }
-
-    /**
-     * Returns a message when user's command keyword does not belong to any valid keywords.
-     *
-     * @return Invalid input message.
-     */
-    public static String getMessageForInvalidInputWord() {
-        return HORIZONTAL_LINE + LS +
-                MESSAGE_FOR_INVALID_INPUT_WORD + System.lineSeparator() +
-                HORIZONTAL_LINE + System.lineSeparator();
-    }
-
-    /**
-     * Adds a new task to tasks array.
-     *
-     * @param task Task object to be added.
-     * @return Feedback display message for adding a new task.
-     */
-    public static String executeAddTask(Task task) {
-        tasks.add(task);
-        taskCount++;
-
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_ADD_TITLE + LS
-                + task.toString() + LS
-                + MESSAGE_ADD_CONCLUSION + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), taskCount);
-    }
-
-    /**
-     * Lists out tasks added so far with their status.
-     */
-    public static String executeListAllTasks() {
-        String feedback = HORIZONTAL_LINE + LS
-                + MESSAGE_LIST_TITLE + System.lineSeparator();
-
-        // Iterate through tasks array and print each task with its status and description
-        for (int i = 0; i < taskCount; i++) {
-            feedback += LINE_PREFIX + (i + 1) + SEPARATOR_TASK_ID_TASK_DESC
-                    + tasks.get(i).toString() + System.lineSeparator();
-        }
-
-        feedback += HORIZONTAL_LINE + System.lineSeparator();
-        return feedback;
-    }
-
-    /**
-     * Marks a task in the tasks array as done.
-     *
-     * @param commandArgs Full command args string from the user.
-     * @return Feedback display message for marking the task as done.
-     */
-    public static String executeMarkTaskAsDone(String commandArgs) {
-        int taskIndex = 0;
-
-        try {
-            taskIndex = extractTaskIndexFromInputString(commandArgs);
-
-            // Update status of task
-            tasks.get(taskIndex).markAsDone();
-            return getMessageForSuccessfulMark(tasks.get(taskIndex));
-        } catch (DukeException e) {
-            return getMessageForDuplicatedMark(tasks.get(taskIndex));
-        } catch (NullPointerException e) {
-            return getMessageForInvalidMark();
-        } catch (IndexOutOfBoundsException e) {
-            return getMessageForInvalidMark();
-        } catch (NumberFormatException e) {
-            return getMessageForInvalidId();
-        }
-    }
-
-    /**
-     * Returns a message when task ID to be marked as done is not an integer.
-     *
-     * @return Message for invalid task ID.
-     */
-    public static String getMessageForInvalidId() {
-        return HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_INVALID_ID + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator();
-    }
-
-    /**
-     * Returns a message when user inputs a task ID out of range.
-     *
-     * @return Message for invalid task ID.
-     */
-    public static String getMessageForInvalidMark() {
-        /*
-         * Task ID displayed to user is task index in tasks array + 1
-         * because task index in array starts from 0
-         * while task ID displayed to user starts from 1.
-         */
-        return HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_INVALID_MARK + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator();
-    }
-
-    /**
-     * Returns a message when user marks a task as done successfully.
-     *
-     * @param task Task object to be marked as done.
-     * @return Message for successfully mark task as done.
-     */
-    public static String getMessageForSuccessfulMark(Task task) {
-        return HORIZONTAL_LINE + LS
-                + MESSAGE_DONE_TITLE + LS
-                + task.toString() + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator();
-    }
-
-    /**
-     * Returns an error message when user marks a task as done but it has been done earlier.
-     *
-     * @param task Task object marked as done earlier.
-     * @return Duplicated marked as done message.
-     */
-    public static String getMessageForDuplicatedMark(Task task) {
-        return String.format(HORIZONTAL_LINE + LS +
-                MESSAGE_FOR_DUPLICATED_MARK + System.lineSeparator() +
-                HORIZONTAL_LINE + System.lineSeparator(), task.getDescription());
-    }
-
-    /**
-     * Converts task ID in user's command (starting from 1)
-     * to the corresponding task index  in tasks list (starting from 0).
-     * In the case of "done X" command,
-     * the command argument X is the task ID to be marked as done.
-     *
-     * @param commandArgs User's argument passed in the command.
-     * @return Task index.
-     */
-    public static int extractTaskIndexFromInputString(String commandArgs) {
-        return Integer.parseInt(commandArgs) - 1;
     }
 
     /**
@@ -539,14 +148,4 @@ public class Duke {
         System.exit(0);
     }
 
-    /**
-     * Removes a sign (/by, /at, etc.) from parameter string.
-     *
-     * @param string Parameter as a string.
-     * @param sign Parameter sign to be removed.
-     * @return String without the sign.
-     */
-    public static String removePrefixSign(String string, String sign) {
-        return string.replace(sign, "").trim();
-    }
 }
