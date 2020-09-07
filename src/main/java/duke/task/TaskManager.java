@@ -1,7 +1,9 @@
 package duke.task;
 
 import duke.exception.DukeException;
+
 import java.util.ArrayList;
+
 import static duke.constant.Constant.HORIZONTAL_LINE;
 import static duke.constant.Constant.LINE_PREFIX;
 import static duke.constant.Constant.LS;
@@ -31,6 +33,11 @@ public class TaskManager {
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Returns the total number of tasks in tasks array.
+     *
+     * @return Number of tasks in tasks array.
+     */
     public int getNumberOfTasks() {
         return tasks.size();
     }
@@ -63,7 +70,7 @@ public class TaskManager {
      *
      * @param encoded string to be decoded.
      * @return Event object of description and time.
-     * @throws DukeException If deadline description is empty.
+     * @throws DukeException If event description is empty.
      */
     public Event decodeEventFromString(String encoded) throws DukeException {
         final Event decodedEvent = makeEventFromData(
@@ -88,7 +95,7 @@ public class TaskManager {
     /**
      * Extracts substring representing event time from command arguments.
      *
-     * @param encoded string to be decoded.
+     * @param encoded String to be decoded.
      * @return Event time argument WITHOUT prefix.
      * @throws StringIndexOutOfBoundsException If event time is empty.
      */
@@ -178,9 +185,8 @@ public class TaskManager {
      *
      * @param encoded command arguments.
      * @return Task description.
-     * @throws StringIndexOutOfBoundsException If date/time for deadline/event is not given.
      */
-    public String extractDescriptionFromString(String encoded) throws StringIndexOutOfBoundsException {
+    public String extractDescriptionFromString(String encoded) {
         final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
         final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
 
@@ -245,9 +251,9 @@ public class TaskManager {
      * @return Invalid input message.
      */
     public String getMessageForInvalidInputWord() {
-        return HORIZONTAL_LINE + LS +
-                MESSAGE_FOR_INVALID_INPUT_WORD + System.lineSeparator() +
-                HORIZONTAL_LINE + System.lineSeparator();
+        return HORIZONTAL_LINE + LS
+                + MESSAGE_FOR_INVALID_INPUT_WORD + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator();
     }
 
     /**

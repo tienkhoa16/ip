@@ -11,7 +11,7 @@ import static duke.constant.Constant.COMMAND_BYE_WORD;
 
 public class Duke {
 
-    /*
+    /**
      * This variable is declared for the whole class (instead of declaring it
      * inside the getCommand() method to facilitate automated testing using
      * the I/O redirection technique. If not, only the first line of the input
@@ -19,9 +19,7 @@ public class Duke {
      */
     public static final Scanner SCANNER = new Scanner(System.in);
 
-    /**
-     * List of all tasks.
-     */
+    /** List of all tasks */
     protected static TaskManager tasks;
 
     public static void main(String[] args) {

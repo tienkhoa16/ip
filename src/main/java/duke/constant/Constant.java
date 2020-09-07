@@ -2,17 +2,13 @@ package duke.constant;
 
 public final class Constant {
 
-    /**
-     * A decorative prefix added to the beginning of lines.
-     */
+    /** A decorative prefix added to the beginning of lines */
     public static final String LINE_PREFIX = "\t ";
 
     public static final String HORIZONTAL_LINE = LINE_PREFIX
             + "____________________________________________________________";
 
-    /**
-     * A platform independent line separator.
-     */
+    /** A platform independent line separator */
     public static final String LS = System.lineSeparator() + LINE_PREFIX;
 
     public static final String SAD_FACE = "\u2639  OOPS!!! ";
@@ -42,7 +38,7 @@ public final class Constant {
     public static final String COMMAND_DEADLINE_WORD = "deadline";  // Keyword for adding a new deadline
     public static final String COMMAND_EVENT_WORD = "event";        // Keyword for adding a new event
 
-    // These are the prefix strings to define the data type of a command parameter
+    /** These are the prefix strings to define the data type of a command parameter */
     public static final String TASK_DATA_PREFIX_DEADLINE = "/by";
     public static final String TASK_DATA_PREFIX_EVENT = "/at";
 
