@@ -1,6 +1,7 @@
 package duke.task;
 
 import duke.exception.DukeException;
+import duke.exception.EmptyTimeException;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,8 @@ public class TaskManager {
             feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
         } catch (StringIndexOutOfBoundsException e) {
             feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
+        } catch (EmptyTimeException e) {
+            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
         }
 
         return feedbackMessage;
@@ -70,9 +73,10 @@ public class TaskManager {
      *
      * @param encoded string to be decoded.
      * @return Event object of description and time.
-     * @throws DukeException If event description is empty.
+     * @throws DukeException      If event description is empty.
+     * @throws EmptyTimeException If event time is empty.
      */
-    public Event decodeEventFromString(String encoded) throws DukeException {
+    public Event decodeEventFromString(String encoded) throws DukeException, EmptyTimeException {
         final Event decodedEvent = makeEventFromData(
                 extractDescriptionFromString(encoded),
                 extractEventTimeFromString(encoded)
@@ -97,16 +101,16 @@ public class TaskManager {
      *
      * @param encoded String to be decoded.
      * @return Event time argument WITHOUT prefix.
-     * @throws StringIndexOutOfBoundsException If event time is empty.
+     * @throws EmptyTimeException If event time is empty.
      */
-    public String extractEventTimeFromString(String encoded) throws StringIndexOutOfBoundsException {
+    public String extractEventTimeFromString(String encoded) throws EmptyTimeException {
         final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
 
         String eventTime = removePrefixSign(encoded.substring(indexOfEventPrefix, encoded.length()).trim(),
                 TASK_DATA_PREFIX_EVENT);
 
         if (eventTime.isEmpty()) {
-            throw new StringIndexOutOfBoundsException();
+            throw new EmptyTimeException();
         }
         return eventTime;
     }
@@ -129,6 +133,8 @@ public class TaskManager {
             feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
         } catch (StringIndexOutOfBoundsException e) {
             feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
+        } catch (EmptyTimeException e) {
+            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
         }
 
         return feedbackMessage;
@@ -139,9 +145,10 @@ public class TaskManager {
      *
      * @param encoded string to be decoded.
      * @return Deadline object of description and date.
-     * @throws DukeException If deadline description is empty.
+     * @throws DukeException      If deadline description is empty.
+     * @throws EmptyTimeException If deadline time is empty.
      */
-    public Deadline decodeDeadlineFromString(String encoded) throws DukeException {
+    public Deadline decodeDeadlineFromString(String encoded) throws DukeException, EmptyTimeException {
         final Deadline decodedDeadline = makeDeadlineFromData(
                 extractDescriptionFromString(encoded),
                 extractDeadlineDateFromString(encoded)
@@ -166,16 +173,16 @@ public class TaskManager {
      *
      * @param encoded string to be decoded.
      * @return Deadline date argument WITHOUT prefix.
-     * @throws StringIndexOutOfBoundsException If deadline date is empty.
+     * @throws EmptyTimeException If deadline date is empty.
      */
-    public String extractDeadlineDateFromString(String encoded) throws StringIndexOutOfBoundsException {
+    public String extractDeadlineDateFromString(String encoded) throws EmptyTimeException {
         final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
 
         String deadlineDate = removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
                 TASK_DATA_PREFIX_DEADLINE);
 
         if (deadlineDate.isEmpty()) {
-            throw new StringIndexOutOfBoundsException();
+            throw new EmptyTimeException();
         }
         return deadlineDate;
     }

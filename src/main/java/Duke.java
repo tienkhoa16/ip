@@ -1,5 +1,7 @@
 import java.util.Scanner;
+
 import duke.task.TaskManager;
+
 import static duke.constant.Constant.HORIZONTAL_LINE;
 import static duke.constant.Constant.LINE_PREFIX;
 import static duke.constant.Constant.COMMAND_LIST_WORD;
