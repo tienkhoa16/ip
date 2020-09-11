@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import static duke.constant.Constant.HORIZONTAL_LINE;
 import static duke.constant.Constant.LINE_PREFIX;
 import static duke.constant.Constant.LS;
+import static duke.constant.Constant.MESSAGE_DELETE_TITLE;
 import static duke.constant.Constant.TASK_DATA_PREFIX_DEADLINE;
 import static duke.constant.Constant.TASK_DATA_PREFIX_EVENT;
-import static duke.constant.Constant.MESSAGE_ADD_CONCLUSION;
+import static duke.constant.Constant.MESSAGE_NUMBER_OF_TASKS;
 import static duke.constant.Constant.MESSAGE_ADD_TITLE;
 import static duke.constant.Constant.MESSAGE_DONE_TITLE;
 import static duke.constant.Constant.MESSAGE_FOR_DUPLICATED_MARK;
@@ -19,7 +20,7 @@ import static duke.constant.Constant.MESSAGE_FOR_EMPTY_TIME;
 import static duke.constant.Constant.MESSAGE_FOR_INVALID_ID;
 import static duke.constant.Constant.MESSAGE_FOR_INVALID_INPUT_WORD;
 import static duke.constant.Constant.MESSAGE_LIST_TITLE;
-import static duke.constant.Constant.MESSAGE_FOR_INVALID_MARK;
+import static duke.constant.Constant.MESSAGE_FOR_INVALID_ID_RANGE;
 import static duke.constant.Constant.SEPARATOR_TASK_ID_TASK_DESC;
 
 
@@ -41,6 +42,43 @@ public class TaskManager {
      */
     public int getNumberOfTasks() {
         return tasks.size();
+    }
+
+    /**
+     * Marks a task in the tasks array as done.
+     *
+     * @param commandArgs Full command args string from the user.
+     * @return Feedback display message for marking the task as done.
+     */
+    public String executeDeleteTask(String commandArgs) {
+        int taskIndex = 0;
+
+        try {
+            taskIndex = extractTaskIndexFromInputString(commandArgs);
+            Task deletedTask = tasks.get(taskIndex);
+
+            // Delete task from task array
+            tasks.remove(taskIndex);
+            return getMessageForSuccessfulDelete(deletedTask);
+        } catch (IndexOutOfBoundsException e) {
+            return getMessageForInvalidIdRange();
+        } catch (NumberFormatException e) {
+            return getMessageForInvalidId();
+        }
+    }
+
+    /**
+     * Returns a message when user deletes a task successfully.
+     *
+     * @param task Task object to be marked as done.
+     * @return Message for successfully delete a task.
+     */
+    public String getMessageForSuccessfulDelete(Task task) {
+        return String.format(HORIZONTAL_LINE + LS
+                + MESSAGE_DELETE_TITLE + LS
+                + task.toString() + LS
+                + MESSAGE_NUMBER_OF_TASKS + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator(), getNumberOfTasks());
     }
 
     /**
@@ -275,7 +313,7 @@ public class TaskManager {
         return String.format(HORIZONTAL_LINE + LS
                 + MESSAGE_ADD_TITLE + LS
                 + task.toString() + LS
-                + MESSAGE_ADD_CONCLUSION + System.lineSeparator()
+                + MESSAGE_NUMBER_OF_TASKS + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator(), getNumberOfTasks());
     }
 
@@ -313,10 +351,8 @@ public class TaskManager {
             return getMessageForSuccessfulMark(tasks.get(taskIndex));
         } catch (DukeException e) {
             return getMessageForDuplicatedMark(tasks.get(taskIndex));
-        } catch (NullPointerException e) {
-            return getMessageForInvalidMark();
         } catch (IndexOutOfBoundsException e) {
-            return getMessageForInvalidMark();
+            return getMessageForInvalidIdRange();
         } catch (NumberFormatException e) {
             return getMessageForInvalidId();
         }
@@ -338,14 +374,14 @@ public class TaskManager {
      *
      * @return Message for invalid task ID.
      */
-    public String getMessageForInvalidMark() {
+    public String getMessageForInvalidIdRange() {
         /*
          * Task ID displayed to user is task index in tasks array + 1
          * because task index in array starts from 0
          * while task ID displayed to user starts from 1.
          */
         return HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_INVALID_MARK + System.lineSeparator()
+                + MESSAGE_FOR_INVALID_ID_RANGE + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator();
     }
 

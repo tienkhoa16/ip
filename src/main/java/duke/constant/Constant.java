@@ -14,8 +14,9 @@ public final class Constant {
     public static final String SAD_FACE = "\u2639  OOPS!!! ";
     public static final String MESSAGE_LIST_TITLE = "Here are the tasks in your list:";
     public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
+    public static final String MESSAGE_DELETE_TITLE = "Noted. I've removed this task:";
     public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
-    public static final String MESSAGE_ADD_CONCLUSION = "Now you have %d tasks in the list.";
+    public static final String MESSAGE_NUMBER_OF_TASKS = "Now you have %d tasks in the list.";
     public static final String MESSAGE_FOR_INVALID_INPUT_WORD = SAD_FACE +
             "I'm sorry, but I don't know what that means :-(";
     public static final String MESSAGE_FOR_EMPTY_DESCRIPTION = SAD_FACE +
@@ -24,7 +25,7 @@ public final class Constant {
             "The date/time of %s cannot be empty.";
     public static final String MESSAGE_FOR_DUPLICATED_MARK = SAD_FACE +
             "%s has been done earlier";
-    public static final String MESSAGE_FOR_INVALID_MARK = SAD_FACE +
+    public static final String MESSAGE_FOR_INVALID_ID_RANGE = SAD_FACE +
             "Task ID is out of range";
     public static final String MESSAGE_FOR_INVALID_ID = SAD_FACE +
             "Expected an integer for task ID";
@@ -37,12 +38,9 @@ public final class Constant {
     public static final String COMMAND_TODO_WORD = "todo";          // Keyword for adding a new todo
     public static final String COMMAND_DEADLINE_WORD = "deadline";  // Keyword for adding a new deadline
     public static final String COMMAND_EVENT_WORD = "event";        // Keyword for adding a new event
+    public static final String COMMAND_DELETE_WORD = "delete";        // Keyword for deleting a task
 
     /** These are the prefix strings to define the data type of a command parameter */
     public static final String TASK_DATA_PREFIX_DEADLINE = "/by";
     public static final String TASK_DATA_PREFIX_EVENT = "/at";
-
-    private Constant() {
-
-    }
 }
