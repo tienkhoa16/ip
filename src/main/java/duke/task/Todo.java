@@ -1,7 +1,5 @@
 package duke.task;
 
-import duke.exception.DukeException;
-
 import static duke.constant.Constant.TODO_ABBREVIATION;
 
 public class Todo extends Task {

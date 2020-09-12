@@ -1,7 +1,5 @@
 package duke.task;
 
-import duke.exception.DukeException;
-
 import static duke.constant.Constant.EVENT_ABBREVIATION;
 
 public class Event extends Task {
