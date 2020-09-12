@@ -10,6 +10,7 @@ import static duke.constant.Constant.COMMAND_TODO_WORD;
 import static duke.constant.Constant.COMMAND_DEADLINE_WORD;
 import static duke.constant.Constant.COMMAND_EVENT_WORD;
 import static duke.constant.Constant.COMMAND_BYE_WORD;
+import static duke.constant.Constant.COMMAND_DELETE_WORD;
 
 public class Duke {
 
@@ -116,6 +117,8 @@ public class Duke {
             return tasks.executeAddDeadline(commandArgs);
         case COMMAND_EVENT_WORD:
             return tasks.executeAddEvent(commandArgs);
+        case COMMAND_DELETE_WORD:
+            return tasks.executeDeleteTask(commandArgs);
         case COMMAND_BYE_WORD:
             executeExitProgramRequest();
             // Fallthrough
