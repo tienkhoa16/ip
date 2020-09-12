@@ -2,6 +2,8 @@ package duke.task;
 
 import duke.exception.DukeException;
 
+import static duke.constant.Constant.EVENT_ABBREVIATION;
+
 public class Event extends Task {
 
     protected String at;    // Event time
@@ -11,9 +13,8 @@ public class Event extends Task {
      *
      * @param description Event description.
      * @param at Event time.
-     * @throws DukeException If event description is empty.
      */
-    public Event(String description, String at) throws DukeException {
+    public Event(String description, String at) {
         super(description);
         this.at = at;
     }
@@ -26,6 +27,6 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: " + at + ")";
+        return "[" + EVENT_ABBREVIATION + "]" + super.toString() + " (at: " + at + ")";
     }
 }

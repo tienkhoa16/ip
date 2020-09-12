@@ -12,12 +12,8 @@ public class Task {
      * By default, initially, task status is set as not done.
      *
      * @param description Task description.
-     * @throws DukeException If task description is empty.
      */
-    public Task(String description) throws DukeException {
-        if (description.isEmpty()) {
-            throw new DukeException();
-        }
+    public Task(String description) {
         this.description = description;
         this.isDone = false;
     }

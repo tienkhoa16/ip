@@ -2,15 +2,16 @@ package duke.task;
 
 import duke.exception.DukeException;
 
+import static duke.constant.Constant.TODO_ABBREVIATION;
+
 public class Todo extends Task {
 
     /**
      * Constructs a new Todo object inheriting from Task class.
      *
      * @param description Todo description.
-     * @throws DukeException If todo description is empty.
      */
-    public Todo(String description) throws DukeException {
+    public Todo(String description) {
         super(description);
     }
 
@@ -22,6 +23,6 @@ public class Todo extends Task {
      */
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return "[" + TODO_ABBREVIATION + "]" + super.toString();
     }
 }

@@ -1,6 +1,6 @@
 package duke.task;
 
-import duke.exception.DukeException;
+import static duke.constant.Constant.DEADLINE_ABBREVIATION;
 
 public class Deadline extends Task {
 
@@ -11,9 +11,8 @@ public class Deadline extends Task {
      *
      * @param description Deadline description.
      * @param by Deadline date.
-     * @throws DukeException If deadline description is empty.
      */
-    public Deadline(String description, String by) throws DukeException {
+    public Deadline(String description, String by) {
         super(description);
         this.by = by;
     }
@@ -26,6 +25,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[" + DEADLINE_ABBREVIATION + "]" + super.toString() + " (by: " + by + ")";
     }
 }

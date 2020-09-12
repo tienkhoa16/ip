@@ -13,13 +13,13 @@ import static duke.constant.Constant.TASK_DATA_PREFIX_EVENT;
 import static duke.constant.Constant.MESSAGE_ADD_CONCLUSION;
 import static duke.constant.Constant.MESSAGE_ADD_TITLE;
 import static duke.constant.Constant.MESSAGE_DONE_TITLE;
-import static duke.constant.Constant.MESSAGE_FOR_DUPLICATED_MARK;
-import static duke.constant.Constant.MESSAGE_FOR_EMPTY_DESCRIPTION;
-import static duke.constant.Constant.MESSAGE_FOR_EMPTY_TIME;
-import static duke.constant.Constant.MESSAGE_FOR_INVALID_ID;
-import static duke.constant.Constant.MESSAGE_FOR_INVALID_INPUT_WORD;
+import static duke.constant.Constant.MESSAGE_DUPLICATED_MARK;
+import static duke.constant.Constant.MESSAGE_EMPTY_DESCRIPTION;
+import static duke.constant.Constant.MESSAGE_EMPTY_TIME;
+import static duke.constant.Constant.MESSAGE_INVALID_ID;
+import static duke.constant.Constant.MESSAGE_INVALID_INPUT_WORD;
 import static duke.constant.Constant.MESSAGE_LIST_TITLE;
-import static duke.constant.Constant.MESSAGE_FOR_INVALID_MARK;
+import static duke.constant.Constant.MESSAGE_INVALID_MARK;
 import static duke.constant.Constant.SEPARATOR_TASK_ID_TASK_DESC;
 
 
@@ -32,6 +32,15 @@ public class TaskManager {
      */
     public TaskManager() {
         tasks = new ArrayList<>();
+    }
+
+    /**
+     * Returns tasks array.
+     *
+     * @return Tasks array.
+     */
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 
     /**
@@ -73,7 +82,7 @@ public class TaskManager {
      *
      * @param encoded string to be decoded.
      * @return Event object of description and time.
-     * @throws DukeException      If event description is empty.
+     * @throws DukeException If event description is empty.
      * @throws EmptyTimeException If event time is empty.
      */
     public Event decodeEventFromString(String encoded) throws DukeException, EmptyTimeException {
@@ -145,7 +154,7 @@ public class TaskManager {
      *
      * @param encoded string to be decoded.
      * @return Deadline object of description and date.
-     * @throws DukeException      If deadline description is empty.
+     * @throws DukeException If deadline description is empty.
      * @throws EmptyTimeException If deadline time is empty.
      */
     public Deadline decodeDeadlineFromString(String encoded) throws DukeException, EmptyTimeException {
@@ -192,10 +201,11 @@ public class TaskManager {
      *
      * @param encoded command arguments.
      * @return Task description.
+     * @throws DukeException If task description is empty.
      */
-    public String extractDescriptionFromString(String encoded) {
-        final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
-        final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
+    public String extractDescriptionFromString(String encoded) throws DukeException {
+        int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
+        int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
 
         /*
          * Description is leading substring up to data prefix string.
@@ -203,7 +213,14 @@ public class TaskManager {
          * prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
          */
         int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
-        return encoded.substring(0, indexOfExistingPrefix).trim();
+
+        String description = encoded.substring(0, indexOfExistingPrefix).trim();
+
+        if (description.isEmpty()) {
+            throw new DukeException();
+        }
+
+        return description;
     }
 
     /**
@@ -214,17 +231,16 @@ public class TaskManager {
      * @return Feedback display message for adding a new todo.
      */
     public String executeAddTodo(String todoDescription) {
-        final String TASK_TYPE = "a todo";
+        String taskType = "a todo";
         String feedbackMessage = null;
 
-        try {
+        if (todoDescription.isEmpty()) {
+            feedbackMessage = getMessageForEmptyDescription(taskType);
+        } else {
             // Create a new Todo instance
             Todo todo = new Todo(todoDescription);
             feedbackMessage = executeAddTask(todo);
-        } catch (DukeException e) {
-            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
         }
-
         return feedbackMessage;
     }
 
@@ -236,7 +252,7 @@ public class TaskManager {
      */
     public String getMessageForEmptyDescription(String taskType) {
         return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_EMPTY_DESCRIPTION + System.lineSeparator()
+                + MESSAGE_EMPTY_DESCRIPTION + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator(), taskType);
     }
 
@@ -248,7 +264,7 @@ public class TaskManager {
      */
     public String getMessageForEmptyTime(String taskType) {
         return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_EMPTY_TIME + System.lineSeparator()
+                + MESSAGE_EMPTY_TIME + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator(), taskType);
     }
 
@@ -259,7 +275,7 @@ public class TaskManager {
      */
     public String getMessageForInvalidInputWord() {
         return HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_INVALID_INPUT_WORD + System.lineSeparator()
+                + MESSAGE_INVALID_INPUT_WORD + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator();
     }
 
@@ -329,7 +345,7 @@ public class TaskManager {
      */
     public String getMessageForInvalidId() {
         return HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_INVALID_ID + System.lineSeparator()
+                + MESSAGE_INVALID_ID + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator();
     }
 
@@ -345,7 +361,7 @@ public class TaskManager {
          * while task ID displayed to user starts from 1.
          */
         return HORIZONTAL_LINE + LS
-                + MESSAGE_FOR_INVALID_MARK + System.lineSeparator()
+                + MESSAGE_INVALID_MARK + System.lineSeparator()
                 + HORIZONTAL_LINE + System.lineSeparator();
     }
 
@@ -369,9 +385,9 @@ public class TaskManager {
      * @return Duplicated marked as done message.
      */
     public String getMessageForDuplicatedMark(Task task) {
-        return String.format(HORIZONTAL_LINE + LS +
-                MESSAGE_FOR_DUPLICATED_MARK + System.lineSeparator() +
-                HORIZONTAL_LINE + System.lineSeparator(), task.getDescription());
+        return String.format(HORIZONTAL_LINE + LS
+                + MESSAGE_DUPLICATED_MARK + System.lineSeparator()
+                + HORIZONTAL_LINE + System.lineSeparator(), task.getDescription());
     }
 
     /**
