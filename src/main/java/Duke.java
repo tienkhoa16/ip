@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
+import duke.storage.Storage;
 import duke.task.TaskManager;
+import duke.util.Util;
 
 import static duke.constant.Constant.HORIZONTAL_LINE;
 import static duke.constant.Constant.LINE_PREFIX;
@@ -27,7 +29,7 @@ public class Duke {
 
     public static void main(String[] args) {
         // Initialize tasks list
-        tasks = new TaskManager();
+        tasks = Storage.loadData();
 
         // Greet user
         printHello();
@@ -35,7 +37,7 @@ public class Duke {
         while (true) {
             String userCommand = getCommand();
             String feedback = replyCommand(userCommand);
-            showResultToUser(feedback);
+            Util.showResultToUser(feedback);
         }
     }
 
@@ -75,26 +77,6 @@ public class Duke {
     }
 
     /**
-     * Echos user's command.
-     *
-     * @param userCommand User's raw input.
-     */
-    public static void echoCommand(String userCommand) {
-        showResultToUser(userCommand);
-    }
-
-    /**
-     * Splits raw user input into command word and command arguments string.
-     *
-     * @param rawUserInput User's raw input.
-     * @return Size 2 array; first element is the command type and second element is the arguments string.
-     */
-    public static String[] splitCommandWordAndArgs(String rawUserInput) {
-        final String[] split = rawUserInput.trim().split("\\s+", 2);
-        return split.length == 2 ? split : new String[]{split[0], ""}; // else case: no parameters
-    }
-
-    /**
      * Replies to user's command.
      *
      * @param userInputString Raw input from user.
@@ -102,9 +84,9 @@ public class Duke {
      */
     public static String replyCommand(String userInputString) {
 
-        final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
-        final String commandType = commandTypeAndParams[0];
-        final String commandArgs = commandTypeAndParams[1];
+        String[] commandTypeAndParams = Util.splitCommandWordAndArgs(userInputString);
+        String commandType = commandTypeAndParams[0].toLowerCase();
+        String commandArgs = commandTypeAndParams[1];
 
         switch (commandType) {
         case COMMAND_LIST_WORD:
@@ -125,15 +107,6 @@ public class Duke {
         default:
             return tasks.getMessageForInvalidInputWord();
         }
-    }
-
-    /**
-     * Shows a result message to the user.
-     *
-     * @param result Result message to be displayed.
-     */
-    public static void showResultToUser(String result) {
-        System.out.println(result);
     }
 
     /**
