@@ -82,7 +82,7 @@ public class Storage {
                         tasks.executeMarkTaskAsDone(numberOfTasks);
                     }
                 }
-                System.out.println(tasks.executeListAllTasks());
+                System.out.print(tasks.executeListAllTasks());
             } catch (FileNotFoundException e) {
                 System.out.println(MESSAGE_DATA_FILE_NOT_FOUND);
             }
@@ -95,7 +95,7 @@ public class Storage {
                 System.out.println("Something went wrong: " + e.getMessage());
             }
         }
-        System.out.println(HORIZONTAL_LINE);
+        System.out.println(HORIZONTAL_LINE + System.lineSeparator());
         return tasks;
     }
 }

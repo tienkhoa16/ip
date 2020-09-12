@@ -8,8 +8,7 @@ public final class Constant {
     public static final String HORIZONTAL_LINE = LINE_PREFIX
             + "____________________________________________________________";
 
-    public static final String VERTICAL_BAR_WITH_PADDING = " | ";
-    public static final String SPACE_CHARACTER = " ";
+    public static final String VERTICAL_BAR_WITH_PADDING = " \\| ";
 
     public static final String ONE = "1";
 
