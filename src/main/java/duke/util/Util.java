@@ -10,7 +10,7 @@ public class Util {
      * @return Size 2 array; first element is the command type and second element is the arguments string.
      */
     public static String[] splitCommandWordAndArgs(String rawUserInput) {
-        final String[] split = rawUserInput.trim().split("\\s+", 2);
+        String[] split = rawUserInput.trim().split("\\s+", 2);
         return split.length == 2 ? split : new String[]{split[0], ""}; // else case: no parameters
     }
 

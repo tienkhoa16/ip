@@ -63,7 +63,7 @@ public class TaskManager {
         final String TASK_TYPE = "an event";
         String feedbackMessage = null;
         try {
-            final Event decodeResult = decodeEventFromString(commandArgs);
+            Event decodeResult = decodeEventFromString(commandArgs);
 
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
@@ -86,7 +86,7 @@ public class TaskManager {
      * @throws EmptyTimeException If event time is empty.
      */
     public Event decodeEventFromString(String encoded) throws DukeException, EmptyTimeException {
-        final Event decodedEvent = makeEventFromData(
+        Event decodedEvent = makeEventFromData(
                 extractDescriptionFromString(encoded),
                 extractEventTimeFromString(encoded)
         );
@@ -113,7 +113,7 @@ public class TaskManager {
      * @throws EmptyTimeException If event time is empty.
      */
     public String extractEventTimeFromString(String encoded) throws EmptyTimeException {
-        final int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
+        int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
 
         String eventTime = removePrefixSign(encoded.substring(indexOfEventPrefix, encoded.length()).trim(),
                 TASK_DATA_PREFIX_EVENT);
@@ -136,7 +136,7 @@ public class TaskManager {
         String feedbackMessage = null;
 
         try {
-            final Deadline decodeResult = decodeDeadlineFromString(commandArgs);
+            Deadline decodeResult = decodeDeadlineFromString(commandArgs);
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
             feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
@@ -158,7 +158,7 @@ public class TaskManager {
      * @throws EmptyTimeException If deadline time is empty.
      */
     public Deadline decodeDeadlineFromString(String encoded) throws DukeException, EmptyTimeException {
-        final Deadline decodedDeadline = makeDeadlineFromData(
+        Deadline decodedDeadline = makeDeadlineFromData(
                 extractDescriptionFromString(encoded),
                 extractDeadlineDateFromString(encoded)
         );
@@ -185,7 +185,7 @@ public class TaskManager {
      * @throws EmptyTimeException If deadline date is empty.
      */
     public String extractDeadlineDateFromString(String encoded) throws EmptyTimeException {
-        final int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
+        int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
 
         String deadlineDate = removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
                 TASK_DATA_PREFIX_DEADLINE);
