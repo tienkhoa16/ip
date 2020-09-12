@@ -85,17 +85,41 @@ public class Storage {
                 System.out.print(tasks.executeListAllTasks());
             } catch (FileNotFoundException e) {
                 System.out.println(MESSAGE_DATA_FILE_NOT_FOUND);
+                createDataFile(pathToDataFile);
             }
         } else {
-            // Create directory for data folder
-            try {
-                Files.createDirectory(pathToDataFolder);
-                System.out.println(MESSAGE_CREATE_DATA_FOLDER);
-            } catch (IOException e) {
-                System.out.println("Something went wrong: " + e.getMessage());
-            }
+            createDataFolder(pathToDataFolder);
+            createDataFile(pathToDataFile);
         }
         System.out.println(HORIZONTAL_LINE + System.lineSeparator());
         return tasks;
     }
+
+    /**
+     * Creates data file.
+     *
+     * @param pathToDataFile Path to data file.
+     */
+    private static void createDataFile(Path pathToDataFile) {
+        try {
+            Files.createFile(pathToDataFile);
+            System.out.println(MESSAGE_CREATE_DATA_FOLDER);
+        } catch (IOException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Creates data folder.
+     *
+     * @param pathToDataFolder Path to data file.
+     */
+    private static void createDataFolder(Path pathToDataFolder) {
+        try {
+            Files.createDirectory(pathToDataFolder);
+        } catch (IOException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+    }
+
 }

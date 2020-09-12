@@ -35,7 +35,7 @@ public final class Constant {
     public static final String MESSAGE_DATA_ERROR = LINE_PREFIX + "Data error.";
     public static final String MESSAGE_DATA_FILE_NOT_FOUND = LINE_PREFIX + "Data file not found.";
     public static final String MESSAGE_CREATE_DATA_FOLDER = LINE_PREFIX
-            + "Created /data to store future data tasks.";
+            + "Created ./data/duke.txt to store future tasks data.";
 
     public static final String SEPARATOR_TASK_ID_TASK_DESC = ". ";
 
