@@ -2,27 +2,31 @@ package duke.storage;
 
 import duke.task.Deadline;
 import duke.task.Event;
+import duke.task.Task;
 import duke.task.TaskManager;
 import duke.task.Todo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import static duke.constant.Constant.DATA_FILE;
-import static duke.constant.Constant.DATA_FOLDER;
 import static duke.constant.Constant.DEADLINE_ABBREVIATION;
 import static duke.constant.Constant.EVENT_ABBREVIATION;
 import static duke.constant.Constant.HORIZONTAL_LINE;
 import static duke.constant.Constant.MESSAGE_CREATE_DATA_FOLDER;
 import static duke.constant.Constant.MESSAGE_DATA_ERROR;
 import static duke.constant.Constant.MESSAGE_DATA_FILE_NOT_FOUND;
+import static duke.constant.Constant.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
 import static duke.constant.Constant.ONE;
+import static duke.constant.Constant.PATH_TO_DATA_FILE;
+import static duke.constant.Constant.PATH_TO_DATA_FOLDER;
 import static duke.constant.Constant.TODO_ABBREVIATION;
+import static duke.constant.Constant.VERTICAL_BAR;
 import static duke.util.Util.splitTaskFromDataLine;
 
 public class Storage {
@@ -37,16 +41,9 @@ public class Storage {
 
         System.out.println(HORIZONTAL_LINE);
 
-        // Get directory of project root
-        String projectRoot = System.getProperty("user.dir");
-
-        // Get directory of data folder and data file
-        Path pathToDataFolder = Paths.get(projectRoot, DATA_FOLDER);
-        Path pathToDataFile = Paths.get(projectRoot, DATA_FOLDER, DATA_FILE);
-
-        if (Files.exists(pathToDataFolder)) {
+        if (Files.exists(PATH_TO_DATA_FOLDER)) {
             // Create a File for the given file path
-            File file = new File(pathToDataFile.toString());
+            File file = new File(PATH_TO_DATA_FILE.toString());
 
             try {
                 // Create a Scanner using the File as the source
@@ -62,15 +59,15 @@ public class Storage {
 
                     switch (taskType) {
                     case TODO_ABBREVIATION:
-                        tasks.getTasks().add(new Todo(taskDescription));
+                        tasks.getTasksList().add(new Todo(taskDescription));
                         break;
                     case EVENT_ABBREVIATION:
                         String eventTime = taskTypeAndDetails[3];
-                        tasks.getTasks().add(new Event(taskDescription, eventTime));
+                        tasks.getTasksList().add(new Event(taskDescription, eventTime));
                         break;
                     case DEADLINE_ABBREVIATION:
                         String deadlineTime = taskTypeAndDetails[3];
-                        tasks.getTasks().add(new Deadline(taskDescription, deadlineTime));
+                        tasks.getTasksList().add(new Deadline(taskDescription, deadlineTime));
                         break;
                     default:
                         System.out.println(MESSAGE_DATA_ERROR);
@@ -85,11 +82,13 @@ public class Storage {
                 System.out.print(tasks.executeListAllTasks());
             } catch (FileNotFoundException e) {
                 System.out.println(MESSAGE_DATA_FILE_NOT_FOUND);
-                createDataFile(pathToDataFile);
+                createDataFile(PATH_TO_DATA_FILE);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(MESSAGE_DATA_ERROR);
             }
         } else {
-            createDataFolder(pathToDataFolder);
-            createDataFile(pathToDataFile);
+            createDataFolder(PATH_TO_DATA_FOLDER);
+            createDataFile(PATH_TO_DATA_FILE);
         }
         System.out.println(HORIZONTAL_LINE + System.lineSeparator());
         return tasks;
@@ -122,4 +121,25 @@ public class Storage {
         }
     }
 
+    public static void saveData(ArrayList<Task> tasks) {
+        try {
+            // Create a FileWriter in append mode
+            FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());
+
+            for (Task task : tasks) {
+                String taskData = task.getTaskAbbreviation() + VERTICAL_BAR + task.getIsDone()
+                        + VERTICAL_BAR + task.getDescription();
+
+                if (task instanceof Deadline || task instanceof Event) {
+                    taskData += VERTICAL_BAR + task.getTaskTime();
+                }
+                fw.write(taskData + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println(HORIZONTAL_LINE + System.lineSeparator()
+                    + MESSAGE_WRITE_FILE_UNSUCCESSFUL
+                    + HORIZONTAL_LINE);
+        }
+    }
 }

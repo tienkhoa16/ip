@@ -1,6 +1,6 @@
 package duke.util;
 
-import static duke.constant.Constant.VERTICAL_BAR_WITH_PADDING;
+import static duke.constant.Constant.VERTICAL_BAR_REGREX;
 
 public class Util {
     /**
@@ -21,6 +21,6 @@ public class Util {
      * @return Array containing task type, status, description and time (where applicable).
      */
     public static String[] splitTaskFromDataLine(String dataLine) {
-        return dataLine.trim().split(VERTICAL_BAR_WITH_PADDING);
+        return dataLine.trim().split(VERTICAL_BAR_REGREX);
     }
 }

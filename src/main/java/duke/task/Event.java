@@ -6,8 +6,6 @@ import static duke.constant.Constant.EVENT_ABBREVIATION;
 
 public class Event extends Task {
 
-    protected String at;    // Event time
-
     /**
      * Constructs a new Event object inheriting from Task class.
      *
@@ -16,7 +14,7 @@ public class Event extends Task {
      */
     public Event(String description, String at) {
         super(description);
-        this.at = at;
+        taskTime = at;
     }
 
     /**
@@ -27,6 +25,6 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[" + EVENT_ABBREVIATION + "]" + super.toString() + " (at: " + at + ")";
+        return "[" + EVENT_ABBREVIATION + "]" + super.toString() + " (at: " + taskTime + ")";
     }
 }

@@ -4,8 +4,6 @@ import static duke.constant.Constant.DEADLINE_ABBREVIATION;
 
 public class Deadline extends Task {
 
-    protected String by;    // Deadline date
-
     /**
      * Constructs a new Deadline object inheriting from Task class.
      *
@@ -14,7 +12,7 @@ public class Deadline extends Task {
      */
     public Deadline(String description, String by) {
         super(description);
-        this.by = by;
+        taskTime = by;
     }
 
     /**
@@ -25,6 +23,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[" + DEADLINE_ABBREVIATION + "]" + super.toString() + " (by: " + by + ")";
+        return "[" + DEADLINE_ABBREVIATION + "]" + super.toString() + " (by: " + taskTime + ")";
     }
 }

@@ -21,6 +21,7 @@ import static duke.constant.Constant.MESSAGE_INVALID_INPUT_WORD;
 import static duke.constant.Constant.MESSAGE_LIST_TITLE;
 import static duke.constant.Constant.MESSAGE_INVALID_MARK;
 import static duke.constant.Constant.SEPARATOR_TASK_ID_TASK_DESC;
+import static duke.storage.Storage.saveData;
 
 
 public class TaskManager {
@@ -39,7 +40,7 @@ public class TaskManager {
      *
      * @return Tasks array.
      */
-    public ArrayList<Task> getTasks() {
+    public ArrayList<Task> getTasksList() {
         return tasks;
     }
 
@@ -64,7 +65,6 @@ public class TaskManager {
         String feedbackMessage = null;
         try {
             Event decodeResult = decodeEventFromString(commandArgs);
-
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
             feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
@@ -288,6 +288,9 @@ public class TaskManager {
     public String executeAddTask(Task task) {
         tasks.add(task);
 
+        // Save updated tasks list to hard disk
+        saveData(tasks);
+
         return String.format(HORIZONTAL_LINE + LS
                 + MESSAGE_ADD_TITLE + LS
                 + task.toString() + LS
@@ -326,6 +329,10 @@ public class TaskManager {
 
             // Update status of task
             tasks.get(taskIndex).markAsDone();
+
+            // Save updated tasks list to hard disk
+            saveData(tasks);
+
             return getMessageForSuccessfulMark(tasks.get(taskIndex));
         } catch (DukeException e) {
             return getMessageForDuplicatedMark(tasks.get(taskIndex));
