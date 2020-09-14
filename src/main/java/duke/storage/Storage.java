@@ -3,15 +3,15 @@ package duke.storage;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
-import duke.task.TaskManager;
+import duke.task.TaskList;
 import duke.task.Todo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,11 +23,11 @@ import static duke.constant.Constant.MESSAGE_DATA_ERROR;
 import static duke.constant.Constant.MESSAGE_DATA_FILE_NOT_FOUND;
 import static duke.constant.Constant.MESSAGE_IO_EXCEPTION;
 import static duke.constant.Constant.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
-import static duke.constant.Constant.ONE;
 import static duke.constant.Constant.PATH_TO_DATA_FILE;
 import static duke.constant.Constant.PATH_TO_DATA_FOLDER;
 import static duke.constant.Constant.TASK_ABBREVIATION_INDEX;
 import static duke.constant.Constant.TASK_DESCRIPTION_INDEX;
+import static duke.constant.Constant.TASK_DONE_STRING_REPRESENTATION;
 import static duke.constant.Constant.TASK_STATUS_INDEX;
 import static duke.constant.Constant.TASK_TIME_INDEX;
 import static duke.constant.Constant.TODO_ABBREVIATION;
@@ -42,8 +42,8 @@ public class Storage {
      *
      * @return Tasks list from data file.
      */
-    public static TaskManager loadData() {
-        TaskManager tasks = new TaskManager();
+    public static TaskList loadData() {
+        TaskList tasks = new TaskList();
 
         showResultToUser(HORIZONTAL_LINE);
 
@@ -83,7 +83,7 @@ public class Storage {
      * @param tasks Tasks list.
      * @param taskTypeAndDetails String representation of task in data file.
      */
-    private static void handleAddTask(TaskManager tasks, String[] taskTypeAndDetails) {
+    private static void handleAddTask(TaskList tasks, String[] taskTypeAndDetails) {
         String taskType = taskTypeAndDetails[TASK_ABBREVIATION_INDEX];
         String taskStatus = taskTypeAndDetails[TASK_STATUS_INDEX];
         String taskDescription = taskTypeAndDetails[TASK_DESCRIPTION_INDEX];
@@ -105,7 +105,7 @@ public class Storage {
             break;
         }
 
-        if (taskStatus.equals(ONE)) {
+        if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
             String numberOfTasks = Integer.toString((tasks.getNumberOfTasks()));
             tasks.executeMarkTaskAsDone(numberOfTasks);
         }
@@ -118,7 +118,7 @@ public class Storage {
      * @param deadlineDescription Deadline description.
      * @param deadlineTime Deadline time.
      */
-    private static void addDeadline(TaskManager tasks, String deadlineDescription, String deadlineTime) {
+    private static void addDeadline(TaskList tasks, String deadlineDescription, String deadlineTime) {
         tasks.getTasksList().add(new Deadline(deadlineDescription, deadlineTime));
     }
 
@@ -129,7 +129,7 @@ public class Storage {
      * @param eventDescription Event description.
      * @param eventTime Event time.
      */
-    private static void addEvent(TaskManager tasks, String eventDescription, String eventTime) {
+    private static void addEvent(TaskList tasks, String eventDescription, String eventTime) {
         tasks.getTasksList().add(new Event(eventDescription, eventTime));
     }
 
@@ -139,7 +139,7 @@ public class Storage {
      * @param tasks Tasks list.
      * @param todoDescription Todo description.
      */
-    private static void addTodo(TaskManager tasks, String todoDescription) {
+    private static void addTodo(TaskList tasks, String todoDescription) {
         tasks.getTasksList().add(new Todo(todoDescription));
     }
 

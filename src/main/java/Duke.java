@@ -1,18 +1,18 @@
-import java.util.Scanner;
-
 import duke.storage.Storage;
-import duke.task.TaskManager;
+import duke.task.TaskList;
 import duke.util.Util;
 
+import java.util.Scanner;
+
+import static duke.constant.Constant.COMMAND_BYE_WORD;
+import static duke.constant.Constant.COMMAND_DEADLINE_WORD;
+import static duke.constant.Constant.COMMAND_DELETE_WORD;
+import static duke.constant.Constant.COMMAND_DONE_WORD;
+import static duke.constant.Constant.COMMAND_EVENT_WORD;
+import static duke.constant.Constant.COMMAND_LIST_WORD;
+import static duke.constant.Constant.COMMAND_TODO_WORD;
 import static duke.constant.Constant.HORIZONTAL_LINE;
 import static duke.constant.Constant.LINE_PREFIX;
-import static duke.constant.Constant.COMMAND_LIST_WORD;
-import static duke.constant.Constant.COMMAND_DONE_WORD;
-import static duke.constant.Constant.COMMAND_TODO_WORD;
-import static duke.constant.Constant.COMMAND_DEADLINE_WORD;
-import static duke.constant.Constant.COMMAND_EVENT_WORD;
-import static duke.constant.Constant.COMMAND_BYE_WORD;
-import static duke.constant.Constant.COMMAND_DELETE_WORD;
 
 public class Duke {
 
@@ -25,7 +25,7 @@ public class Duke {
     public static final Scanner SCANNER = new Scanner(System.in);
 
     /** List of all tasks */
-    protected static TaskManager tasks;
+    protected static TaskList tasks;
 
     public static void main(String[] args) {
         // Initialize tasks list

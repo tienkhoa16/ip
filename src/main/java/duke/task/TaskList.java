@@ -8,31 +8,31 @@ import java.util.ArrayList;
 import static duke.constant.Constant.HORIZONTAL_LINE;
 import static duke.constant.Constant.LINE_PREFIX;
 import static duke.constant.Constant.LS;
-import static duke.constant.Constant.MESSAGE_DELETE_TITLE;
-import static duke.constant.Constant.TASK_DATA_PREFIX_DEADLINE;
-import static duke.constant.Constant.TASK_DATA_PREFIX_EVENT;
-import static duke.constant.Constant.MESSAGE_NUMBER_OF_TASKS;
 import static duke.constant.Constant.MESSAGE_ADD_TITLE;
+import static duke.constant.Constant.MESSAGE_DELETE_TITLE;
 import static duke.constant.Constant.MESSAGE_DONE_TITLE;
 import static duke.constant.Constant.MESSAGE_DUPLICATED_MARK;
 import static duke.constant.Constant.MESSAGE_EMPTY_DESCRIPTION;
 import static duke.constant.Constant.MESSAGE_EMPTY_TIME;
 import static duke.constant.Constant.MESSAGE_INVALID_ID;
+import static duke.constant.Constant.MESSAGE_INVALID_ID_RANGE;
 import static duke.constant.Constant.MESSAGE_INVALID_INPUT_WORD;
 import static duke.constant.Constant.MESSAGE_LIST_TITLE;
-import static duke.constant.Constant.MESSAGE_INVALID_ID_RANGE;
+import static duke.constant.Constant.MESSAGE_NUMBER_OF_TASKS;
 import static duke.constant.Constant.SEPARATOR_TASK_ID_TASK_DESC;
+import static duke.constant.Constant.TASK_DATA_PREFIX_DEADLINE;
+import static duke.constant.Constant.TASK_DATA_PREFIX_EVENT;
 import static duke.storage.Storage.saveData;
 
 
-public class TaskManager {
+public class TaskList {
 
     protected ArrayList<Task> tasks;    // List of all tasks.
 
     /**
-     * Constructs a new Task Manager instance.
+     * Constructs a new Task List instance.
      */
-    public TaskManager() {
+    public TaskList() {
         tasks = new ArrayList<>();
     }
 

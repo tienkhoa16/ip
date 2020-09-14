@@ -4,9 +4,11 @@ import duke.exception.DukeException;
 
 import static duke.constant.Constant.DEADLINE_ABBREVIATION;
 import static duke.constant.Constant.EVENT_ABBREVIATION;
-import static duke.constant.Constant.TICK_SYMBOL;
+import static duke.constant.Constant.TASK_DONE_ICON;
+import static duke.constant.Constant.TASK_DONE_STRING_REPRESENTATION;
+import static duke.constant.Constant.TASK_UNDONE_ICON;
+import static duke.constant.Constant.TASK_UNDONE_STRING_REPRESENTATION;
 import static duke.constant.Constant.TODO_ABBREVIATION;
-import static duke.constant.Constant.X_SYMBOL;
 
 public class Task {
 
@@ -32,17 +34,17 @@ public class Task {
      * @return Icon according task's status.
      */
     public String getStatusIcon() {
-        // Return tick or X symbols
-        return (isDone ? TICK_SYMBOL : X_SYMBOL);
+        // Return task status icon
+        return (isDone ? TASK_DONE_ICON : TASK_UNDONE_ICON);
     }
 
     /**
-     * Returns task's status in integer (0 or 1).
+     * Returns task's status in string representation ("0" or "1").
      *
-     * @return Number (0 or 1) according task's status.
+     * @return String representation ("0" or "1") of task's status.
      */
-    public int getIsDone() {
-        return isDone? 1 : 0;
+    public String getIsDone() {
+        return isDone? TASK_DONE_STRING_REPRESENTATION : TASK_UNDONE_STRING_REPRESENTATION;
     }
 
     /**
