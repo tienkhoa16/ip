@@ -34,4 +34,15 @@ public class Utils {
     public static void showResultToUser(String result) {
         System.out.println(result);
     }
+
+    /**
+     * Removes a sign (/by, /at, etc.) from parameter string.
+     *
+     * @param string Parameter as a string.
+     * @param sign Parameter sign to be removed.
+     * @return String without the sign.
+     */
+    public static String removePrefixSign(String string, String sign) {
+        return string.replace(sign, "").trim();
+    }
 }

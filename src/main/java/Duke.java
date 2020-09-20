@@ -1,6 +1,6 @@
 import duke.commons.utils.Utils;
 import duke.storage.Storage;
-import duke.task.TaskList;
+import duke.task.TasksList;
 
 import java.util.Scanner;
 
@@ -25,7 +25,7 @@ public class Duke {
     public static final Scanner SCANNER = new Scanner(System.in);
 
     /** List of all tasks */
-    protected static TaskList tasks;
+    protected static TasksList tasks;
 
     public static void main(String[] args) {
         // Initialize tasks list

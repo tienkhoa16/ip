@@ -10,11 +10,11 @@ import static duke.commons.constants.TaskConstants.TASK_UNDONE_ICON;
 import static duke.commons.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
 import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
 
-public class Task {
+public abstract class Task {
 
     protected String description;
     protected boolean isDone;
-    protected String taskTime;
+    protected String time;
 
     /**
      * Constructs a new Task object.
@@ -25,7 +25,7 @@ public class Task {
     public Task(String description) {
         this.description = description;
         isDone = false;
-        taskTime = "";
+        time = "";
     }
 
     /**
@@ -45,16 +45,6 @@ public class Task {
      */
     public String getIsDone() {
         return isDone ? TASK_DONE_STRING_REPRESENTATION : TASK_UNDONE_STRING_REPRESENTATION;
-    }
-
-    /**
-     * Returns task's time.
-     * If task is a todo, empty string is returned.
-     *
-     * @return
-     */
-    public String getTaskTime() {
-        return taskTime;
     }
 
     /**
@@ -83,8 +73,8 @@ public class Task {
      *
      * @return Task type abbreviation.
      */
-    public String getTaskAbbreviation() {
-        String abbreviation = "";
+    public char getTaskAbbreviation() {
+        char abbreviation = 0;
 
         if (this instanceof Todo) {
             abbreviation = TODO_ABBREVIATION;
@@ -106,4 +96,11 @@ public class Task {
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
     }
+
+    /**
+     * Formats information in a task for it to be saved and decoded in future.
+     *
+     * @return Encoded string with all information in the task.
+     */
+    public abstract String encodeTask();
 }

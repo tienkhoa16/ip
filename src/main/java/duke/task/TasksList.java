@@ -30,17 +30,17 @@ import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
 import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
 import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.commons.utils.Utils.removePrefixSign;
 import static duke.storage.Storage.saveData;
 
-
-public class TaskList {
+public class TasksList {
 
     protected ArrayList<Task> tasks;
 
     /**
      * Constructs a new Task List instance.
      */
-    public TaskList() {
+    public TasksList() {
         tasks = new ArrayList<>();
     }
 
@@ -135,42 +135,11 @@ public class TaskList {
      * @throws EmptyTimeException If event time is empty.
      */
     public Event decodeEventFromString(String encoded) throws DukeException, EmptyTimeException {
-        Event decodedEvent = makeEventFromData(
+        Event decodedEvent = new Event(
                 extractDescriptionFromString(encoded),
-                extractEventTimeFromString(encoded)
+                extractTaskTimeFromString(encoded, EVENT_ABBREVIATION)
         );
         return decodedEvent;
-    }
-
-    /**
-     * Creates an event from the given data.
-     *
-     * @param description Description of event.
-     * @param time Event time without data prefix.
-     * @return Constructed event.
-     * @throws DukeException If event description is empty.
-     */
-    public Event makeEventFromData(String description, String time) throws DukeException {
-        return new Event(description, time);
-    }
-
-    /**
-     * Extracts substring representing event time from command arguments.
-     *
-     * @param encoded String to be decoded.
-     * @return Event time argument WITHOUT prefix.
-     * @throws EmptyTimeException If event time is empty.
-     */
-    public String extractEventTimeFromString(String encoded) throws EmptyTimeException {
-        int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
-
-        String eventTime = removePrefixSign(encoded.substring(indexOfEventPrefix, encoded.length()).trim(),
-                TASK_DATA_PREFIX_EVENT);
-
-        if (eventTime.isEmpty()) {
-            throw new EmptyTimeException();
-        }
-        return eventTime;
     }
 
     /**
@@ -181,7 +150,6 @@ public class TaskList {
      * @return Feedback display message for adding a new deadline.
      */
     public String executeAddDeadline(String commandArgs) {
-        final String TASK_TYPE = "a deadline";
         String feedbackMessage = null;
 
         try {
@@ -207,42 +175,40 @@ public class TaskList {
      * @throws EmptyTimeException If deadline time is empty.
      */
     public Deadline decodeDeadlineFromString(String encoded) throws DukeException, EmptyTimeException {
-        Deadline decodedDeadline = makeDeadlineFromData(
+        Deadline decodedDeadline = new Deadline(
                 extractDescriptionFromString(encoded),
-                extractDeadlineDateFromString(encoded)
+                extractTaskTimeFromString(encoded, DEADLINE_ABBREVIATION)
         );
         return decodedDeadline;
     }
 
     /**
-     * Creates a deadline from the given data.
+     * Extracts substring representing task time from command arguments.
      *
-     * @param description Description of deadline.
-     * @param date Deadline date without data prefix.
-     * @return Constructed deadline.
-     * @throws DukeException If deadline description is empty.
-     */
-    public Deadline makeDeadlineFromData(String description, String date) throws DukeException {
-        return new Deadline(description, date);
-    }
-
-    /**
-     * Extracts substring representing deadline date from command arguments.
-     *
-     * @param encoded string to be decoded.
-     * @return Deadline date argument WITHOUT prefix.
+     * @param encoded String to be decoded.
+     * @param taskTypeAbbrev Abbreviation of task type.
+     * @return Task time argument WITHOUT prefix.
      * @throws EmptyTimeException If deadline date is empty.
      */
-    public String extractDeadlineDateFromString(String encoded) throws EmptyTimeException {
-        int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
+    public String extractTaskTimeFromString(String encoded, Character taskTypeAbbrev) throws EmptyTimeException {
+        String taskPrefix = "";
 
-        String deadlineDate = removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
-                TASK_DATA_PREFIX_DEADLINE);
+        if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
+            taskPrefix = TASK_DATA_PREFIX_DEADLINE;
+        } else if (taskTypeAbbrev.equals(EVENT_ABBREVIATION)) {
+            taskPrefix = TASK_DATA_PREFIX_EVENT;
+        }
 
-        if (deadlineDate.isEmpty()) {
+        int indexOfDeadlinePrefix = encoded.indexOf(taskPrefix);
+
+        String taskTime = removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(),
+                taskPrefix);
+
+        if (taskTime.isEmpty()) {
             throw new EmptyTimeException();
         }
-        return deadlineDate;
+
+        return taskTime;
     }
 
     /**
@@ -281,7 +247,7 @@ public class TaskList {
      */
     public String executeAddTodo(String todoDescription) {
         String taskType = "a todo";
-        String feedbackMessage = null;
+        String feedbackMessage = "";
 
         if (todoDescription.isEmpty()) {
             feedbackMessage = getMessageForEmptyDescription(TODO_ABBREVIATION);
@@ -290,6 +256,7 @@ public class TaskList {
             Todo todo = new Todo(todoDescription);
             feedbackMessage = executeAddTask(todo);
         }
+
         return feedbackMessage;
     }
 
@@ -299,7 +266,7 @@ public class TaskList {
      * @param taskTypeAbbrev Abbreviation of task type.
      * @return Empty description message.
      */
-    public String getMessageForEmptyDescription(String taskTypeAbbrev) {
+    public String getMessageForEmptyDescription(char taskTypeAbbrev) {
         switch (taskTypeAbbrev) {
         case DEADLINE_ABBREVIATION:
             return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_DEADLINE_DESC);
@@ -318,7 +285,7 @@ public class TaskList {
      * @param taskTypeAbbrev Abbreviation of task type.
      * @return Empty date/time message.
      */
-    public String getMessageForEmptyTime(String taskTypeAbbrev) {
+    public String getMessageForEmptyTime(char taskTypeAbbrev) {
         switch (taskTypeAbbrev) {
         case EVENT_ABBREVIATION:
             return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_EVENT_TIME);
@@ -454,16 +421,5 @@ public class TaskList {
      */
     public int extractTaskIndexFromInputString(String commandArgs) {
         return Integer.parseInt(commandArgs) - 1;
-    }
-
-    /**
-     * Removes a sign (/by, /at, etc.) from parameter string.
-     *
-     * @param string Parameter as a string.
-     * @param sign Parameter sign to be removed.
-     * @return String without the sign.
-     */
-    public String removePrefixSign(String string, String sign) {
-        return string.replace(sign, "").trim();
     }
 }
