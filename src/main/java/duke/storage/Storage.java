@@ -15,25 +15,25 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static duke.constant.Constant.DEADLINE_ABBREVIATION;
-import static duke.constant.Constant.EVENT_ABBREVIATION;
-import static duke.constant.Constant.HORIZONTAL_LINE;
-import static duke.constant.Constant.MESSAGE_CREATE_DATA_FOLDER;
-import static duke.constant.Constant.MESSAGE_DATA_ERROR;
-import static duke.constant.Constant.MESSAGE_DATA_FILE_NOT_FOUND;
-import static duke.constant.Constant.MESSAGE_IO_EXCEPTION;
-import static duke.constant.Constant.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
-import static duke.constant.Constant.PATH_TO_DATA_FILE;
-import static duke.constant.Constant.PATH_TO_DATA_FOLDER;
-import static duke.constant.Constant.TASK_ABBREVIATION_INDEX;
-import static duke.constant.Constant.TASK_DESCRIPTION_INDEX;
-import static duke.constant.Constant.TASK_DONE_STRING_REPRESENTATION;
-import static duke.constant.Constant.TASK_STATUS_INDEX;
-import static duke.constant.Constant.TASK_TIME_INDEX;
-import static duke.constant.Constant.TODO_ABBREVIATION;
-import static duke.constant.Constant.VERTICAL_BAR;
-import static duke.util.Util.showResultToUser;
-import static duke.util.Util.splitTaskFromDataLine;
+import static duke.commons.constants.DataFileConfig.PATH_TO_DATA_FILE;
+import static duke.commons.constants.DataFileConfig.PATH_TO_DATA_FOLDER;
+import static duke.commons.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
+import static duke.commons.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
+import static duke.commons.constants.DataFileConfig.TASK_STATUS_INDEX;
+import static duke.commons.constants.DataFileConfig.TASK_TIME_INDEX;
+import static duke.commons.constants.Messages.HORIZONTAL_LINE;
+import static duke.commons.constants.Messages.MESSAGE_CREATE_DATA_FOLDER;
+import static duke.commons.constants.Messages.MESSAGE_DATA_ERROR;
+import static duke.commons.constants.Messages.MESSAGE_DATA_FILE_NOT_FOUND;
+import static duke.commons.constants.Messages.MESSAGE_IO_EXCEPTION;
+import static duke.commons.constants.Messages.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
+import static duke.commons.constants.Messages.VERTICAL_BAR;
+import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
+import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.commons.utils.Utils.showResultToUser;
+import static duke.commons.utils.Utils.splitTaskFromDataLine;
 
 public class Storage {
 

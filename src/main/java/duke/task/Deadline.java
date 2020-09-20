@@ -1,6 +1,6 @@
 package duke.task;
 
-import static duke.constant.Constant.DEADLINE_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
 
 public class Deadline extends Task {
 

@@ -1,18 +1,18 @@
+import duke.commons.utils.Utils;
 import duke.storage.Storage;
 import duke.task.TaskList;
-import duke.util.Util;
 
 import java.util.Scanner;
 
-import static duke.constant.Constant.COMMAND_BYE_WORD;
-import static duke.constant.Constant.COMMAND_DEADLINE_WORD;
-import static duke.constant.Constant.COMMAND_DELETE_WORD;
-import static duke.constant.Constant.COMMAND_DONE_WORD;
-import static duke.constant.Constant.COMMAND_EVENT_WORD;
-import static duke.constant.Constant.COMMAND_LIST_WORD;
-import static duke.constant.Constant.COMMAND_TODO_WORD;
-import static duke.constant.Constant.HORIZONTAL_LINE;
-import static duke.constant.Constant.LINE_PREFIX;
+import static duke.commons.constants.CommandWords.COMMAND_BYE_WORD;
+import static duke.commons.constants.CommandWords.COMMAND_DEADLINE_WORD;
+import static duke.commons.constants.CommandWords.COMMAND_DELETE_WORD;
+import static duke.commons.constants.CommandWords.COMMAND_DONE_WORD;
+import static duke.commons.constants.CommandWords.COMMAND_EVENT_WORD;
+import static duke.commons.constants.CommandWords.COMMAND_LIST_WORD;
+import static duke.commons.constants.CommandWords.COMMAND_TODO_WORD;
+import static duke.commons.constants.Messages.HORIZONTAL_LINE;
+import static duke.commons.constants.Messages.LINE_PREFIX;
 
 public class Duke {
 
@@ -37,7 +37,7 @@ public class Duke {
         while (true) {
             String userCommand = getCommand();
             String feedback = replyCommand(userCommand);
-            Util.showResultToUser(feedback);
+            Utils.showResultToUser(feedback);
         }
     }
 
@@ -84,7 +84,7 @@ public class Duke {
      */
     public static String replyCommand(String userInputString) {
 
-        String[] commandTypeAndParams = Util.splitCommandWordAndArgs(userInputString);
+        String[] commandTypeAndParams = Utils.splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[0].toLowerCase();
         String commandArgs = commandTypeAndParams[1];
 
@@ -105,7 +105,7 @@ public class Duke {
             executeExitProgramRequest();
             // Fallthrough
         default:
-            return tasks.getMessageForInvalidInputWord();
+            return tasks.getMessageForInvalidCommandWord();
         }
     }
 

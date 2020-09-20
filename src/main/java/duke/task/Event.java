@@ -1,6 +1,6 @@
 package duke.task;
 
-import static duke.constant.Constant.EVENT_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
 
 public class Event extends Task {
 

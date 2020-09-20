@@ -2,19 +2,19 @@ package duke.task;
 
 import duke.exception.DukeException;
 
-import static duke.constant.Constant.DEADLINE_ABBREVIATION;
-import static duke.constant.Constant.EVENT_ABBREVIATION;
-import static duke.constant.Constant.TASK_DONE_ICON;
-import static duke.constant.Constant.TASK_DONE_STRING_REPRESENTATION;
-import static duke.constant.Constant.TASK_UNDONE_ICON;
-import static duke.constant.Constant.TASK_UNDONE_STRING_REPRESENTATION;
-import static duke.constant.Constant.TODO_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.TASK_DONE_ICON;
+import static duke.commons.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
+import static duke.commons.constants.TaskConstants.TASK_UNDONE_ICON;
+import static duke.commons.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
+import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
 
 public class Task {
 
-    protected String description;   // Task description
-    protected boolean isDone;       // Task status
-    protected String taskTime;      // Task time
+    protected String description;
+    protected boolean isDone;
+    protected String taskTime;
 
     /**
      * Constructs a new Task object.
@@ -44,7 +44,7 @@ public class Task {
      * @return String representation ("0" or "1") of task's status.
      */
     public String getIsDone() {
-        return isDone? TASK_DONE_STRING_REPRESENTATION : TASK_UNDONE_STRING_REPRESENTATION;
+        return isDone ? TASK_DONE_STRING_REPRESENTATION : TASK_UNDONE_STRING_REPRESENTATION;
     }
 
     /**
@@ -85,6 +85,7 @@ public class Task {
      */
     public String getTaskAbbreviation() {
         String abbreviation = "";
+
         if (this instanceof Todo) {
             abbreviation = TODO_ABBREVIATION;
         } else if (this instanceof Deadline) {

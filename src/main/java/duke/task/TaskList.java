@@ -5,29 +5,37 @@ import duke.exception.EmptyTimeException;
 
 import java.util.ArrayList;
 
-import static duke.constant.Constant.HORIZONTAL_LINE;
-import static duke.constant.Constant.LINE_PREFIX;
-import static duke.constant.Constant.LS;
-import static duke.constant.Constant.MESSAGE_ADD_TITLE;
-import static duke.constant.Constant.MESSAGE_DELETE_TITLE;
-import static duke.constant.Constant.MESSAGE_DONE_TITLE;
-import static duke.constant.Constant.MESSAGE_DUPLICATED_MARK;
-import static duke.constant.Constant.MESSAGE_EMPTY_DESCRIPTION;
-import static duke.constant.Constant.MESSAGE_EMPTY_TIME;
-import static duke.constant.Constant.MESSAGE_INVALID_ID;
-import static duke.constant.Constant.MESSAGE_INVALID_ID_RANGE;
-import static duke.constant.Constant.MESSAGE_INVALID_INPUT_WORD;
-import static duke.constant.Constant.MESSAGE_LIST_TITLE;
-import static duke.constant.Constant.MESSAGE_NUMBER_OF_TASKS;
-import static duke.constant.Constant.SEPARATOR_TASK_ID_TASK_DESC;
-import static duke.constant.Constant.TASK_DATA_PREFIX_DEADLINE;
-import static duke.constant.Constant.TASK_DATA_PREFIX_EVENT;
+import static duke.commons.constants.Messages.LINE_PREFIX;
+import static duke.commons.constants.Messages.LS;
+import static duke.commons.constants.Messages.MESSAGE_ADD_TITLE;
+import static duke.commons.constants.Messages.MESSAGE_DELETE_TITLE;
+import static duke.commons.constants.Messages.MESSAGE_DONE_TITLE;
+import static duke.commons.constants.Messages.MESSAGE_DUPLICATED_MARK;
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_DEADLINE_DESC;
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_DEADLINE_TIME;
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_DESC;
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_EVENT_DESC;
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_EVENT_TIME;
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_TIME;
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_TODO_DESC;
+import static duke.commons.constants.Messages.MESSAGE_FORMAT;
+import static duke.commons.constants.Messages.MESSAGE_INVALID_ID;
+import static duke.commons.constants.Messages.MESSAGE_INVALID_ID_RANGE;
+import static duke.commons.constants.Messages.MESSAGE_INVALID_INPUT_WORD;
+import static duke.commons.constants.Messages.MESSAGE_LIST_TITLE;
+import static duke.commons.constants.Messages.MESSAGE_NUMBER_OF_TASKS;
+import static duke.commons.constants.Messages.SEPARATOR_TASK_ID_TASK_DESC;
+import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
+import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
+import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
 import static duke.storage.Storage.saveData;
 
 
 public class TaskList {
 
-    protected ArrayList<Task> tasks;    // List of all tasks.
+    protected ArrayList<Task> tasks;
 
     /**
      * Constructs a new Task List instance.
@@ -55,10 +63,10 @@ public class TaskList {
     }
 
     /**
-     * Marks a task in the tasks list as done.
+     * Deletes a task in the tasks list.
      *
      * @param commandArgs Full command args string from the user.
-     * @return Feedback display message for marking the task as done.
+     * @return Feedback display message for deleting the task.
      */
     public String executeDeleteTask(String commandArgs) {
         int taskIndex = 0;
@@ -88,11 +96,11 @@ public class TaskList {
      * @return Message for successfully delete a task.
      */
     public String getMessageForSuccessfulDelete(Task task) {
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_DELETE_TITLE + LS
+        String message = String.format(MESSAGE_DELETE_TITLE + LS
                 + task.toString() + LS
-                + MESSAGE_NUMBER_OF_TASKS + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), getNumberOfTasks());
+                + MESSAGE_NUMBER_OF_TASKS, getNumberOfTasks());
+
+        return String.format(MESSAGE_FORMAT, message);
     }
 
     /**
@@ -103,17 +111,16 @@ public class TaskList {
      * @return Feedback display message for adding a new event.
      */
     public String executeAddEvent(String commandArgs) {
-        final String TASK_TYPE = "an event";
         String feedbackMessage = null;
         try {
             Event decodeResult = decodeEventFromString(commandArgs);
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
-            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyDescription(EVENT_ABBREVIATION);
         } catch (StringIndexOutOfBoundsException e) {
-            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyTime(EVENT_ABBREVIATION);
         } catch (EmptyTimeException e) {
-            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyTime(EVENT_ABBREVIATION);
         }
 
         return feedbackMessage;
@@ -181,11 +188,11 @@ public class TaskList {
             Deadline decodeResult = decodeDeadlineFromString(commandArgs);
             feedbackMessage = executeAddTask(decodeResult);
         } catch (DukeException e) {
-            feedbackMessage = getMessageForEmptyDescription(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyDescription(DEADLINE_ABBREVIATION);
         } catch (StringIndexOutOfBoundsException e) {
-            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyTime(DEADLINE_ABBREVIATION);
         } catch (EmptyTimeException e) {
-            feedbackMessage = getMessageForEmptyTime(TASK_TYPE);
+            feedbackMessage = getMessageForEmptyTime(DEADLINE_ABBREVIATION);
         }
 
         return feedbackMessage;
@@ -277,7 +284,7 @@ public class TaskList {
         String feedbackMessage = null;
 
         if (todoDescription.isEmpty()) {
-            feedbackMessage = getMessageForEmptyDescription(taskType);
+            feedbackMessage = getMessageForEmptyDescription(TODO_ABBREVIATION);
         } else {
             // Create a new Todo instance
             Todo todo = new Todo(todoDescription);
@@ -289,36 +296,46 @@ public class TaskList {
     /**
      * Returns a message when task description is not found.
      *
-     * @param taskType String stating which task type's description is missing.
+     * @param taskTypeAbbrev Abbreviation of task type.
      * @return Empty description message.
      */
-    public String getMessageForEmptyDescription(String taskType) {
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_EMPTY_DESCRIPTION + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), taskType);
+    public String getMessageForEmptyDescription(String taskTypeAbbrev) {
+        switch (taskTypeAbbrev) {
+        case DEADLINE_ABBREVIATION:
+            return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_DEADLINE_DESC);
+        case EVENT_ABBREVIATION:
+            return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_EVENT_DESC);
+        case TODO_ABBREVIATION:
+            return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_TODO_DESC);
+        default:
+            return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_DESC);
+        }
     }
 
     /**
      * Returns a message when date/time for deadline/event is not found.
      *
-     * @param taskType String stating which task type's date/time is missing.
+     * @param taskTypeAbbrev Abbreviation of task type.
      * @return Empty date/time message.
      */
-    public String getMessageForEmptyTime(String taskType) {
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_EMPTY_TIME + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), taskType);
+    public String getMessageForEmptyTime(String taskTypeAbbrev) {
+        switch (taskTypeAbbrev) {
+        case EVENT_ABBREVIATION:
+            return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_EVENT_TIME);
+        case DEADLINE_ABBREVIATION:
+            return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_DEADLINE_TIME);
+        default:
+            return String.format(MESSAGE_FORMAT, MESSAGE_EMPTY_TIME);
+        }
     }
 
     /**
      * Returns a message when user's command keyword does not belong to any valid keywords.
      *
-     * @return Invalid input message.
+     * @return Invalid command message.
      */
-    public String getMessageForInvalidInputWord() {
-        return HORIZONTAL_LINE + LS
-                + MESSAGE_INVALID_INPUT_WORD + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator();
+    public String getMessageForInvalidCommandWord() {
+        return String.format(MESSAGE_FORMAT, MESSAGE_INVALID_INPUT_WORD);
     }
 
     /**
@@ -333,28 +350,27 @@ public class TaskList {
         // Save updated tasks list to hard disk
         saveData(tasks);
 
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_ADD_TITLE + LS
+        String message = String.format(MESSAGE_ADD_TITLE + LS
                 + task.toString() + LS
-                + MESSAGE_NUMBER_OF_TASKS + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), getNumberOfTasks());
+                + MESSAGE_NUMBER_OF_TASKS, getNumberOfTasks());
+
+        return String.format(MESSAGE_FORMAT, message);
     }
 
     /**
      * Lists out tasks added so far with their status.
+     *
+     * @return Feedback message for listing out all tasks.
      */
     public String executeListAllTasks() {
-        String feedback = HORIZONTAL_LINE + LS
-                + MESSAGE_LIST_TITLE + System.lineSeparator();
+        String listingMessage = MESSAGE_LIST_TITLE;
 
-        // Iterate through tasks list and print each task with its status and description
         for (int i = 0; i < getNumberOfTasks(); i++) {
-            feedback += LINE_PREFIX + (i + 1) + SEPARATOR_TASK_ID_TASK_DESC
-                    + tasks.get(i).toString() + System.lineSeparator();
+            listingMessage += System.lineSeparator() + LINE_PREFIX + (i + 1) + SEPARATOR_TASK_ID_TASK_DESC
+                    + tasks.get(i).toString();
         }
 
-        feedback += HORIZONTAL_LINE + System.lineSeparator();
-        return feedback;
+        return String.format(MESSAGE_FORMAT, listingMessage);
     }
 
     /**
@@ -391,9 +407,7 @@ public class TaskList {
      * @return Message for invalid task ID.
      */
     public String getMessageForInvalidId() {
-        return HORIZONTAL_LINE + LS
-                + MESSAGE_INVALID_ID + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator();
+        return String.format(MESSAGE_FORMAT, MESSAGE_INVALID_ID);
     }
 
     /**
@@ -402,14 +416,7 @@ public class TaskList {
      * @return Message for invalid task ID.
      */
     public String getMessageForInvalidIdRange() {
-        /*
-         * Task ID displayed to user is task index in tasks list + 1
-         * because task index in list starts from 0
-         * while task ID displayed to user starts from 1.
-         */
-        return HORIZONTAL_LINE + LS
-                + MESSAGE_INVALID_ID_RANGE + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator();
+        return String.format(MESSAGE_FORMAT, MESSAGE_INVALID_ID_RANGE);
     }
 
     /**
@@ -419,10 +426,9 @@ public class TaskList {
      * @return Message for successfully mark task as done.
      */
     public String getMessageForSuccessfulMark(Task task) {
-        return HORIZONTAL_LINE + LS
-                + MESSAGE_DONE_TITLE + LS
-                + task.toString() + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator();
+        String message = MESSAGE_DONE_TITLE + LS + task.toString();
+
+        return String.format(MESSAGE_FORMAT, message);
     }
 
     /**
@@ -432,9 +438,9 @@ public class TaskList {
      * @return Duplicated marked as done message.
      */
     public String getMessageForDuplicatedMark(Task task) {
-        return String.format(HORIZONTAL_LINE + LS
-                + MESSAGE_DUPLICATED_MARK + System.lineSeparator()
-                + HORIZONTAL_LINE + System.lineSeparator(), task.getDescription());
+        String message = String.format(MESSAGE_DUPLICATED_MARK, task.getDescription());
+
+        return String.format(MESSAGE_FORMAT, message);
     }
 
     /**

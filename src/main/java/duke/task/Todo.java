@@ -1,6 +1,6 @@
 package duke.task;
 
-import static duke.constant.Constant.TODO_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
 
 public class Todo extends Task {
 

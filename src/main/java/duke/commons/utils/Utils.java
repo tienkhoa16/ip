@@ -1,8 +1,9 @@
-package duke.util;
+package duke.commons.utils;
 
-import static duke.constant.Constant.VERTICAL_BAR_REGREX;
+import static duke.commons.constants.Messages.VERTICAL_BAR_REGREX;
 
-public class Util {
+public class Utils {
+
     /**
      * Splits raw user input into command word and command arguments string.
      *
@@ -11,7 +12,8 @@ public class Util {
      */
     public static String[] splitCommandWordAndArgs(String rawUserInput) {
         String[] split = rawUserInput.trim().split("\\s+", 2);
-        return split.length == 2 ? split : new String[]{split[0], ""}; // else case: no parameters
+
+        return split.length == 2 ? split : new String[]{split[0], ""};
     }
 
     /**
