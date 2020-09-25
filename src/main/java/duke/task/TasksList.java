@@ -31,6 +31,8 @@ import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
 import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
 import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.commons.utils.Utils.convertToOneBased;
+import static duke.commons.utils.Utils.convertToZeroBased;
 import static duke.commons.utils.Utils.removePrefixSign;
 
 public class TasksList {
@@ -72,7 +74,7 @@ public class TasksList {
         int taskIndex = 0;
 
         try {
-            taskIndex = extractTaskIndexFromInputString(commandArgs);
+            taskIndex = convertToZeroBased(commandArgs);
             Task deletedTask = tasks.get(taskIndex);
 
             // Delete task from task list
@@ -327,8 +329,8 @@ public class TasksList {
         String listingMessage = MESSAGE_LIST_TITLE;
 
         for (int i = 0; i < getNumberOfTasks(); i++) {
-            listingMessage += System.lineSeparator() + LINE_PREFIX + (i + 1) + SEPARATOR_TASK_ID_TASK_DESC
-                    + tasks.get(i).toString();
+            listingMessage += System.lineSeparator() + LINE_PREFIX + convertToOneBased(i)
+                    + SEPARATOR_TASK_ID_TASK_DESC + tasks.get(i).toString();
         }
 
         return String.format(MESSAGE_FORMAT, listingMessage);
@@ -344,7 +346,7 @@ public class TasksList {
         int taskIndex = 0;
 
         try {
-            taskIndex = extractTaskIndexFromInputString(commandArgs);
+            taskIndex = convertToZeroBased(commandArgs);
 
             // Update status of task
             tasks.get(taskIndex).markAsDone();
@@ -399,18 +401,5 @@ public class TasksList {
         String message = String.format(MESSAGE_DUPLICATED_MARK, task.getDescription());
 
         return String.format(MESSAGE_FORMAT, message);
-    }
-
-    /**
-     * Converts task ID in user's command (starting from 1)
-     * to the corresponding task index  in tasks list (starting from 0).
-     * In the case of "done X" command,
-     * the command argument X is the task ID to be marked as done.
-     *
-     * @param commandArgs User's argument passed in the command.
-     * @return Task index.
-     */
-    public int extractTaskIndexFromInputString(String commandArgs) {
-        return Integer.parseInt(commandArgs) - 1;
     }
 }

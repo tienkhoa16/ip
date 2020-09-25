@@ -36,4 +36,23 @@ public class Utils {
     public static String removePrefixSign(String string, String sign) {
         return string.replace(sign, "").trim();
     }
+
+    /**
+     * Converts an integer in string representation from one-based numbering to zero-based numbering.
+     *
+     * @param index One-based integer in string representation to be converted.
+     * @return Integer with zero-based numbering.
+     */
+    public static int convertToZeroBased (String index) {
+        return Integer.parseInt(index) - 1;
+    }
+
+    /**
+     * Converts an integer from zero-based numbering to one-based numbering.
+     * @param index Zero-based integer to be converted.
+     * @return Integer with one-based numbering.
+     */
+    public static int convertToOneBased (int index) {
+        return index + 1;
+    }
 }
