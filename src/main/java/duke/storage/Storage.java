@@ -18,8 +18,6 @@ import java.util.Scanner;
 import static duke.commons.constants.DataFileConfig.PATH_TO_DATA_FILE;
 import static duke.commons.constants.DataFileConfig.PATH_TO_DATA_FOLDER;
 import static duke.commons.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
-import static duke.commons.constants.Messages.HORIZONTAL_LINE;
-import static duke.commons.constants.Messages.MESSAGE_CREATE_DATA_FOLDER;
 import static duke.commons.constants.Messages.MESSAGE_DATA_ERROR;
 import static duke.commons.constants.Messages.MESSAGE_DATA_FILE_NOT_FOUND;
 import static duke.commons.constants.Messages.MESSAGE_FORMAT;
@@ -28,7 +26,6 @@ import static duke.commons.constants.Messages.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
 import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
-import static duke.commons.utils.Utils.showResultToUser;
 
 public class Storage {
 
@@ -37,10 +34,8 @@ public class Storage {
      *
      * @return Tasks list from data file.
      */
-    public static TasksList loadData() {
+    public TasksList loadData() {
         TasksList tasks = new TasksList();
-
-        showResultToUser(HORIZONTAL_LINE);
 
         if (Files.exists(PATH_TO_DATA_FOLDER)) {
             // Create a File for the given file path
@@ -64,25 +59,21 @@ public class Storage {
                         tasks.getTasksList().add(Event.decodeTask(encodedTask));
                         break;
                     default:
-                        showResultToUser(MESSAGE_DATA_ERROR);
+                        System.out.println(MESSAGE_DATA_ERROR);
                         break;
                     }
                 }
-
-                System.out.print(tasks.executeListAllTasks());
             } catch (FileNotFoundException e) {
-                showResultToUser(MESSAGE_DATA_FILE_NOT_FOUND);
+                System.out.println(MESSAGE_DATA_FILE_NOT_FOUND);
 
                 createDataFile(PATH_TO_DATA_FILE);
             } catch (ArrayIndexOutOfBoundsException e) {
-                showResultToUser(MESSAGE_DATA_ERROR);
+                System.out.println(MESSAGE_DATA_ERROR);
             }
         } else {
             createDataFolder(PATH_TO_DATA_FOLDER);
             createDataFile(PATH_TO_DATA_FILE);
         }
-
-        showResultToUser(HORIZONTAL_LINE + System.lineSeparator());
 
         return tasks;
     }
@@ -92,12 +83,11 @@ public class Storage {
      *
      * @param pathToDataFile Path to data file.
      */
-    private static void createDataFile(Path pathToDataFile) {
+    private void createDataFile(Path pathToDataFile) {
         try {
             Files.createFile(pathToDataFile);
-            showResultToUser(MESSAGE_CREATE_DATA_FOLDER);
         } catch (IOException e) {
-            showResultToUser(MESSAGE_IO_EXCEPTION + e.getMessage());
+            System.out.println(MESSAGE_IO_EXCEPTION + e.getMessage());
         }
     }
 
@@ -106,11 +96,11 @@ public class Storage {
      *
      * @param pathToDataFolder Path to data file.
      */
-    private static void createDataFolder(Path pathToDataFolder) {
+    private void createDataFolder(Path pathToDataFolder) {
         try {
             Files.createDirectory(pathToDataFolder);
         } catch (IOException e) {
-            showResultToUser(MESSAGE_IO_EXCEPTION + e.getMessage());
+            System.out.println(MESSAGE_IO_EXCEPTION + e.getMessage());
         }
     }
 
@@ -119,7 +109,7 @@ public class Storage {
      *
      * @param tasks Tasks list.
      */
-    public static void saveData(ArrayList<Task> tasks) {
+    public void saveData(ArrayList<Task> tasks) {
         try {
             // Create a FileWriter in append mode
             FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());

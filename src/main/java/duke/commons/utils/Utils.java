@@ -27,15 +27,6 @@ public class Utils {
     }
 
     /**
-     * Shows a result message to the user.
-     *
-     * @param result Result message to be displayed.
-     */
-    public static void showResultToUser(String result) {
-        System.out.println(result);
-    }
-
-    /**
      * Removes a sign (/by, /at, etc.) from parameter string.
      *
      * @param string Parameter as a string.

@@ -1,4 +1,4 @@
-package duke.exception;
+package duke.exceptions;
 
 /**
  * Represents exception when deadline/event time is empty.

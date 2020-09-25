@@ -20,7 +20,9 @@ done 1000
 done -10
 done 1
 done xyz
-delete 2
+delete 1
+delete 1
+delete 1
 delete 0
 delete 100
 delete xyz

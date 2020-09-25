@@ -1,8 +1,7 @@
 import duke.commons.utils.Utils;
 import duke.storage.Storage;
 import duke.task.TasksList;
-
-import java.util.Scanner;
+import duke.ui.Ui;
 
 import static duke.commons.constants.CommandWords.COMMAND_BYE_WORD;
 import static duke.commons.constants.CommandWords.COMMAND_DEADLINE_WORD;
@@ -11,69 +10,48 @@ import static duke.commons.constants.CommandWords.COMMAND_DONE_WORD;
 import static duke.commons.constants.CommandWords.COMMAND_EVENT_WORD;
 import static duke.commons.constants.CommandWords.COMMAND_LIST_WORD;
 import static duke.commons.constants.CommandWords.COMMAND_TODO_WORD;
-import static duke.commons.constants.Messages.HORIZONTAL_LINE;
-import static duke.commons.constants.Messages.LINE_PREFIX;
 
 public class Duke {
+    private Storage storage;
+    private static TasksList tasks;
+    private Ui ui;
 
     /**
-     * This variable is declared for the whole class (instead of declaring it
-     * inside the getCommand() method to facilitate automated testing using
-     * the I/O redirection technique. If not, only the first line of the input
-     * text file will be processed.
+     * Constructs Duke object by instantiating Ui, Storage and TaskManager classes
+     * then loads saved data if any.
      */
-    public static final Scanner SCANNER = new Scanner(System.in);
-
-    /** List of all tasks */
-    protected static TasksList tasks;
+    public Duke() {
+        ui = new Ui();
+        storage = new Storage();
+        tasks = storage.loadData();
+    }
 
     public static void main(String[] args) {
-        // Initialize tasks list
-        tasks = Storage.loadData();
+        new Duke().run();
+    }
 
-        // Greet user
-        printHello();
-
+    private void runCommandLoop() {
         while (true) {
-            String userCommand = getCommand();
-            String feedback = replyCommand(userCommand);
-            Utils.showResultToUser(feedback);
+            String userCommand = ui.getCommand();
+            String feedback = executeCommand(userCommand);
+            ui.showResultToUser(feedback);
         }
     }
 
     /**
-     * Greets user.
+     * Runs Duke.
      */
-    public static void printHello() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println(LINE_PREFIX + "Hello dude! I'm Duke");
-        System.out.println(LINE_PREFIX + "How can I help you?");
-        System.out.println(HORIZONTAL_LINE + System.lineSeparator());
+    public void run() {
+        start();
+        runCommandLoop();
     }
 
     /**
-     * Farewells user.
+     * Starts up Duke with welcome message and past tasks list.
      */
-    public static void printFarewell() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println(LINE_PREFIX + "Bye buddy. Hope to see you again soon!");
-        System.out.println(HORIZONTAL_LINE);
-    }
-
-    /**
-     * Prompts for the command and reads the text entered by the user.
-     *
-     * @return Full line entered by the user.
-     */
-    public static String getCommand() {
-        System.out.print("Enter your command: ");
-        String inputLine = SCANNER.nextLine();
-        // Silently consume all blank lines
-        while (inputLine.trim().isEmpty()) {
-            System.out.print("Enter your command: ");
-            inputLine = SCANNER.nextLine();
-        }
-        return inputLine;
+    private void start() {
+        ui.printHello();
+        ui.showResultToUser(tasks.executeListAllTasks());
     }
 
     /**
@@ -82,7 +60,7 @@ public class Duke {
      * @param userInputString Raw input from user.
      * @return Feedback about how the command was executed.
      */
-    public static String replyCommand(String userInputString) {
+    public String executeCommand(String userInputString) {
 
         String[] commandTypeAndParams = Utils.splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[0].toLowerCase();
@@ -112,15 +90,15 @@ public class Duke {
     /**
      * Requests to terminate the program.
      */
-    public static void executeExitProgramRequest() {
+    public void executeExitProgramRequest() {
         exitProgram();
     }
 
     /**
      * Displays the farewell message and exits the runtime.
      */
-    public static void exitProgram() {
-        printFarewell();
+    public void exitProgram() {
+        ui.printFarewell();
         System.exit(0);
     }
 

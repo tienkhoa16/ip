@@ -1,7 +1,8 @@
 package duke.task;
 
-import duke.exception.DukeException;
-import duke.exception.EmptyTimeException;
+import duke.exceptions.DuplicatedMarkAsDoneException;
+import duke.exceptions.EmptyDescriptionException;
+import duke.exceptions.EmptyTimeException;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,6 @@ import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
 import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
 import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
 import static duke.commons.utils.Utils.removePrefixSign;
-import static duke.storage.Storage.saveData;
 
 public class TasksList {
 
@@ -78,9 +78,6 @@ public class TasksList {
             // Delete task from task list
             tasks.remove(taskIndex);
 
-            // Save updated tasks list to hard disk
-            saveData(tasks);
-
             return getMessageForSuccessfulDelete(deletedTask);
         } catch (IndexOutOfBoundsException e) {
             return getMessageForInvalidIdRange();
@@ -105,7 +102,7 @@ public class TasksList {
 
     /**
      * Adds a new event to tasks list.
-     * If event description or event date is missing, error feedback message is returned.
+     * If event description or event time is missing, error feedback message is returned.
      *
      * @param commandArgs Full command args string from the user.
      * @return Feedback display message for adding a new event.
@@ -115,7 +112,7 @@ public class TasksList {
         try {
             Event decodeResult = decodeEventFromString(commandArgs);
             feedbackMessage = executeAddTask(decodeResult);
-        } catch (DukeException e) {
+        } catch (EmptyDescriptionException e) {
             feedbackMessage = getMessageForEmptyDescription(EVENT_ABBREVIATION);
         } catch (StringIndexOutOfBoundsException e) {
             feedbackMessage = getMessageForEmptyTime(EVENT_ABBREVIATION);
@@ -131,10 +128,10 @@ public class TasksList {
      *
      * @param encoded string to be decoded.
      * @return Event object of description and time.
-     * @throws DukeException If event description is empty.
+     * @throws EmptyDescriptionException If event description is empty.
      * @throws EmptyTimeException If event time is empty.
      */
-    public Event decodeEventFromString(String encoded) throws DukeException, EmptyTimeException {
+    public Event decodeEventFromString(String encoded) throws EmptyDescriptionException, EmptyTimeException {
         Event decodedEvent = new Event(
                 extractDescriptionFromString(encoded),
                 extractTaskTimeFromString(encoded, EVENT_ABBREVIATION)
@@ -144,7 +141,7 @@ public class TasksList {
 
     /**
      * Adds a new deadline to tasks list.
-     * If deadline description or deadline date is missing, error feedback message is returned.
+     * If deadline description or deadline time is missing, error feedback message is returned.
      *
      * @param commandArgs Full command args string from the user.
      * @return Feedback display message for adding a new deadline.
@@ -155,7 +152,7 @@ public class TasksList {
         try {
             Deadline decodeResult = decodeDeadlineFromString(commandArgs);
             feedbackMessage = executeAddTask(decodeResult);
-        } catch (DukeException e) {
+        } catch (EmptyDescriptionException e) {
             feedbackMessage = getMessageForEmptyDescription(DEADLINE_ABBREVIATION);
         } catch (StringIndexOutOfBoundsException e) {
             feedbackMessage = getMessageForEmptyTime(DEADLINE_ABBREVIATION);
@@ -170,11 +167,11 @@ public class TasksList {
      * Decodes a deadline from it's supposed string representation.
      *
      * @param encoded string to be decoded.
-     * @return Deadline object of description and date.
-     * @throws DukeException If deadline description is empty.
+     * @return Deadline object of description and time.
+     * @throws EmptyDescriptionException If deadline description is empty.
      * @throws EmptyTimeException If deadline time is empty.
      */
-    public Deadline decodeDeadlineFromString(String encoded) throws DukeException, EmptyTimeException {
+    public Deadline decodeDeadlineFromString(String encoded) throws EmptyDescriptionException, EmptyTimeException {
         Deadline decodedDeadline = new Deadline(
                 extractDescriptionFromString(encoded),
                 extractTaskTimeFromString(encoded, DEADLINE_ABBREVIATION)
@@ -188,7 +185,7 @@ public class TasksList {
      * @param encoded String to be decoded.
      * @param taskTypeAbbrev Abbreviation of task type.
      * @return Task time argument WITHOUT prefix.
-     * @throws EmptyTimeException If deadline date is empty.
+     * @throws EmptyTimeException If deadline time is empty.
      */
     public String extractTaskTimeFromString(String encoded, Character taskTypeAbbrev) throws EmptyTimeException {
         String taskPrefix = "";
@@ -216,9 +213,9 @@ public class TasksList {
      *
      * @param encoded command arguments.
      * @return Task description.
-     * @throws DukeException If task description is empty.
+     * @throws EmptyDescriptionException If task description is empty.
      */
-    public String extractDescriptionFromString(String encoded) throws DukeException {
+    public String extractDescriptionFromString(String encoded) throws EmptyDescriptionException {
         int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
         int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
 
@@ -232,7 +229,7 @@ public class TasksList {
         String description = encoded.substring(0, indexOfExistingPrefix).trim();
 
         if (description.isEmpty()) {
-            throw new DukeException();
+            throw new EmptyDescriptionException();
         }
 
         return description;
@@ -280,10 +277,10 @@ public class TasksList {
     }
 
     /**
-     * Returns a message when date/time for deadline/event is not found.
+     * Returns a message when time for deadline/event is not found.
      *
      * @param taskTypeAbbrev Abbreviation of task type.
-     * @return Empty date/time message.
+     * @return Empty time message.
      */
     public String getMessageForEmptyTime(char taskTypeAbbrev) {
         switch (taskTypeAbbrev) {
@@ -313,9 +310,6 @@ public class TasksList {
      */
     public String executeAddTask(Task task) {
         tasks.add(task);
-
-        // Save updated tasks list to hard disk
-        saveData(tasks);
 
         String message = String.format(MESSAGE_ADD_TITLE + LS
                 + task.toString() + LS
@@ -355,11 +349,8 @@ public class TasksList {
             // Update status of task
             tasks.get(taskIndex).markAsDone();
 
-            // Save updated tasks list to hard disk
-            saveData(tasks);
-
             return getMessageForSuccessfulMark(tasks.get(taskIndex));
-        } catch (DukeException e) {
+        } catch (DuplicatedMarkAsDoneException e) {
             return getMessageForDuplicatedMark(tasks.get(taskIndex));
         } catch (IndexOutOfBoundsException e) {
             return getMessageForInvalidIdRange();

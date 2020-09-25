@@ -1,6 +1,6 @@
 package duke.task;
 
-import duke.exception.DukeException;
+import duke.exceptions.DuplicatedMarkAsDoneException;
 
 import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
@@ -59,11 +59,11 @@ public abstract class Task {
     /**
      * Marks task status as done.
      *
-     * @throws DukeException If task has been marked as done.
+     * @throws DuplicatedMarkAsDoneException If task has been marked as done.
      */
-    public void markAsDone() throws DukeException {
+    public void markAsDone() throws DuplicatedMarkAsDoneException {
         if (isDone) {
-            throw new DukeException();
+            throw new DuplicatedMarkAsDoneException();
         }
         isDone = true;
     }
