@@ -20,18 +20,8 @@ public final class Messages {
     public static final String MESSAGE_DATA_FILE_NOT_FOUND = LINE_PREFIX + "Data file not found.";
     public static final String MESSAGE_DELETE_TITLE = "Noted. I've removed this task:";
     public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
-    /** A common format for display message */
-    public static final String MESSAGE_FORMAT = HORIZONTAL_LINE + LS
-            + "%s" + System.lineSeparator()
-            + HORIZONTAL_LINE + System.lineSeparator();
     public static final String MESSAGE_LIST_TITLE = "Here are the tasks in your list:";
     public static final String MESSAGE_NUMBER_OF_TASKS = "Now you have %d tasks in the list.";
-    public static final String MESSAGE_ADD_ACK = MESSAGE_ADD_TITLE + LS
-            + "%s" + LS
-            + MESSAGE_NUMBER_OF_TASKS;
-    public static final String MESSAGE_DELETE_ACK = MESSAGE_DELETE_TITLE + LS
-            + "%s" + LS
-            + MESSAGE_NUMBER_OF_TASKS;
     public static final String SAD_FACE = "\u2639  OOPS!!! ";
     public static final String MESSAGE_INVALID_INPUT_WORD = SAD_FACE +
             "I'm sorry, but I don't know what that means :-(";
@@ -50,7 +40,7 @@ public final class Messages {
     public static final String MESSAGE_EMPTY_EVENT_TIME = SAD_FACE +
             "The date/time of an event cannot be empty.";
     public static final String MESSAGE_INVALID_ID_RANGE = SAD_FACE +
-            "Task ID is out of range";
+            "Task ID is out of range.";
     public static final String MESSAGE_DUPLICATED_MARK = SAD_FACE +
             "%s has been done earlier.";
     public static final String MESSAGE_INVALID_ID = SAD_FACE +
@@ -59,7 +49,18 @@ public final class Messages {
     public static final String MESSAGE_WRITE_FILE_UNSUCCESSFUL = SAD_FACE
             + "Unable to append %s to data file.";
 
+    /** A common format for display message */
+    public static final String MESSAGE_FORMAT = HORIZONTAL_LINE + LS
+            + "%s" + System.lineSeparator()
+            + HORIZONTAL_LINE + System.lineSeparator();
     public static final String LISTING_FORMAT = System.lineSeparator() + LINE_PREFIX + "%d. %s";
+    public static final String MESSAGE_DELETE_ACK = MESSAGE_DELETE_TITLE + LS
+            + "%s" + LS
+            + MESSAGE_NUMBER_OF_TASKS;
+    public static final String MESSAGE_ADD_ACK = MESSAGE_ADD_TITLE + LS
+            + "%s" + LS
+            + MESSAGE_NUMBER_OF_TASKS;
+    public static final String MESSAGE_DONE_ACK = MESSAGE_DONE_TITLE + LS + "%s";
 
     public static final String SEPARATOR_TASK_ID_TASK_DESC = ". ";
     public static final String VERTICAL_BAR = " | ";

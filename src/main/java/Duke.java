@@ -1,4 +1,5 @@
 import duke.commands.AddCommand;
+import duke.commands.DoneCommand;
 import duke.commands.ListCommand;
 import duke.commons.utils.Utils;
 import duke.exceptions.DukeException;
@@ -81,7 +82,7 @@ public class Duke {
         case COMMAND_LIST_WORD:
             return (new ListCommand()).execute(tasks, storage).toString();
         case COMMAND_DONE_WORD:
-            return tasks.executeMarkTaskAsDone(commandArgs);
+            return (new DoneCommand(commandArgs).execute(tasks, storage)).toString();
         case COMMAND_TODO_WORD:
             return (new AddCommand(TODO_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
         case COMMAND_DEADLINE_WORD:
