@@ -1,4 +1,5 @@
 import duke.commands.AddCommand;
+import duke.commands.DeleteCommand;
 import duke.commands.DoneCommand;
 import duke.commands.ListCommand;
 import duke.commons.utils.Utils;
@@ -90,7 +91,7 @@ public class Duke {
         case COMMAND_EVENT_WORD:
             return (new AddCommand(EVENT_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
         case COMMAND_DELETE_WORD:
-            return tasks.executeDeleteTask(commandArgs);
+            return (new DeleteCommand(commandArgs).execute(tasks, storage)).toString();
         case COMMAND_BYE_WORD:
             executeExitProgramRequest();
             // Fallthrough
