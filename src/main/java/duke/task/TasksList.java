@@ -1,13 +1,9 @@
 package duke.task;
 
-import duke.exceptions.DukeException;
 import duke.exceptions.DuplicatedMarkAsDoneException;
-import duke.exceptions.EmptyDescriptionException;
-import duke.exceptions.EmptyTimeException;
 
 import java.util.ArrayList;
 
-import static duke.commons.constants.Messages.LINE_PREFIX;
 import static duke.commons.constants.Messages.LS;
 import static duke.commons.constants.Messages.MESSAGE_DELETE_ACK;
 import static duke.commons.constants.Messages.MESSAGE_DONE_TITLE;
@@ -15,16 +11,7 @@ import static duke.commons.constants.Messages.MESSAGE_DUPLICATED_MARK;
 import static duke.commons.constants.Messages.MESSAGE_FORMAT;
 import static duke.commons.constants.Messages.MESSAGE_INVALID_ID;
 import static duke.commons.constants.Messages.MESSAGE_INVALID_ID_RANGE;
-import static duke.commons.constants.Messages.MESSAGE_LIST_TITLE;
-import static duke.commons.constants.Messages.SEPARATOR_TASK_ID_TASK_DESC;
-import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
-import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
-import static duke.commons.utils.Utils.convertToOneBased;
 import static duke.commons.utils.Utils.convertToZeroBased;
-import static duke.commons.utils.Utils.getMessageForEmptyTime;
-import static duke.commons.utils.Utils.removePrefixSign;
 
 public class TasksList {
 
@@ -89,22 +76,6 @@ public class TasksList {
         String message = String.format(MESSAGE_DELETE_ACK, task.toString(), getNumberOfTasks());
 
         return String.format(MESSAGE_FORMAT, message);
-    }
-
-    /**
-     * Lists out tasks added so far with their status.
-     *
-     * @return Feedback message for listing out all tasks.
-     */
-    public String executeListAllTasks() {
-        String listingMessage = MESSAGE_LIST_TITLE;
-
-        for (int i = 0; i < getNumberOfTasks(); i++) {
-            listingMessage += System.lineSeparator() + LINE_PREFIX + convertToOneBased(i)
-                    + SEPARATOR_TASK_ID_TASK_DESC + tasks.get(i).toString();
-        }
-
-        return String.format(MESSAGE_FORMAT, listingMessage);
     }
 
     /**

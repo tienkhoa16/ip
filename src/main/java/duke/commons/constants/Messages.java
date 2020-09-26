@@ -59,6 +59,8 @@ public final class Messages {
     public static final String MESSAGE_WRITE_FILE_UNSUCCESSFUL = SAD_FACE
             + "Unable to append %s to data file.";
 
+    public static final String LISTING_FORMAT = System.lineSeparator() + LINE_PREFIX + "%d. %s";
+
     public static final String SEPARATOR_TASK_ID_TASK_DESC = ". ";
     public static final String VERTICAL_BAR = " | ";
     public static final String VERTICAL_BAR_REGREX = " \\| ";

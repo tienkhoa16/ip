@@ -1,5 +1,5 @@
 import duke.commands.AddCommand;
-import duke.commands.CommandResult;
+import duke.commands.ListCommand;
 import duke.commons.utils.Utils;
 import duke.exceptions.DukeException;
 import duke.exceptions.InvalidCommandException;
@@ -17,7 +17,6 @@ import static duke.commons.constants.CommandWords.COMMAND_TODO_WORD;
 import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
-import static duke.commons.utils.Utils.getMessageForInvalidCommandWord;
 
 public class Duke {
     private Storage storage;
@@ -63,7 +62,7 @@ public class Duke {
      */
     private void start() {
         ui.printHello();
-        ui.showResultToUser(tasks.executeListAllTasks());
+        ui.showResultToUser((new ListCommand()).execute(tasks, storage).toString());
     }
 
     /**
@@ -80,7 +79,7 @@ public class Duke {
 
         switch (commandType) {
         case COMMAND_LIST_WORD:
-            return tasks.executeListAllTasks();
+            return (new ListCommand()).execute(tasks, storage).toString();
         case COMMAND_DONE_WORD:
             return tasks.executeMarkTaskAsDone(commandArgs);
         case COMMAND_TODO_WORD:

@@ -14,5 +14,5 @@ public abstract class Command {
      * @return Result of command execution.
      * @throws DukeException DukeException.
      */
-    public abstract CommandResult execute(TasksList tasks, Storage storage);
+    public abstract CommandResult execute(TasksList tasks, Storage storage) throws DukeException;
 }
