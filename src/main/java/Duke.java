@@ -21,7 +21,11 @@ public class Duke {
         ui = new Ui();
         storage = new Storage();
         parser = new Parser();
-        tasks = storage.loadData();
+        try {
+            tasks = storage.loadData();
+        } catch (DukeException e) {
+            ui.showResultToUser(e.getMessage());
+        }
     }
 
     /**

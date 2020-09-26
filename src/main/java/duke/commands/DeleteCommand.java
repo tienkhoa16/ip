@@ -1,5 +1,6 @@
 package duke.commands;
 
+import duke.exceptions.DukeException;
 import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TasksList;
@@ -44,6 +45,8 @@ public class DeleteCommand extends Command {
             String acknowledgeMsg = String.format(MESSAGE_DELETE_ACK, taskToDelete.toString(), numOfTasks);
 
             return new CommandResult(String.format(MESSAGE_FORMAT, acknowledgeMsg));
+        } catch (DukeException e) {
+            return new CommandResult(e.getMessage());
         } catch (IndexOutOfBoundsException e) {
             return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_ID_RANGE));
         } catch (NumberFormatException e) {

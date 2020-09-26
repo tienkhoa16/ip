@@ -1,5 +1,8 @@
 package duke.storage;
 
+import duke.exceptions.DukeException;
+import duke.exceptions.LoadingException;
+import duke.exceptions.SavingException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -17,10 +20,7 @@ import java.util.Scanner;
 import static duke.constants.DataFileConfig.PATH_TO_DATA_FILE;
 import static duke.constants.DataFileConfig.PATH_TO_DATA_FOLDER;
 import static duke.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
-import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_IO_EXCEPTION;
-import static duke.constants.Messages.MESSAGE_LOADING_ERROR;
-import static duke.constants.Messages.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
@@ -31,8 +31,9 @@ public class Storage {
      * Returns tasks list from data file.
      *
      * @return Tasks list from data file.
+     * @throws DukeException If there are exceptions while loading data.
      */
-    public TasksList loadData() {
+    public TasksList loadData() throws DukeException {
         TasksList tasks = new TasksList();
 
         if (Files.exists(PATH_TO_DATA_FOLDER)) {
@@ -57,14 +58,13 @@ public class Storage {
                         tasks.getTasksList().add(Event.decodeTask(encodedTask));
                         break;
                     default:
-                        System.out.println(MESSAGE_LOADING_ERROR);
-                        break;
+                        throw new LoadingException();
                     }
                 }
             } catch (FileNotFoundException e) {
                 createDataFile(PATH_TO_DATA_FILE);
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println(MESSAGE_LOADING_ERROR);
+                throw new LoadingException();
             }
         } else {
             createDataFolder(PATH_TO_DATA_FOLDER);
@@ -78,12 +78,13 @@ public class Storage {
      * Creates data file.
      *
      * @param pathToDataFile Path to data file.
+     * @throws DukeException If there are failed or interrupted I/O operations.
      */
-    private void createDataFile(Path pathToDataFile) {
+    private void createDataFile(Path pathToDataFile) throws DukeException {
         try {
             Files.createFile(pathToDataFile);
         } catch (IOException e) {
-            System.out.println(MESSAGE_IO_EXCEPTION + e.getMessage());
+            throw new DukeException(MESSAGE_IO_EXCEPTION + e.getMessage());
         }
     }
 
@@ -91,12 +92,13 @@ public class Storage {
      * Creates data folder.
      *
      * @param pathToDataFolder Path to data file.
+     * @throws DukeException If there are failed or interrupted I/O operations.
      */
-    private void createDataFolder(Path pathToDataFolder) {
+    private void createDataFolder(Path pathToDataFolder) throws DukeException {
         try {
             Files.createDirectory(pathToDataFolder);
         } catch (IOException e) {
-            System.out.println(MESSAGE_IO_EXCEPTION + e.getMessage());
+            throw new DukeException(MESSAGE_IO_EXCEPTION + e.getMessage());
         }
     }
 
@@ -104,8 +106,9 @@ public class Storage {
      * Saves tasks list data to hard disk when tasks list changes.
      *
      * @param tasks Tasks list managing all user's tasks.
+     * @throws SavingException If there are failed or interrupted I/O operations.
      */
-    public void saveData(TasksList tasks) {
+    public void saveData(TasksList tasks) throws SavingException {
         try {
             // Create a FileWriter in append mode
             FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());
@@ -115,8 +118,7 @@ public class Storage {
             }
             fw.close();
         } catch (IOException e) {
-            String errorMessage = String.format(MESSAGE_FORMAT, MESSAGE_WRITE_FILE_UNSUCCESSFUL);
-            System.out.print(errorMessage);
+            throw new SavingException();
         }
     }
 }
