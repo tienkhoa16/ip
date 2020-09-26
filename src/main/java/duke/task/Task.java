@@ -1,7 +1,11 @@
 package duke.task;
 
 import duke.exceptions.DuplicatedMarkAsDoneException;
+import duke.exceptions.EmptyDescriptionException;
 
+import static duke.commons.constants.Messages.AN_EVENT;
+import static duke.commons.constants.Messages.A_DEADLINE;
+import static duke.commons.constants.Messages.A_TODO;
 import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.TASK_DONE_ICON;
@@ -21,8 +25,19 @@ public abstract class Task {
      * By default, initially, task status is set as not done and task time is empty.
      *
      * @param description Task description.
+     * @throws EmptyDescriptionException If task description is empty.
      */
-    public Task(String description) {
+    public Task(String description) throws EmptyDescriptionException {
+        if (description.isEmpty()) {
+            if (this instanceof Todo) {
+                throw new EmptyDescriptionException(A_TODO);
+            } else if (this instanceof Deadline) {
+                throw new EmptyDescriptionException(A_DEADLINE);
+            } else if (this instanceof Event) {
+                throw new EmptyDescriptionException(AN_EVENT);
+            }
+        }
+
         this.description = description;
         isDone = false;
         time = "";
@@ -63,7 +78,7 @@ public abstract class Task {
      */
     public void markAsDone() throws DuplicatedMarkAsDoneException {
         if (isDone) {
-            throw new DuplicatedMarkAsDoneException();
+            throw new DuplicatedMarkAsDoneException(description);
         }
         isDone = true;
     }

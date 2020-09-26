@@ -9,6 +9,10 @@ public final class Messages {
     /** A platform independent line separator */
     public static final String LS = System.lineSeparator() + LINE_PREFIX;
 
+    public static final String A_TODO = "a todo";
+    public static final String A_DEADLINE = "a deadline";
+    public static final String AN_EVENT = "an event";
+
     public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
     public static final String MESSAGE_CREATE_DATA_FOLDER = LINE_PREFIX
             + "Created ./data/duke.txt to store future tasks data.";
@@ -22,11 +26,17 @@ public final class Messages {
             + HORIZONTAL_LINE + System.lineSeparator();
     public static final String MESSAGE_LIST_TITLE = "Here are the tasks in your list:";
     public static final String MESSAGE_NUMBER_OF_TASKS = "Now you have %d tasks in the list.";
+    public static final String MESSAGE_ADD_ACK = MESSAGE_ADD_TITLE + LS
+            + "%s" + LS
+            + MESSAGE_NUMBER_OF_TASKS;
+    public static final String MESSAGE_DELETE_ACK = MESSAGE_DELETE_TITLE + LS
+            + "%s" + LS
+            + MESSAGE_NUMBER_OF_TASKS;
     public static final String SAD_FACE = "\u2639  OOPS!!! ";
     public static final String MESSAGE_INVALID_INPUT_WORD = SAD_FACE +
             "I'm sorry, but I don't know what that means :-(";
-    public static final String MESSAGE_EMPTY_DESC = SAD_FACE +
-            "The description cannot be empty.";
+    public static final String MESSAGE_EMPTY_DESCRIPTION = SAD_FACE +
+            "The description of %s cannot be empty.";
     public static final String MESSAGE_EMPTY_TODO_DESC = SAD_FACE +
             "The description of a todo cannot be empty.";
     public static final String MESSAGE_EMPTY_EVENT_DESC = SAD_FACE +
@@ -34,7 +44,7 @@ public final class Messages {
     public static final String MESSAGE_EMPTY_DEADLINE_DESC = SAD_FACE +
             "The description of a deadline cannot be empty.";
     public static final String MESSAGE_EMPTY_TIME = SAD_FACE +
-            "The date/time of cannot be empty.";
+            "The date/time of %s cannot be empty.";
     public static final String MESSAGE_EMPTY_DEADLINE_TIME = SAD_FACE +
             "The date/time of a deadline cannot be empty.";
     public static final String MESSAGE_EMPTY_EVENT_TIME = SAD_FACE +

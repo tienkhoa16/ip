@@ -1,4 +1,8 @@
+import duke.commands.AddCommand;
+import duke.commands.CommandResult;
 import duke.commons.utils.Utils;
+import duke.exceptions.DukeException;
+import duke.exceptions.InvalidCommandException;
 import duke.storage.Storage;
 import duke.task.TasksList;
 import duke.ui.Ui;
@@ -10,6 +14,10 @@ import static duke.commons.constants.CommandWords.COMMAND_DONE_WORD;
 import static duke.commons.constants.CommandWords.COMMAND_EVENT_WORD;
 import static duke.commons.constants.CommandWords.COMMAND_LIST_WORD;
 import static duke.commons.constants.CommandWords.COMMAND_TODO_WORD;
+import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.commons.utils.Utils.getMessageForInvalidCommandWord;
 
 public class Duke {
     private Storage storage;
@@ -33,8 +41,12 @@ public class Duke {
     private void runCommandLoop() {
         while (true) {
             String userCommand = ui.getCommand();
-            String feedback = executeCommand(userCommand);
-            ui.showResultToUser(feedback);
+            try {
+                String feedback = executeCommand(userCommand);
+                ui.showResultToUser(feedback);
+            } catch (DukeException e) {
+                ui.showResultToUser(e.getMessage());
+            }
         }
     }
 
@@ -60,7 +72,7 @@ public class Duke {
      * @param userInputString Raw input from user.
      * @return Feedback about how the command was executed.
      */
-    public String executeCommand(String userInputString) {
+    public String executeCommand(String userInputString) throws DukeException {
 
         String[] commandTypeAndParams = Utils.splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[0].toLowerCase();
@@ -72,18 +84,18 @@ public class Duke {
         case COMMAND_DONE_WORD:
             return tasks.executeMarkTaskAsDone(commandArgs);
         case COMMAND_TODO_WORD:
-            return tasks.executeAddTodo(commandArgs);
+            return (new AddCommand(TODO_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
         case COMMAND_DEADLINE_WORD:
-            return tasks.executeAddDeadline(commandArgs);
+            return (new AddCommand(DEADLINE_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
         case COMMAND_EVENT_WORD:
-            return tasks.executeAddEvent(commandArgs);
+            return (new AddCommand(EVENT_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
         case COMMAND_DELETE_WORD:
             return tasks.executeDeleteTask(commandArgs);
         case COMMAND_BYE_WORD:
             executeExitProgramRequest();
             // Fallthrough
         default:
-            return tasks.getMessageForInvalidCommandWord();
+            throw new InvalidCommandException();
         }
     }
 

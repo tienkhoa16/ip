@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import static duke.commons.constants.DataFileConfig.PATH_TO_DATA_FILE;
@@ -107,14 +106,14 @@ public class Storage {
     /**
      * Saves tasks list data to hard disk when tasks list changes.
      *
-     * @param tasks Tasks list.
+     * @param tasks Tasks list managing all user's tasks.
      */
-    public void saveData(ArrayList<Task> tasks) {
+    public void saveData(TasksList tasks) {
         try {
             // Create a FileWriter in append mode
             FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());
 
-            for (Task task : tasks) {
+            for (Task task : tasks.getTasksList()) {
                 fw.write(task.encodeTask());
             }
             fw.close();

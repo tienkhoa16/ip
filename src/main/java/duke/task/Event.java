@@ -1,8 +1,13 @@
 package duke.task;
 
+import duke.exceptions.DukeException;
+import duke.exceptions.EmptyDescriptionException;
+import duke.exceptions.EmptyTimeException;
+
 import static duke.commons.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
 import static duke.commons.constants.DataFileConfig.TASK_STATUS_INDEX;
 import static duke.commons.constants.DataFileConfig.TASK_TIME_INDEX;
+import static duke.commons.constants.Messages.AN_EVENT;
 import static duke.commons.constants.Messages.VERTICAL_BAR;
 import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
@@ -15,9 +20,16 @@ public class Event extends Task {
      *
      * @param description Event description.
      * @param at Event time.
+     * @throws EmptyDescriptionException If task description is empty.
+     * @throws EmptyTimeException If task time is empty.
      */
-    public Event(String description, String at) {
+    public Event(String description, String at) throws EmptyDescriptionException, EmptyTimeException {
         super(description);
+
+        if (at.isEmpty()) {
+            throw new EmptyTimeException(AN_EVENT);
+        }
+
         time = at;
     }
 
@@ -57,10 +69,16 @@ public class Event extends Task {
         String taskDescription = taskTypeAndDetails[TASK_DESCRIPTION_INDEX];
         String taskTime = taskTypeAndDetails[TASK_TIME_INDEX];
 
-        Event decodedEvent = new Event(taskDescription, taskTime);
+        Event decodedEvent = null;
 
-        if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-            decodedEvent.isDone = true;
+        try {
+            decodedEvent = new Event(taskDescription, taskTime);
+
+            if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
+                decodedEvent.isDone = true;
+            }
+        } catch (DukeException e) {
+            System.out.println(e.getMessage());
         }
 
         return decodedEvent;

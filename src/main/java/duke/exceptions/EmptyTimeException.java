@@ -1,8 +1,12 @@
 package duke.exceptions;
 
+import static duke.commons.constants.Messages.MESSAGE_EMPTY_TIME;
+
 /**
  * Represents exception when deadline/event time is empty.
  */
-public class EmptyTimeException extends Exception {
-
+public class EmptyTimeException extends DukeException {
+    public EmptyTimeException(String taskType) {
+        super(String.format(MESSAGE_EMPTY_TIME, taskType));
+    }
 }

@@ -1,5 +1,8 @@
 package duke.task;
 
+import duke.exceptions.DukeException;
+import duke.exceptions.EmptyDescriptionException;
+
 import static duke.commons.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
 import static duke.commons.constants.DataFileConfig.TASK_STATUS_INDEX;
 import static duke.commons.constants.Messages.VERTICAL_BAR;
@@ -13,8 +16,9 @@ public class Todo extends Task {
      * Constructs a new Todo object inheriting from Task class.
      *
      * @param description Todo description.
+     * @throws EmptyDescriptionException If task description is empty.
      */
-    public Todo(String description) {
+    public Todo(String description) throws EmptyDescriptionException {
         super(description);
     }
 
@@ -53,10 +57,17 @@ public class Todo extends Task {
         String taskStatus = taskTypeAndDetails[TASK_STATUS_INDEX];
         String taskDescription = taskTypeAndDetails[TASK_DESCRIPTION_INDEX];
 
-        Todo decodedTodo = new Todo(taskDescription);
+        Todo decodedTodo = null;
 
-        if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-            decodedTodo.isDone = true;
+        try {
+            decodedTodo = new Todo(taskDescription);
+
+            if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
+                decodedTodo.isDone = true;
+            }
+
+        } catch (DukeException e) {
+            System.out.println(e.getMessage());
         }
 
         return decodedTodo;

@@ -1,8 +1,13 @@
 package duke.task;
 
+import duke.exceptions.DukeException;
+import duke.exceptions.EmptyDescriptionException;
+import duke.exceptions.EmptyTimeException;
+
 import static duke.commons.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
 import static duke.commons.constants.DataFileConfig.TASK_STATUS_INDEX;
 import static duke.commons.constants.DataFileConfig.TASK_TIME_INDEX;
+import static duke.commons.constants.Messages.A_DEADLINE;
 import static duke.commons.constants.Messages.VERTICAL_BAR;
 import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.commons.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
@@ -15,9 +20,16 @@ public class Deadline extends Task {
      *
      * @param description Deadline description.
      * @param by Deadline date.
+     * @throws EmptyDescriptionException If task description is empty.
+     * @throws EmptyTimeException If task time is empty.
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws EmptyDescriptionException, EmptyTimeException {
         super(description);
+
+        if (by.isEmpty()) {
+            throw new EmptyTimeException(A_DEADLINE);
+        }
+
         time = by;
     }
 
@@ -57,10 +69,16 @@ public class Deadline extends Task {
         String taskDescription = taskTypeAndDetails[TASK_DESCRIPTION_INDEX];
         String taskTime = taskTypeAndDetails[TASK_TIME_INDEX];
 
-        Deadline decodedDeadline = new Deadline(taskDescription, taskTime);
+        Deadline decodedDeadline = null;
 
-        if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-            decodedDeadline.isDone = true;
+        try {
+            decodedDeadline = new Deadline(taskDescription, taskTime);
+
+            if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
+                decodedDeadline.isDone = true;
+            }
+        } catch (DukeException e) {
+            System.out.println(e.getMessage());
         }
 
         return decodedDeadline;
