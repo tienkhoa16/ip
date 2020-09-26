@@ -1,6 +1,6 @@
 package duke.exceptions;
 
-import static duke.commons.constants.Messages.MESSAGE_DUPLICATED_MARK;
+import static duke.constants.Messages.MESSAGE_DUPLICATED_MARK;
 
 /**
  * Represents exception when task to be marked as done was marked as done previously.

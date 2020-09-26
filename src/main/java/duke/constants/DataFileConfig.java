@@ -1,4 +1,4 @@
-package duke.commons.constants;
+package duke.constants;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

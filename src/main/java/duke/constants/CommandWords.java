@@ -1,4 +1,4 @@
-package duke.commons.constants;
+package duke.constants;
 
 public final class CommandWords {
     public static final String COMMAND_BYE_WORD = "bye";

@@ -1,54 +1,36 @@
-import duke.commands.AddCommand;
-import duke.commands.DeleteCommand;
-import duke.commands.DoneCommand;
+import duke.commands.Command;
+import duke.commands.CommandResult;
+import duke.commands.ExitCommand;
 import duke.commands.ListCommand;
-import duke.commons.utils.Utils;
 import duke.exceptions.DukeException;
-import duke.exceptions.InvalidCommandException;
+import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TasksList;
 import duke.ui.Ui;
 
-import static duke.commons.constants.CommandWords.COMMAND_BYE_WORD;
-import static duke.commons.constants.CommandWords.COMMAND_DEADLINE_WORD;
-import static duke.commons.constants.CommandWords.COMMAND_DELETE_WORD;
-import static duke.commons.constants.CommandWords.COMMAND_DONE_WORD;
-import static duke.commons.constants.CommandWords.COMMAND_EVENT_WORD;
-import static duke.commons.constants.CommandWords.COMMAND_LIST_WORD;
-import static duke.commons.constants.CommandWords.COMMAND_TODO_WORD;
-import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
-
 public class Duke {
-    private Storage storage;
-    private static TasksList tasks;
     private Ui ui;
+    private Storage storage;
+    private Parser parser;
+    private TasksList tasks;
 
     /**
-     * Constructs Duke object by instantiating Ui, Storage and TaskManager classes
-     * then loads saved data if any.
+     * Constructs Duke object.
      */
     public Duke() {
         ui = new Ui();
         storage = new Storage();
+        parser = new Parser();
         tasks = storage.loadData();
     }
 
+    /**
+     * Main entry point to run Duke.
+     *
+     * @param args Unused in Duke.
+     */
     public static void main(String[] args) {
         new Duke().run();
-    }
-
-    private void runCommandLoop() {
-        while (true) {
-            String userCommand = ui.getCommand();
-            try {
-                String feedback = executeCommand(userCommand);
-                ui.showResultToUser(feedback);
-            } catch (DukeException e) {
-                ui.showResultToUser(e.getMessage());
-            }
-        }
     }
 
     /**
@@ -57,62 +39,39 @@ public class Duke {
     public void run() {
         start();
         runCommandLoop();
+        exit();
     }
 
     /**
-     * Starts up Duke with welcome message and past tasks list.
+     * Starts up Duke with welcome message and shows past tasks list.
      */
     private void start() {
-        ui.printHello();
+        ui.greetUser();
         ui.showResultToUser((new ListCommand()).execute(tasks, storage).toString());
     }
 
     /**
-     * Replies to user's command.
-     *
-     * @param userInputString Raw input from user.
-     * @return Feedback about how the command was executed.
+     * Gets user's command and executes repeatedly until user requests to exit Duke.
      */
-    public String executeCommand(String userInputString) throws DukeException {
+    private void runCommandLoop() {
+        Command command = null;
 
-        String[] commandTypeAndParams = Utils.splitCommandWordAndArgs(userInputString);
-        String commandType = commandTypeAndParams[0].toLowerCase();
-        String commandArgs = commandTypeAndParams[1];
-
-        switch (commandType) {
-        case COMMAND_LIST_WORD:
-            return (new ListCommand()).execute(tasks, storage).toString();
-        case COMMAND_DONE_WORD:
-            return (new DoneCommand(commandArgs).execute(tasks, storage)).toString();
-        case COMMAND_TODO_WORD:
-            return (new AddCommand(TODO_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
-        case COMMAND_DEADLINE_WORD:
-            return (new AddCommand(DEADLINE_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
-        case COMMAND_EVENT_WORD:
-            return (new AddCommand(EVENT_ABBREVIATION, commandArgs)).execute(tasks, storage).toString();
-        case COMMAND_DELETE_WORD:
-            return (new DeleteCommand(commandArgs).execute(tasks, storage)).toString();
-        case COMMAND_BYE_WORD:
-            executeExitProgramRequest();
-            // Fallthrough
-        default:
-            throw new InvalidCommandException();
-        }
+        do {
+            try {
+                String userCommand = ui.getCommand();
+                command = parser.parseCommand(userCommand);
+                CommandResult result = command.execute(tasks, storage);
+                ui.showResultToUser(result.toString());
+            } catch (DukeException e) {
+                ui.showResultToUser(e.getMessage());
+            }
+        } while (!ExitCommand.isExit(command));
     }
 
     /**
-     * Requests to terminate the program.
+     * Exits the runtime.
      */
-    public void executeExitProgramRequest() {
-        exitProgram();
-    }
-
-    /**
-     * Displays the farewell message and exits the runtime.
-     */
-    public void exitProgram() {
-        ui.printFarewell();
+    private void exit() {
         System.exit(0);
     }
-
 }

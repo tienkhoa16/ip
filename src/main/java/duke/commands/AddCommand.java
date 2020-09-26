@@ -11,25 +11,23 @@ import duke.task.Task;
 import duke.task.TasksList;
 import duke.task.Todo;
 
-import static duke.commons.constants.Messages.AN_EVENT;
-import static duke.commons.constants.Messages.A_DEADLINE;
-import static duke.commons.constants.Messages.MESSAGE_ADD_ACK;
-import static duke.commons.constants.Messages.MESSAGE_FORMAT;
-import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
-import static duke.commons.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
-import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
-import static duke.commons.utils.Utils.removePrefixSign;
+import static duke.constants.TaskConstants.AN_EVENT;
+import static duke.constants.TaskConstants.A_DEADLINE;
+import static duke.constants.Messages.MESSAGE_ADD_ACK;
+import static duke.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
+import static duke.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
+import static duke.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.parser.Parser.removePrefixSign;
 
 public class AddCommand extends Command {
-    /** Task type of the task to be added. */
     private char taskTypeAbbrev;
-    /** Description of the task to be added. */
     private String description;
 
     /**
-     * Public constructor for class.
+     * Constructs AddCommand object inheriting from Command class.
      *
      * @param taskTypeAbbrev Task type abbreviation of the task to be added.
      * @param description Description of the task to be added.
@@ -80,7 +78,7 @@ public class AddCommand extends Command {
     }
 
     /**
-     * Executes the add command.
+     * Overrides execute method of class Command to execute the add command.
      *
      * @param tasks Task list.
      * @param storage Storage.
@@ -119,7 +117,7 @@ public class AddCommand extends Command {
         /*
          * Description is leading substring up to data prefix string.
          * If prefix of deadline exists (indexOfDeadlinePrefix >= 0),
-         * prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
+         * then prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
          */
         int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
 

@@ -3,16 +3,16 @@ package duke.task;
 import duke.exceptions.DuplicatedMarkAsDoneException;
 import duke.exceptions.EmptyDescriptionException;
 
-import static duke.commons.constants.Messages.AN_EVENT;
-import static duke.commons.constants.Messages.A_DEADLINE;
-import static duke.commons.constants.Messages.A_TODO;
-import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.TASK_DONE_ICON;
-import static duke.commons.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
-import static duke.commons.constants.TaskConstants.TASK_UNDONE_ICON;
-import static duke.commons.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
-import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.constants.TaskConstants.AN_EVENT;
+import static duke.constants.TaskConstants.A_DEADLINE;
+import static duke.constants.TaskConstants.A_TODO;
+import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.constants.TaskConstants.TASK_DONE_ICON;
+import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
+import static duke.constants.TaskConstants.TASK_UNDONE_ICON;
+import static duke.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
+import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
 public abstract class Task {
 

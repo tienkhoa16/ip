@@ -1,6 +1,6 @@
 package duke.exceptions;
 
-import static duke.commons.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.Messages.MESSAGE_FORMAT;
 
 /**
  * Base class for the checked exceptions in Duke.

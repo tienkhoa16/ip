@@ -1,6 +1,9 @@
-package duke.commons.constants;
+package duke.constants;
 
 public final class TaskConstants {
+    public static final String AN_EVENT = "an event";
+    public static final String A_DEADLINE = "a deadline";
+    public static final String A_TODO = "a todo";
     public static final char DEADLINE_ABBREVIATION = 'D';
     public static final char EVENT_ABBREVIATION = 'E';
     /** These are the prefix strings to define the data type of a command parameter */

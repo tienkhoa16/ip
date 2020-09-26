@@ -1,6 +1,6 @@
 package duke.exceptions;
 
-import static duke.commons.constants.Messages.MESSAGE_EMPTY_TIME;
+import static duke.constants.Messages.MESSAGE_EMPTY_TIME;
 
 /**
  * Represents exception when deadline/event time is empty.

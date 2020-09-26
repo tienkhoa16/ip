@@ -1,6 +1,6 @@
 package duke.exceptions;
 
-import static duke.commons.constants.Messages.MESSAGE_INVALID_INPUT_WORD;
+import static duke.constants.Messages.MESSAGE_INVALID_INPUT_WORD;
 
 /**
  * Represents exception when command is invalid.

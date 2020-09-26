@@ -4,14 +4,14 @@ import duke.exceptions.DukeException;
 import duke.exceptions.EmptyDescriptionException;
 import duke.exceptions.EmptyTimeException;
 
-import static duke.commons.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
-import static duke.commons.constants.DataFileConfig.TASK_STATUS_INDEX;
-import static duke.commons.constants.DataFileConfig.TASK_TIME_INDEX;
-import static duke.commons.constants.Messages.A_DEADLINE;
-import static duke.commons.constants.Messages.VERTICAL_BAR;
-import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
-import static duke.commons.utils.Utils.splitTaskFromDataLine;
+import static duke.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
+import static duke.constants.DataFileConfig.TASK_STATUS_INDEX;
+import static duke.constants.DataFileConfig.TASK_TIME_INDEX;
+import static duke.constants.TaskConstants.A_DEADLINE;
+import static duke.constants.Messages.VERTICAL_BAR;
+import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
+import static duke.parser.Parser.splitTaskFromDataLine;
 
 public class Deadline extends Task {
 

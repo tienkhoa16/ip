@@ -2,8 +2,8 @@ package duke.ui;
 
 import java.util.Scanner;
 
-import static duke.commons.constants.Messages.HORIZONTAL_LINE;
-import static duke.commons.constants.Messages.LINE_PREFIX;
+import static duke.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.Messages.MESSAGE_WELCOME;
 
 public class Ui {
 
@@ -27,20 +27,8 @@ public class Ui {
     /**
      * Greets user.
      */
-    public void printHello() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println(LINE_PREFIX + "Hello dude! I'm Duke");
-        System.out.println(LINE_PREFIX + "How can I help you?");
-        System.out.println(HORIZONTAL_LINE + System.lineSeparator());
-    }
-
-    /**
-     * Farewells user.
-     */
-    public void printFarewell() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println(LINE_PREFIX + "Bye buddy. Hope to see you again soon!");
-        System.out.println(HORIZONTAL_LINE);
+    public void greetUser() {
+        showResultToUser(String.format(MESSAGE_FORMAT, MESSAGE_WELCOME));
     }
 
     /**
@@ -50,12 +38,15 @@ public class Ui {
      */
     public String getCommand() {
         System.out.print("Enter your command: ");
+
         String inputLine = SCANNER.nextLine();
+
         // Silently consume all blank lines
         while (inputLine.trim().isEmpty()) {
             System.out.print("Enter your command: ");
             inputLine = SCANNER.nextLine();
         }
+
         return inputLine;
     }
 }

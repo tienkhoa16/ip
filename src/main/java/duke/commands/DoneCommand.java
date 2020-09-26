@@ -5,17 +5,17 @@ import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TasksList;
 
-import static duke.commons.constants.Messages.MESSAGE_DONE_ACK;
-import static duke.commons.constants.Messages.MESSAGE_FORMAT;
-import static duke.commons.constants.Messages.MESSAGE_INVALID_ID;
-import static duke.commons.constants.Messages.MESSAGE_INVALID_ID_RANGE;
-import static duke.commons.utils.Utils.convertToZeroBased;
+import static duke.constants.Messages.MESSAGE_DONE_ACK;
+import static duke.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.Messages.MESSAGE_INVALID_ID;
+import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
+import static duke.parser.Parser.convertToZeroBased;
 
 public class DoneCommand extends Command {
     private String index;
 
     /**
-     * Public constructor for class.
+     * Constructs DoneCommand object inheriting from Command class.
      *
      * @param index Index in one-based of the task to be marked as done.
      */
@@ -24,7 +24,7 @@ public class DoneCommand extends Command {
     }
 
     /**
-     * Executes the mark task as done command requested by user's input.
+     * Overrides execute method of class Command to execute the mark task as done command requested by user's input.
      *
      * @param tasks Tasks list managing all user's tasks.
      * @param storage Storage to save data when required.

@@ -14,17 +14,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-import static duke.commons.constants.DataFileConfig.PATH_TO_DATA_FILE;
-import static duke.commons.constants.DataFileConfig.PATH_TO_DATA_FOLDER;
-import static duke.commons.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
-import static duke.commons.constants.Messages.MESSAGE_DATA_ERROR;
-import static duke.commons.constants.Messages.MESSAGE_DATA_FILE_NOT_FOUND;
-import static duke.commons.constants.Messages.MESSAGE_FORMAT;
-import static duke.commons.constants.Messages.MESSAGE_IO_EXCEPTION;
-import static duke.commons.constants.Messages.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
-import static duke.commons.constants.TaskConstants.DEADLINE_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.EVENT_ABBREVIATION;
-import static duke.commons.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.constants.DataFileConfig.PATH_TO_DATA_FILE;
+import static duke.constants.DataFileConfig.PATH_TO_DATA_FOLDER;
+import static duke.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
+import static duke.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.Messages.MESSAGE_IO_EXCEPTION;
+import static duke.constants.Messages.MESSAGE_LOADING_ERROR;
+import static duke.constants.Messages.MESSAGE_WRITE_FILE_UNSUCCESSFUL;
+import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
 public class Storage {
 
@@ -58,16 +57,14 @@ public class Storage {
                         tasks.getTasksList().add(Event.decodeTask(encodedTask));
                         break;
                     default:
-                        System.out.println(MESSAGE_DATA_ERROR);
+                        System.out.println(MESSAGE_LOADING_ERROR);
                         break;
                     }
                 }
             } catch (FileNotFoundException e) {
-                System.out.println(MESSAGE_DATA_FILE_NOT_FOUND);
-
                 createDataFile(PATH_TO_DATA_FILE);
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println(MESSAGE_DATA_ERROR);
+                System.out.println(MESSAGE_LOADING_ERROR);
             }
         } else {
             createDataFolder(PATH_TO_DATA_FOLDER);

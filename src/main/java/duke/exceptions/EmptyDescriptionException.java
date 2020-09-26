@@ -1,6 +1,6 @@
 package duke.exceptions;
 
-import static duke.commons.constants.Messages.MESSAGE_EMPTY_DESCRIPTION;
+import static duke.constants.Messages.MESSAGE_EMPTY_DESCRIPTION;
 
 /**
  * Represents exception when task description is empty.

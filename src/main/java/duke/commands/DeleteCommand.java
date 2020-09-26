@@ -4,17 +4,17 @@ import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TasksList;
 
-import static duke.commons.constants.Messages.MESSAGE_DELETE_ACK;
-import static duke.commons.constants.Messages.MESSAGE_FORMAT;
-import static duke.commons.constants.Messages.MESSAGE_INVALID_ID;
-import static duke.commons.constants.Messages.MESSAGE_INVALID_ID_RANGE;
-import static duke.commons.utils.Utils.convertToZeroBased;
+import static duke.constants.Messages.MESSAGE_DELETE_ACK;
+import static duke.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.Messages.MESSAGE_INVALID_ID;
+import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
+import static duke.parser.Parser.convertToZeroBased;
 
 public class DeleteCommand extends Command {
     private String index;
 
     /**
-     * Public constructor for class.
+     * Constructs DeleteCommand object inheriting from Command class.
      *
      * @param index Index in one-based of the task to be deleted.
      */
@@ -23,7 +23,7 @@ public class DeleteCommand extends Command {
     }
 
     /**
-     * Executes the delete task command requested by user's input.
+     * Overrides execute method of class Command to execute the delete task command requested by user's input.
      *
      * @param tasks Tasks list managing all user's tasks.
      * @param storage Storage to save data when required.

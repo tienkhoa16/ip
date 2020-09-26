@@ -4,21 +4,22 @@ import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TasksList;
 
-import static duke.commons.constants.Messages.LISTING_FORMAT;
-import static duke.commons.constants.Messages.MESSAGE_FORMAT;
-import static duke.commons.constants.Messages.MESSAGE_LIST_TITLE;
-import static duke.commons.utils.Utils.convertToOneBased;
+import static duke.constants.Messages.LISTING_FORMAT;
+import static duke.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.Messages.MESSAGE_LIST_TITLE;
+import static duke.parser.Parser.convertToOneBased;
 
 public class ListCommand extends Command {
+
     /**
-     * Public constructor for class.
+     * Constructs ListCommand object inheriting from Command class.
      */
     public ListCommand() {
         super();
     }
 
     /**
-     * Executes the listing tasks list command requested by user's input.
+     * Overrides execute method of class Command to execute the listing tasks list command requested by user's input.
      *
      * @param tasks Tasks list managing all user's tasks.
      * @param storage Storage to save data when required.
