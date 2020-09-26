@@ -3,6 +3,7 @@ import duke.commands.CommandResult;
 import duke.commands.ExitCommand;
 import duke.commands.ListCommand;
 import duke.exceptions.DukeException;
+import duke.exceptions.ExceptionHandler;
 import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TasksList;
@@ -13,6 +14,7 @@ public class Duke {
     private Storage storage;
     private Parser parser;
     private TasksList tasks;
+    private ExceptionHandler exceptionHandler;
 
     /**
      * Constructs Duke object.
@@ -21,10 +23,14 @@ public class Duke {
         ui = new Ui();
         storage = new Storage();
         parser = new Parser();
+        exceptionHandler = new ExceptionHandler();
+
         try {
             tasks = storage.loadData();
         } catch (DukeException e) {
-            ui.showResultToUser(e.getMessage());
+            ui.showResultToUser(exceptionHandler.handleCheckedExceptions(e));
+        } catch (Exception e) {
+            ui.showResultToUser(exceptionHandler.handleUncheckedExceptions(e));
         }
     }
 
@@ -67,7 +73,9 @@ public class Duke {
                 CommandResult result = command.execute(tasks, storage);
                 ui.showResultToUser(result.toString());
             } catch (DukeException e) {
-                ui.showResultToUser(e.getMessage());
+                ui.showResultToUser(exceptionHandler.handleCheckedExceptions(e));
+            } catch (Exception e) {
+                ui.showResultToUser(exceptionHandler.handleUncheckedExceptions(e));
             }
         } while (!ExitCommand.isExit(command));
     }
