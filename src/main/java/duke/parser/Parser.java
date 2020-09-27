@@ -11,6 +11,9 @@ import duke.exceptions.EmptyKeywordException;
 import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static duke.constants.CommandWords.COMMAND_BYE_WORD;
 import static duke.constants.CommandWords.COMMAND_DEADLINE_WORD;
 import static duke.constants.CommandWords.COMMAND_DELETE_WORD;
@@ -26,6 +29,8 @@ import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
 import static duke.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
+import static duke.constants.TaskConstants.TASK_INPUT_DATE_TIME_FORMAT;
+import static duke.constants.TaskConstants.TASK_OUTPUT_DATE_TIME_FORMAT;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
 public class Parser {
@@ -60,7 +65,6 @@ public class Parser {
             return new FindCommand(commandArgs);
         case COMMAND_BYE_WORD:
             return new ExitCommand();
-        // Fallthrough
         default:
             throw new InvalidCommandException();
         }
@@ -78,6 +82,35 @@ public class Parser {
         return split.length == 2 ? split : new String[]{split[0], ""};
     }
 
+    /**
+     * Converts date and time in string format to LocalDateTime format.
+     *
+     * @param string Date and time in string format.
+     * @return Date and time in LocalDateTime format.
+     */
+    public static LocalDateTime stringToDateTime(String string) {
+        return LocalDateTime.parse(string, DateTimeFormatter.ofPattern(TASK_INPUT_DATE_TIME_FORMAT));
+    }
+
+    /**
+     * Converts date and time in LocalDateTime format to string format.
+     *
+     * @param dateTime Date and time in LocalDateTime format.
+     * @return Date and time in string format.
+     */
+    public static String dateTimeToString(LocalDateTime dateTime) {
+        return dateTime.format(DateTimeFormatter.ofPattern(TASK_OUTPUT_DATE_TIME_FORMAT));
+    }
+
+    /**
+     * Parses input user's data and time format.
+     *
+     * @param stringFormatDateTime Input user's date and time format.
+     * @return Parsed date and time format.
+     */
+    public static String parseStringFormatDateTime(String stringFormatDateTime) {
+        return dateTimeToString(stringToDateTime(stringFormatDateTime));
+    }
 
     /**
      * Extracts substring representing task activity description from command arguments.
@@ -103,16 +136,13 @@ public class Parser {
             if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
                 throw new EmptyTimeException(A_DEADLINE);
             }
-            if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
+            if (taskTypeAbbrev.equals(EVENT_ABBREVIATION)) {
                 throw new EmptyTimeException(AN_EVENT);
             }
         }
 
-        String activity = encoded.substring(0, indexOfExistingPrefix).trim();
-
-        return activity;
+        return encoded.substring(0, indexOfExistingPrefix).trim();
     }
-
 
     /**
      * Extracts substring representing task time from command arguments.
