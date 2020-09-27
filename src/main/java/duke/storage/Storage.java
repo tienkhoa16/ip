@@ -23,6 +23,9 @@ import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
+/**
+ * A class that deals with loading tasks from the data file and saving tasks in the data file.
+ */
 public class Storage {
 
     /**

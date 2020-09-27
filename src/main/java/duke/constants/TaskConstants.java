@@ -1,5 +1,8 @@
 package duke.constants;
 
+/**
+ * Constants related to task specifications.
+ */
 public final class TaskConstants {
     public static final String AN_EVENT = "an event";
     public static final String A_DEADLINE = "a deadline";

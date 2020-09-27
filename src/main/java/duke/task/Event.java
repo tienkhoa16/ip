@@ -5,6 +5,9 @@ import duke.exceptions.EmptyTimeException;
 
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 
+/**
+ * A representation of an event task.
+ */
 public class Event extends TaskWithDateTime {
 
     /**

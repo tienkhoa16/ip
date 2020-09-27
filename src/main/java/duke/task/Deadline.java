@@ -5,6 +5,9 @@ import duke.exceptions.EmptyTimeException;
 
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 
+/**
+ * A representation of a deadline task.
+ */
 public class Deadline extends TaskWithDateTime {
 
     /**

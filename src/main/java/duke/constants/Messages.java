@@ -1,5 +1,8 @@
 package duke.constants;
 
+/**
+ * Messages shown in Duke application.
+ */
 public final class Messages {
 
     /** A decorative prefix added to the beginning of lines */
@@ -40,7 +43,7 @@ public final class Messages {
             + "How can I help you?";
     public static final String MESSAGE_EXIT = "Bye buddy. Hope to see you again soon!";
 
-    /** A common format for display message */
+    /** A common format for displaying message */
     public static final String MESSAGE_FORMAT = HORIZONTAL_LINE + LS
             + "%s" + System.lineSeparator()
             + HORIZONTAL_LINE + System.lineSeparator();

@@ -4,6 +4,9 @@ import duke.exceptions.EmptyDescriptionException;
 
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
+/**
+ * A representation of a todo task.
+ */
 public class Todo extends Task {
 
     /**

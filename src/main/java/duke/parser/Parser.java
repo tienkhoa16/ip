@@ -33,6 +33,9 @@ import static duke.constants.TaskConstants.TASK_INPUT_DATE_TIME_FORMAT;
 import static duke.constants.TaskConstants.TASK_OUTPUT_DATE_TIME_FORMAT;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
+/**
+ * A class that deals with making sense of the user input.
+ */
 public class Parser {
 
     /**

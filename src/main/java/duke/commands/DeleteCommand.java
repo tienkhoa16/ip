@@ -11,13 +11,17 @@ import static duke.constants.Messages.MESSAGE_INVALID_ID;
 import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
 import static duke.parser.Parser.convertToZeroBased;
 
+/**
+ * A representation of the command for deleting a task from the list.
+ */
 public class DeleteCommand extends Command {
+    /** Index in one-based numbering of the task to be deleted */
     private String index;
 
     /**
      * Constructs DeleteCommand object inheriting from Command class.
      *
-     * @param index Index in one-based of the task to be deleted.
+     * @param index Index in one-based numbering of the task to be deleted.
      */
     public DeleteCommand(String index) {
         this.index = index;

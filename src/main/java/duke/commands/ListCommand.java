@@ -9,6 +9,9 @@ import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_LIST_TITLE;
 import static duke.parser.Parser.convertToOneBased;
 
+/**
+ * A representation of the command for listing tasks list.
+ */
 public class ListCommand extends Command {
 
     /**

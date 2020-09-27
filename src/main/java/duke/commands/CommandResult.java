@@ -1,6 +1,10 @@
 package duke.commands;
 
+/**
+ * Result shown to user after executing the requested command.
+ */
 public class CommandResult {
+    /** Feedback message showing the result user */
     private String feedbackMessage;
 
     /**
