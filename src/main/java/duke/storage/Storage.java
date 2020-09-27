@@ -37,7 +37,7 @@ public class Storage {
         TasksList tasks = new TasksList();
 
         if (Files.exists(PATH_TO_DATA_FOLDER)) {
-            // Create a File for the given file path
+            // Create a File in the given file path
             File file = new File(PATH_TO_DATA_FILE.toString());
 
             try {
@@ -110,7 +110,6 @@ public class Storage {
      */
     public void saveData(TasksList tasks) throws SavingException {
         try {
-            // Create a FileWriter in append mode
             FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());
 
             for (Task task : tasks.getTasksList()) {
