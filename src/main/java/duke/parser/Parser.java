@@ -5,7 +5,9 @@ import duke.commands.Command;
 import duke.commands.DeleteCommand;
 import duke.commands.DoneCommand;
 import duke.commands.ExitCommand;
+import duke.commands.FindCommand;
 import duke.commands.ListCommand;
+import duke.exceptions.EmptyKeywordException;
 import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandException;
 
@@ -17,6 +19,7 @@ import static duke.constants.CommandWords.COMMAND_DEADLINE_WORD;
 import static duke.constants.CommandWords.COMMAND_DELETE_WORD;
 import static duke.constants.CommandWords.COMMAND_DONE_WORD;
 import static duke.constants.CommandWords.COMMAND_EVENT_WORD;
+import static duke.constants.CommandWords.COMMAND_FIND_WORD;
 import static duke.constants.CommandWords.COMMAND_LIST_WORD;
 import static duke.constants.CommandWords.COMMAND_TODO_WORD;
 import static duke.constants.Messages.VERTICAL_BAR_REGREX;
@@ -38,8 +41,9 @@ public class Parser {
      * @param userInputString User's raw input string.
      * @return Associated command.
      * @throws InvalidCommandException If command word is invalid.
+     * @throws EmptyKeywordException If user's keyword input for find command is empty.
      */
-    public Command parseCommand(String userInputString) throws InvalidCommandException {
+    public Command parseCommand(String userInputString) throws InvalidCommandException, EmptyKeywordException {
         String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[0].toLowerCase();
         String commandArgs = commandTypeAndParams[1];
@@ -57,6 +61,8 @@ public class Parser {
             return new AddCommand(EVENT_ABBREVIATION, commandArgs);
         case COMMAND_DELETE_WORD:
             return new DeleteCommand(commandArgs);
+        case COMMAND_FIND_WORD:
+            return new FindCommand(commandArgs);
         case COMMAND_BYE_WORD:
             return new ExitCommand();
         default:
