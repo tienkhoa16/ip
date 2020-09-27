@@ -1,22 +1,14 @@
 package duke.task;
 
-import duke.exceptions.DukeException;
 import duke.exceptions.EmptyDescriptionException;
 import duke.exceptions.EmptyTimeException;
 
-import static duke.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
-import static duke.constants.DataFileConfig.TASK_STATUS_INDEX;
-import static duke.constants.DataFileConfig.TASK_TIME_INDEX;
-import static duke.constants.TaskConstants.A_DEADLINE;
-import static duke.constants.Messages.VERTICAL_BAR;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
-import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
-import static duke.parser.Parser.splitTaskFromDataLine;
 
 /**
  * A representation of a deadline task.
  */
-public class Deadline extends Task {
+public class Deadline extends TaskWithDateTime {
 
     /**
      * Constructs a new Deadline object inheriting from Task class.
@@ -27,13 +19,7 @@ public class Deadline extends Task {
      * @throws EmptyTimeException If task time is empty.
      */
     public Deadline(String description, String by) throws EmptyDescriptionException, EmptyTimeException {
-        super(description);
-
-        if (by.isEmpty()) {
-            throw new EmptyTimeException(A_DEADLINE);
-        }
-
-        time = by;
+        super(description, by);
     }
 
     /**
@@ -44,46 +30,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[" + DEADLINE_ABBREVIATION + "]" + super.toString() + " (by: " + time + ")";
-    }
-
-    /**
-     * Overrides encodeTask method of class Task
-     * to format information of a deadline for it to be saved and decoded in future.
-     *
-     * @return Encoded string with all information in the deadline.
-     */
-    @Override
-    public String encodeTask() {
-        return getTaskAbbreviation() + VERTICAL_BAR + getIsDone() + VERTICAL_BAR + description
-                + VERTICAL_BAR + time + System.lineSeparator();
-    }
-
-    /**
-     * Deciphers a string containing information of a deadline.
-     *
-     * @param encodedTask String containing encoded information of the deadline.
-     * @return Deadline object with information from encodedTask.
-     */
-    public static Deadline decodeTask(String encodedTask) {
-        String[] taskTypeAndDetails = splitTaskFromDataLine(encodedTask);
-
-        String taskStatus = taskTypeAndDetails[TASK_STATUS_INDEX];
-        String taskDescription = taskTypeAndDetails[TASK_DESCRIPTION_INDEX];
-        String taskTime = taskTypeAndDetails[TASK_TIME_INDEX];
-
-        Deadline decodedDeadline = null;
-
-        try {
-            decodedDeadline = new Deadline(taskDescription, taskTime);
-
-            if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-                decodedDeadline.isDone = true;
-            }
-        } catch (DukeException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return decodedDeadline;
+        return "[" + DEADLINE_ABBREVIATION + "]" + super.toString() + " (by: " + getDateTime() + ")";
     }
 }

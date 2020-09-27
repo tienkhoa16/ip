@@ -1,8 +1,13 @@
 package duke.task;
 
+import duke.exceptions.DukeException;
 import duke.exceptions.DuplicatedMarkAsDoneException;
 import duke.exceptions.EmptyDescriptionException;
 
+import static duke.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
+import static duke.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
+import static duke.constants.DataFileConfig.TASK_STATUS_INDEX;
+import static duke.constants.Messages.TASK_SAVE_FORMAT;
 import static duke.constants.TaskConstants.AN_EVENT;
 import static duke.constants.TaskConstants.A_DEADLINE;
 import static duke.constants.TaskConstants.A_TODO;
@@ -13,6 +18,7 @@ import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TASK_UNDONE_ICON;
 import static duke.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
+import static duke.parser.Parser.splitTaskFromDataLine;
 
 /**
  * A base class for task.
@@ -22,12 +28,10 @@ public abstract class Task {
     protected String description;
     /** Task status */
     protected boolean isDone;
-    /** Task time */
-    protected String time;
 
     /**
      * Constructs a new Task object.
-     * By default, initially, task status is set as not done and task time is empty.
+     * By default, initially, task status is set as not done.
      *
      * @param description Task description.
      * @throws EmptyDescriptionException If task description is empty.
@@ -45,7 +49,6 @@ public abstract class Task {
 
         this.description = description;
         isDone = false;
-        time = "";
     }
 
     /**
@@ -122,5 +125,38 @@ public abstract class Task {
      *
      * @return Encoded string with all information in the task.
      */
-    public abstract String encodeTask();
+    public String encodeTask() {
+        return String.format(TASK_SAVE_FORMAT, getTaskAbbreviation(), getIsDone(), getDescription());
+    }
+
+    /**
+     * Deciphers a string containing information of a task.
+     *
+     * @param encodedTask String containing encoded information of the task.
+     * @return Task object with information from encodedTask.
+     */
+    public static Task decodeTask(String encodedTask) {
+        String[] taskTypeAndDetails = splitTaskFromDataLine(encodedTask);
+
+        Character taskAbbrev = encodedTask.charAt(TASK_ABBREVIATION_INDEX);
+        String taskStatus = taskTypeAndDetails[TASK_STATUS_INDEX];
+        String taskDescription = taskTypeAndDetails[TASK_DESCRIPTION_INDEX];
+
+        Task decodedTask = null;
+
+        try {
+            if (taskAbbrev.equals(TODO_ABBREVIATION)) {
+                decodedTask = new Todo(taskDescription);
+            }
+
+            if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
+                decodedTask.isDone = true;
+            }
+
+        } catch (DukeException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return decodedTask;
+    }
 }
