@@ -3,11 +3,9 @@ package duke.storage;
 import duke.exceptions.DukeException;
 import duke.exceptions.LoadingException;
 import duke.exceptions.SavingException;
-import duke.task.Deadline;
-import duke.task.Event;
 import duke.task.Task;
+import duke.task.TaskWithDateTime;
 import duke.task.TasksList;
-import duke.task.Todo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,13 +47,12 @@ public class Storage {
 
                     switch (encodedTask.charAt(TASK_ABBREVIATION_INDEX)) {
                     case TODO_ABBREVIATION:
-                        tasks.getTasksList().add(Todo.decodeTask(encodedTask));
+                        tasks.getTasksList().add(Task.decodeTask(encodedTask));
                         break;
                     case DEADLINE_ABBREVIATION:
-                        tasks.getTasksList().add(Deadline.decodeTask(encodedTask));
-                        break;
+                        // Fallthrough
                     case EVENT_ABBREVIATION:
-                        tasks.getTasksList().add(Event.decodeTask(encodedTask));
+                        tasks.getTasksList().add(TaskWithDateTime.decodeTask(encodedTask));
                         break;
                     default:
                         throw new LoadingException();
@@ -110,11 +107,15 @@ public class Storage {
      */
     public void saveData(TasksList tasks) throws SavingException {
         try {
+            StringBuilder tasksData = new StringBuilder();
             FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());
 
             for (Task task : tasks.getTasksList()) {
-                fw.write(task.encodeTask());
+                tasksData.append(task.encodeTask() + System.lineSeparator());
             }
+
+            fw.write(tasksData.toString());
+
             fw.close();
         } catch (IOException e) {
             throw new SavingException();

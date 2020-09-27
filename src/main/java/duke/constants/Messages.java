@@ -9,6 +9,8 @@ public final class Messages {
     /** A platform independent line separator */
     public static final String LS = System.lineSeparator() + LINE_PREFIX;
 
+    public static final String VERTICAL_BAR_REGREX = " \\| ";
+
     public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
     public static final String MESSAGE_DELETE_TITLE = "Noted. I've removed this task:";
     public static final String MESSAGE_DONE_TITLE = "Nice! I've marked this task as done:";
@@ -48,7 +50,6 @@ public final class Messages {
             + "%s" + LS
             + MESSAGE_NUMBER_OF_TASKS;
     public static final String MESSAGE_DONE_ACK = MESSAGE_DONE_TITLE + LS + "%s";
-
-    public static final String VERTICAL_BAR = " | ";
-    public static final String VERTICAL_BAR_REGREX = " \\| ";
+    public static final String TASK_SAVE_FORMAT = "%s | %s | %s";
+    public static final String TASK_SAVE_FORMAT_DATE_TIME_EXTENSION = "%s | %s";
 }
