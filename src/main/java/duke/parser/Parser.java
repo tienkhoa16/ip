@@ -6,6 +6,7 @@ import duke.commands.DeleteCommand;
 import duke.commands.DoneCommand;
 import duke.commands.ExitCommand;
 import duke.commands.ListCommand;
+import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandException;
 
 import static duke.constants.CommandWords.COMMAND_BYE_WORD;
@@ -16,8 +17,12 @@ import static duke.constants.CommandWords.COMMAND_EVENT_WORD;
 import static duke.constants.CommandWords.COMMAND_LIST_WORD;
 import static duke.constants.CommandWords.COMMAND_TODO_WORD;
 import static duke.constants.Messages.VERTICAL_BAR_REGREX;
+import static duke.constants.TaskConstants.AN_EVENT;
+import static duke.constants.TaskConstants.A_DEADLINE;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
+import static duke.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
 public class Parser {
@@ -65,6 +70,63 @@ public class Parser {
         String[] split = rawUserInput.trim().split("\\s+", 2);
 
         return split.length == 2 ? split : new String[]{split[0], ""};
+    }
+
+
+    /**
+     * Extracts substring representing task activity description from command arguments.
+     *
+     * @param taskTypeAbbrev Task type abbreviation.
+     * @param encoded command arguments.
+     * @return Task activity description.
+     * @throws EmptyTimeException If no prefix (/by, /at) is found in user's input.
+     */
+    public static String extractActivityFromString(Character taskTypeAbbrev, String encoded)
+            throws EmptyTimeException {
+        int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
+        int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
+
+        /*
+         * Description is leading substring up to data prefix string.
+         * If prefix of deadline exists (indexOfDeadlinePrefix >= 0),
+         * then prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
+         */
+        int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
+
+        if (indexOfExistingPrefix == -1) {
+            if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
+                throw new EmptyTimeException(A_DEADLINE);
+            }
+            if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
+                throw new EmptyTimeException(AN_EVENT);
+            }
+        }
+
+        String activity = encoded.substring(0, indexOfExistingPrefix).trim();
+
+        return activity;
+    }
+
+
+    /**
+     * Extracts substring representing task time from command arguments.
+     *
+     * @param encoded String to be decoded.
+     * @param taskTypeAbbrev Abbreviation of task type.
+     * @return Task time argument WITHOUT prefix.
+     */
+    public static String extractTimeFromString(String encoded, Character taskTypeAbbrev) {
+        String taskPrefix = "";
+
+        if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
+            taskPrefix = TASK_DATA_PREFIX_DEADLINE;
+        } else if (taskTypeAbbrev.equals(EVENT_ABBREVIATION)) {
+            taskPrefix = TASK_DATA_PREFIX_EVENT;
+        }
+
+        int indexOfDeadlinePrefix = encoded.indexOf(taskPrefix);
+
+        return removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(), taskPrefix);
     }
 
     /**
