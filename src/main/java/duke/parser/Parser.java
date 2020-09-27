@@ -25,6 +25,9 @@ import static duke.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
 import static duke.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
+/**
+ * A class that deals with making sense of the user input.
+ */
 public class Parser {
 
     /**
@@ -54,7 +57,6 @@ public class Parser {
             return new DeleteCommand(commandArgs);
         case COMMAND_BYE_WORD:
             return new ExitCommand();
-        // Fallthrough
         default:
             throw new InvalidCommandException();
         }

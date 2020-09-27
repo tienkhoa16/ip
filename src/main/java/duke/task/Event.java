@@ -13,7 +13,9 @@ import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
 import static duke.parser.Parser.splitTaskFromDataLine;
 
-
+/**
+ * A representation of an event task.
+ */
 public class Event extends Task {
 
     /**

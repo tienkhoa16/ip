@@ -13,6 +13,9 @@ import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
 import static duke.parser.Parser.splitTaskFromDataLine;
 
+/**
+ * A representation of a deadline task.
+ */
 public class Deadline extends Task {
 
     /**

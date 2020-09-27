@@ -2,12 +2,15 @@ package duke.task;
 
 import java.util.ArrayList;
 
+/**
+ * A class to represent a list of tasks.
+ */
 public class TasksList {
-
+    /** List of tasks */
     protected ArrayList<Task> tasks;
 
     /**
-     * Constructs a new Task List instance.
+     * Constructs Task List object.
      */
     public TasksList() {
         tasks = new ArrayList<>();

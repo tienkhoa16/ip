@@ -10,6 +10,9 @@ import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 import static duke.parser.Parser.splitTaskFromDataLine;
 
+/**
+ * A representation of a todo task.
+ */
 public class Todo extends Task {
 
     /**

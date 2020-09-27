@@ -6,6 +6,9 @@ import duke.task.TasksList;
 import static duke.constants.Messages.MESSAGE_EXIT;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 
+/**
+ * A representation of the command for exiting Duke.
+ */
 public class ExitCommand extends Command {
 
     /**

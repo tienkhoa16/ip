@@ -2,6 +2,9 @@ package duke.exceptions;
 
 import static duke.constants.Messages.MESSAGE_FORMAT;
 
+/**
+ * A class that deals with handling exceptions.
+ */
 public class ExceptionHandler {
     /**
      * Handles checked exceptions.

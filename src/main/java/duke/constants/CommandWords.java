@@ -1,5 +1,8 @@
 package duke.constants;
 
+/**
+ * Command words specified by user's input.
+ */
 public final class CommandWords {
     public static final String COMMAND_BYE_WORD = "bye";
     public static final String COMMAND_DEADLINE_WORD = "deadline";

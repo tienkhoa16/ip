@@ -5,6 +5,9 @@ import java.util.Scanner;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_WELCOME;
 
+/**
+ * A class deals with interactions with the user.
+ */
 public class Ui {
 
     /**

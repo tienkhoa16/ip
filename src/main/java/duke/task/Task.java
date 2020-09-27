@@ -14,10 +14,15 @@ import static duke.constants.TaskConstants.TASK_UNDONE_ICON;
 import static duke.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
+/**
+ * A base class for task.
+ */
 public abstract class Task {
-
+    /** Task description */
     protected String description;
+    /** Task status */
     protected boolean isDone;
+    /** Task time */
     protected String time;
 
     /**

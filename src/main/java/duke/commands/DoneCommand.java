@@ -11,13 +11,17 @@ import static duke.constants.Messages.MESSAGE_INVALID_ID;
 import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
 import static duke.parser.Parser.convertToZeroBased;
 
+/**
+ * A representation of the command for marking a task from the list as done.
+ */
 public class DoneCommand extends Command {
+    /** Index in one-based numbering of the task to be marked as done */
     private String index;
 
     /**
      * Constructs DoneCommand object inheriting from Command class.
      *
-     * @param index Index in one-based of the task to be marked as done.
+     * @param index Index in one-based numbering of the task to be marked as done.
      */
     public DoneCommand(String index) {
         this.index = index;

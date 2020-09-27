@@ -9,12 +9,24 @@ import duke.storage.Storage;
 import duke.task.TasksList;
 import duke.ui.Ui;
 
+/**
+ * The Duke program implements an application that keeps track of the user's tasks.
+ *
+ * @author Nguyen Tien Khoa
+ * @version v2.0
+ * @since 2020-08-23
+ */
 public class Duke {
+    /** Ui object reference */
     private Ui ui;
+    /** Storage object reference */
     private Storage storage;
+    /** Parser object reference */
     private Parser parser;
-    private TasksList tasks;
+    /** ExceptionHandler object reference */
     private ExceptionHandler exceptionHandler;
+    /** TasksList object reference */
+    private TasksList tasks;
 
     /**
      * Constructs Duke object.
@@ -24,14 +36,7 @@ public class Duke {
         storage = new Storage();
         parser = new Parser();
         exceptionHandler = new ExceptionHandler();
-
-        try {
-            tasks = storage.loadData();
-        } catch (DukeException e) {
-            ui.showResultToUser(exceptionHandler.handleCheckedExceptions(e));
-        } catch (Exception e) {
-            ui.showResultToUser(exceptionHandler.handleUncheckedExceptions(e));
-        }
+        tasks = new TasksList();
     }
 
     /**
@@ -57,7 +62,21 @@ public class Duke {
      */
     private void start() {
         ui.greetUser();
+        loadPastTasks();
         ui.showResultToUser((new ListCommand()).execute(tasks, storage).toString());
+    }
+
+    /**
+     * Loads past tasks data.
+     */
+    private void loadPastTasks() {
+        try {
+            tasks = storage.loadData();
+        } catch (DukeException e) {
+            ui.showResultToUser(exceptionHandler.handleCheckedExceptions(e));
+        } catch (Exception e) {
+            ui.showResultToUser(exceptionHandler.handleUncheckedExceptions(e));
+        }
     }
 
     /**
