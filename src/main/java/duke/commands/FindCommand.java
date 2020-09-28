@@ -1,12 +1,14 @@
 package duke.commands;
 
-import duke.exceptions.EmptyKeywordException;
 import duke.components.Storage;
-import duke.task.Task;
 import duke.components.TasksList;
+import duke.exceptions.EmptyKeywordException;
+import duke.task.Task;
 
-import static duke.constants.Messages.LISTING_FORMAT;
-import static duke.constants.Messages.MESSAGE_FIND_TITLE;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import static duke.constants.Messages.MESSAGE_FIND_FORMAT;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_NO_MATCH;
 
@@ -22,6 +24,7 @@ public class FindCommand extends Command {
         if (keyword.isEmpty()) {
             throw new EmptyKeywordException();
         }
+
         this.keyword = keyword.toLowerCase();
     }
 
@@ -36,17 +39,14 @@ public class FindCommand extends Command {
      */
     @Override
     public CommandResult execute(TasksList tasks, Storage storage) {
-        StringBuilder listingMessage = new StringBuilder(MESSAGE_FIND_TITLE);
-        int matchingTasksCount = 0;
 
-        for (Task task : tasks.getTasksList()) {
-            if (task.toString().toLowerCase().contains(keyword)) {
-                matchingTasksCount++;
-                listingMessage.append(String.format(LISTING_FORMAT, matchingTasksCount, task.toString()));
-            }
-        }
+        ArrayList<Task> matchingTasks = (ArrayList<Task>) tasks.getTasksList().stream()
+                .filter(task -> task.toString().toLowerCase().contains(keyword))
+                .collect(Collectors.toList());
 
-        if (matchingTasksCount > 0) {
+        if (matchingTasks.size() > 0) {
+            String listingMessage = String.format(MESSAGE_FIND_FORMAT, super.convertTasksListToString(matchingTasks));
+
             return new CommandResult(String.format(MESSAGE_FORMAT, listingMessage));
         } else {
             return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_NO_MATCH));

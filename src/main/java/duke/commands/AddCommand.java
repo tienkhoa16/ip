@@ -1,23 +1,23 @@
 package duke.commands;
 
+import duke.components.Storage;
+import duke.components.TasksList;
 import duke.exceptions.DukeException;
 import duke.exceptions.EmptyDescriptionException;
 import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandException;
-import duke.components.Storage;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
-import duke.components.TasksList;
 import duke.task.Todo;
 
+import static duke.components.Parser.extractActivityFromString;
+import static duke.components.Parser.extractTimeFromString;
 import static duke.constants.Messages.MESSAGE_ADD_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
-import static duke.components.Parser.extractActivityFromString;
-import static duke.components.Parser.extractTimeFromString;
 
 /**
  * A representation of the command for adding a task to the list.
@@ -33,7 +33,6 @@ public class AddCommand extends Command {
      * @param description Description of the task to be added.
      */
     public AddCommand(char taskTypeAbbrev, String description) {
-        super();
         this.taskTypeAbbrev = taskTypeAbbrev;
         this.description = description;
     }
@@ -42,6 +41,9 @@ public class AddCommand extends Command {
      * Creates the task according to the task type abbreviation and the description of the task.
      *
      * @return Created task.
+     * @throws EmptyDescriptionException If task description is empty.
+     * @throws EmptyTimeException If task date/time is empty.
+     * @throws InvalidCommandException If command word is invalid.
      */
     private Task createTask() throws EmptyDescriptionException, EmptyTimeException, InvalidCommandException {
         Task task = null;
@@ -80,9 +82,9 @@ public class AddCommand extends Command {
     /**
      * Overrides execute method of class Command to execute the add command.
      *
-     * @param tasks Task list.
-     * @param storage Storage.
-     * @return Output response.
+     * @param tasks Tasks list managing all user's tasks.
+     * @param storage Storage to save data after adding task.
+     * @return Result of command execution.
      */
     @Override
     public CommandResult execute(TasksList tasks, Storage storage) {
@@ -91,13 +93,12 @@ public class AddCommand extends Command {
             task = createTask();
 
             tasks.getTasksList().add(task);
-            int numOfTasks = tasks.getNumberOfTasks();
-
             storage.saveData(tasks);
 
-            String message = String.format(MESSAGE_ADD_ACK, task.toString(), numOfTasks);
+            int numOfTasks = tasks.getNumberOfTasks();
+            String acknowledgeMsg = String.format(MESSAGE_ADD_ACK, task.toString(), numOfTasks);
 
-            return new CommandResult(String.format(MESSAGE_FORMAT, message));
+            return new CommandResult(String.format(MESSAGE_FORMAT, acknowledgeMsg));
         } catch (DukeException e) {
             return new CommandResult(e.getMessage());
         }

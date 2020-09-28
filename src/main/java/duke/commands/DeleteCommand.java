@@ -1,15 +1,15 @@
 package duke.commands;
 
-import duke.exceptions.DukeException;
 import duke.components.Storage;
-import duke.task.Task;
 import duke.components.TasksList;
+import duke.exceptions.DukeException;
+import duke.task.Task;
 
+import static duke.components.Parser.convertToZeroBased;
 import static duke.constants.Messages.MESSAGE_DELETE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_INVALID_ID;
 import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
-import static duke.components.Parser.convertToZeroBased;
 
 /**
  * A representation of the command for deleting a task from the list.
@@ -30,7 +30,7 @@ public class DeleteCommand extends Command {
      * Overrides execute method of class Command to execute the delete task command requested by user's input.
      *
      * @param tasks Tasks list managing all user's tasks.
-     * @param storage Storage to save data when required.
+     * @param storage Storage to save data after deleting task.
      * @return Result of command execution.
      */
     @Override
@@ -41,10 +41,9 @@ public class DeleteCommand extends Command {
             Task taskToDelete = tasks.getTasksList().get(indexZeroBased);
             tasks.getTasksList().remove(indexZeroBased);
 
-            int numOfTasks = tasks.getNumberOfTasks();
-
             storage.saveData(tasks);
 
+            int numOfTasks = tasks.getNumberOfTasks();
             String acknowledgeMsg = String.format(MESSAGE_DELETE_ACK, taskToDelete.toString(), numOfTasks);
 
             return new CommandResult(String.format(MESSAGE_FORMAT, acknowledgeMsg));

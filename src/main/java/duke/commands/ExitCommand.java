@@ -12,18 +12,11 @@ import static duke.constants.Messages.MESSAGE_FORMAT;
 public class ExitCommand extends Command {
 
     /**
-     * Constructs ExitCommand object inheriting from Command class.
-     */
-    public ExitCommand() {
-        super();
-    }
-
-    /**
      * Overrides execute method of class Command to execute exit command requested by user's input.
      *
      * @param tasks Tasks list managing all user's tasks.
      * @param storage Storage to save data when required.
-     * @return
+     * @return Result of command execution.
      */
     @Override
     public CommandResult execute(TasksList tasks, Storage storage) {

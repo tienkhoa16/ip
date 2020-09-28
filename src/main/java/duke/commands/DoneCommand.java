@@ -1,15 +1,15 @@
 package duke.commands;
 
-import duke.exceptions.DukeException;
 import duke.components.Storage;
-import duke.task.Task;
 import duke.components.TasksList;
+import duke.exceptions.DukeException;
+import duke.task.Task;
 
+import static duke.components.Parser.convertToZeroBased;
 import static duke.constants.Messages.MESSAGE_DONE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_INVALID_ID;
 import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
-import static duke.components.Parser.convertToZeroBased;
 
 /**
  * A representation of the command for marking a task from the list as done.
@@ -30,7 +30,7 @@ public class DoneCommand extends Command {
      * Overrides execute method of class Command to execute the mark task as done command requested by user's input.
      *
      * @param tasks Tasks list managing all user's tasks.
-     * @param storage Storage to save data when required.
+     * @param storage Storage to save data after marking task as done.
      * @return Result of command execution.
      */
     @Override
