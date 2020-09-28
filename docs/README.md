@@ -182,9 +182,9 @@ Below is the summary of all the features available in Duke:
 
 **Action** | **Format, Examples** 
 |------|-----------------|
-**Add** | - `todo DESCRIPTION`<br><br>Example: `todo CS2113 Team Meeting`<br><br>- `deadline DESCRIPTION /by DATE TIME`<br><br>Example: `deadline CS2113 Individual Project /by 2/10/2020 2359`<br><br>- `event DESCRIPTION /at DATE TIME`<br><br>Example: `event Google Day 2020 /at 9/9/2020 1500`
+**Add** | - `todo DESCRIPTION`<br><br> Example: `todo CS2113 Team Meeting`<br><br> - `deadline DESCRIPTION /by DATE TIME`<br><br> Example: `deadline CS2113 Individual Project /by 2/10/2020 2359`<br><br> - `event DESCRIPTION /at DATE TIME`<br><br> Example: `event Google Day 2020 /at 9/9/2020 1500`
 **List** | `list`
-**Mark As Done** | `done INDEX`<br><br>Example: `done 1`
-**Delete** | `delete INDEX`<br><br>Example: `delete 2`
-**Find** | `find KEYWORD`<br><br>Example: `find CS2113`
+**Mark As Done** | `done INDEX`<br><br> Example: `done 1`
+**Delete** | `delete INDEX`<br><br> Example: `delete 2`
+**Find** | `find KEYWORD`<br><br> Example: `find CS2113`
 **Exit** | `bye`
