@@ -17,15 +17,10 @@ import duke.ui.Ui;
  * @since 2020-08-23
  */
 public class Duke {
-    /** Ui object reference */
     private Ui ui;
-    /** Storage object reference */
     private Storage storage;
-    /** Parser object reference */
     private Parser parser;
-    /** ExceptionHandler object reference */
     private ExceptionHandler exceptionHandler;
-    /** TasksList object reference */
     private TasksList tasks;
 
     /**
@@ -63,7 +58,7 @@ public class Duke {
     private void start() {
         ui.greetUser();
         loadPastTasks();
-        ui.showResultToUser((new ListCommand()).execute(tasks, storage).toString());
+        ui.showResultToUser(new ListCommand().execute(tasks, storage).toString());
     }
 
     /**

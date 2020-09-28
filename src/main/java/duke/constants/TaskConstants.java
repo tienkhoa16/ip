@@ -9,10 +9,14 @@ public final class TaskConstants {
     public static final String A_TODO = "a todo";
     public static final char DEADLINE_ABBREVIATION = 'D';
     public static final char EVENT_ABBREVIATION = 'E';
+    public static final int TASK_ABBREVIATION_INDEX = 0;
     public static final String TASK_DATA_PREFIX_DEADLINE = "/by";
     public static final String TASK_DATA_PREFIX_EVENT = "/at";
+    public static final int TASK_DESCRIPTION_INDEX = 2;
     public static final String TASK_DONE_ICON = "/";
     public static final String TASK_DONE_STRING_REPRESENTATION = "1";
+    public static final int TASK_STATUS_INDEX = 1;
+    public static final int TASK_TIME_INDEX = 3;
     public static final String TASK_UNDONE_ICON = "X";
     public static final String TASK_UNDONE_STRING_REPRESENTATION = "0";
     public static final char TODO_ABBREVIATION = 'T';

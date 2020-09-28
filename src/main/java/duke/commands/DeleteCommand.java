@@ -15,7 +15,6 @@ import static duke.parser.Parser.convertToZeroBased;
  * A representation of the command for deleting a task from the list.
  */
 public class DeleteCommand extends Command {
-    /** Index in one-based numbering of the task to be deleted */
     private String index;
 
     /**

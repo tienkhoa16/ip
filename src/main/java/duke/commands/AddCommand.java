@@ -23,9 +23,7 @@ import static duke.parser.Parser.extractTimeFromString;
  * A representation of the command for adding a task to the list.
  */
 public class AddCommand extends Command {
-    /** Task type abbreviation of the task to be added */
     private char taskTypeAbbrev;
-    /** Description of the task to be added */
     private String description;
 
     /**

@@ -4,9 +4,9 @@ import duke.exceptions.DukeException;
 import duke.exceptions.DuplicatedMarkAsDoneException;
 import duke.exceptions.EmptyDescriptionException;
 
-import static duke.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
-import static duke.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
-import static duke.constants.DataFileConfig.TASK_STATUS_INDEX;
+import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
+import static duke.constants.TaskConstants.TASK_DESCRIPTION_INDEX;
+import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
 import static duke.constants.Messages.TASK_SAVE_FORMAT;
 import static duke.constants.TaskConstants.AN_EVENT;
 import static duke.constants.TaskConstants.A_DEADLINE;
@@ -24,9 +24,7 @@ import static duke.parser.Parser.splitTaskFromDataLine;
  * A base class for task.
  */
 public abstract class Task {
-    /** Task description */
     protected String description;
-    /** Task status */
     protected boolean isDone;
 
     /**

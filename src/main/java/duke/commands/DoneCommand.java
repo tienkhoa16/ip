@@ -15,7 +15,6 @@ import static duke.parser.Parser.convertToZeroBased;
  * A representation of the command for marking a task from the list as done.
  */
 public class DoneCommand extends Command {
-    /** Index in one-based numbering of the task to be marked as done */
     private String index;
 
     /**

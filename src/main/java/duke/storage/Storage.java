@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 import static duke.constants.DataFileConfig.PATH_TO_DATA_FILE;
 import static duke.constants.DataFileConfig.PATH_TO_DATA_FOLDER;
-import static duke.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
+import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
 import static duke.constants.Messages.MESSAGE_IO_EXCEPTION;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;

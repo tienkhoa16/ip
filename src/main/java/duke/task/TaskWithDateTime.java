@@ -6,10 +6,10 @@ import duke.exceptions.EmptyTimeException;
 
 import java.time.format.DateTimeParseException;
 
-import static duke.constants.DataFileConfig.TASK_ABBREVIATION_INDEX;
-import static duke.constants.DataFileConfig.TASK_DESCRIPTION_INDEX;
-import static duke.constants.DataFileConfig.TASK_STATUS_INDEX;
-import static duke.constants.DataFileConfig.TASK_TIME_INDEX;
+import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
+import static duke.constants.TaskConstants.TASK_DESCRIPTION_INDEX;
+import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
+import static duke.constants.TaskConstants.TASK_TIME_INDEX;
 import static duke.constants.Messages.TASK_SAVE_FORMAT_DATE_TIME_EXTENSION;
 import static duke.constants.TaskConstants.AN_EVENT;
 import static duke.constants.TaskConstants.A_DEADLINE;
