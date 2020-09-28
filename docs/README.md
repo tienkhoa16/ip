@@ -180,7 +180,7 @@ Expected outcome:
 
 Below is the summary of all the features available in Duke:
 
-Action | Format, Examples 
+**Action** | **Format, Examples** 
 |------|-----------------|
 **Add** | - `todo DESCRIPTION`<br><br>Example: `todo CS2113 Team Meeting`<br><br>- `deadline DESCRIPTION /by DATE TIME`<br><br>Example: `deadline CS2113 Individual Project /by 2/10/2020 2359`<br><br>- `event DESCRIPTION /at DATE TIME`<br><br>Example: `event Google Day 2020 /at 9/9/2020 1500`
 **List** | `list`
