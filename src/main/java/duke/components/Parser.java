@@ -1,4 +1,4 @@
-package duke.parser;
+package duke.components;
 
 import duke.commands.AddCommand;
 import duke.commands.Command;

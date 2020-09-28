@@ -1,8 +1,8 @@
 package duke.commands;
 
 import duke.exceptions.DukeException;
-import duke.storage.Storage;
-import duke.task.TasksList;
+import duke.components.Storage;
+import duke.components.TasksList;
 
 /**
  * Base class for command.

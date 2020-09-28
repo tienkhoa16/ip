@@ -1,13 +1,13 @@
 package duke.commands;
 
-import duke.storage.Storage;
+import duke.components.Storage;
 import duke.task.Task;
-import duke.task.TasksList;
+import duke.components.TasksList;
 
 import static duke.constants.Messages.LISTING_FORMAT;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_LIST_TITLE;
-import static duke.parser.Parser.convertToOneBased;
+import static duke.components.Parser.convertToOneBased;
 
 /**
  * A representation of the command for listing tasks list.

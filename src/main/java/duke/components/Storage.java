@@ -1,11 +1,11 @@
-package duke.storage;
+package duke.components;
 
 import duke.exceptions.DukeException;
 import duke.exceptions.LoadingException;
 import duke.exceptions.SavingException;
 import duke.task.Task;
 import duke.task.TaskWithDateTime;
-import duke.task.TasksList;
+import duke.components.TasksList;
 
 import java.io.File;
 import java.io.FileNotFoundException;

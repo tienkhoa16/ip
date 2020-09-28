@@ -16,8 +16,8 @@ import static duke.constants.TaskConstants.A_DEADLINE;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
-import static duke.parser.Parser.parseStringFormatDateTime;
-import static duke.parser.Parser.splitTaskFromDataLine;
+import static duke.components.Parser.parseStringFormatDateTime;
+import static duke.components.Parser.splitTaskFromDataLine;
 
 public abstract class TaskWithDateTime extends Task {
     private String dateTime;

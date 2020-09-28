@@ -2,12 +2,12 @@ import duke.commands.Command;
 import duke.commands.CommandResult;
 import duke.commands.ExitCommand;
 import duke.commands.ListCommand;
+import duke.components.ExceptionHandler;
+import duke.components.Parser;
+import duke.components.Storage;
+import duke.components.TasksList;
+import duke.components.Ui;
 import duke.exceptions.DukeException;
-import duke.exceptions.ExceptionHandler;
-import duke.parser.Parser;
-import duke.storage.Storage;
-import duke.task.TasksList;
-import duke.ui.Ui;
 
 /**
  * The Duke program implements an application that keeps track of the user's tasks.

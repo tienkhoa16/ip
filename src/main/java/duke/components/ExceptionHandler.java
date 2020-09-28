@@ -1,4 +1,6 @@
-package duke.exceptions;
+package duke.components;
+
+import duke.exceptions.DukeException;
 
 import static duke.constants.Messages.MESSAGE_FORMAT;
 

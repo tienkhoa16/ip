@@ -1,9 +1,9 @@
 package duke.commands;
 
 import duke.exceptions.EmptyKeywordException;
-import duke.storage.Storage;
+import duke.components.Storage;
 import duke.task.Task;
-import duke.task.TasksList;
+import duke.components.TasksList;
 
 import static duke.constants.Messages.LISTING_FORMAT;
 import static duke.constants.Messages.MESSAGE_FIND_TITLE;

@@ -1,15 +1,15 @@
 package duke.commands;
 
 import duke.exceptions.DukeException;
-import duke.storage.Storage;
+import duke.components.Storage;
 import duke.task.Task;
-import duke.task.TasksList;
+import duke.components.TasksList;
 
 import static duke.constants.Messages.MESSAGE_DONE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_INVALID_ID;
 import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
-import static duke.parser.Parser.convertToZeroBased;
+import static duke.components.Parser.convertToZeroBased;
 
 /**
  * A representation of the command for marking a task from the list as done.

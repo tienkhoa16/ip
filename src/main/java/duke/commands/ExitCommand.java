@@ -1,7 +1,7 @@
 package duke.commands;
 
-import duke.storage.Storage;
-import duke.task.TasksList;
+import duke.components.Storage;
+import duke.components.TasksList;
 
 import static duke.constants.Messages.MESSAGE_EXIT;
 import static duke.constants.Messages.MESSAGE_FORMAT;

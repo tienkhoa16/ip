@@ -18,7 +18,7 @@ import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TASK_UNDONE_ICON;
 import static duke.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
-import static duke.parser.Parser.splitTaskFromDataLine;
+import static duke.components.Parser.splitTaskFromDataLine;
 
 /**
  * A base class for task.

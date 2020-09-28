@@ -4,11 +4,11 @@ import duke.exceptions.DukeException;
 import duke.exceptions.EmptyDescriptionException;
 import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandException;
-import duke.storage.Storage;
+import duke.components.Storage;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
-import duke.task.TasksList;
+import duke.components.TasksList;
 import duke.task.Todo;
 
 import static duke.constants.Messages.MESSAGE_ADD_ACK;
@@ -16,8 +16,8 @@ import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
-import static duke.parser.Parser.extractActivityFromString;
-import static duke.parser.Parser.extractTimeFromString;
+import static duke.components.Parser.extractActivityFromString;
+import static duke.components.Parser.extractTimeFromString;
 
 /**
  * A representation of the command for adding a task to the list.
