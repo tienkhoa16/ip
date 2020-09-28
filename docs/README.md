@@ -52,7 +52,7 @@ If the setup is correct, you should see something like the below:
 
 ## 3. Features 
 
----
+***
 **Command Format**
 
 - Words that are in `UPPER_CASE` are the parameters to be supplied by you.\
@@ -69,7 +69,8 @@ Below is an example of Task Index:
 - Time that you input to Duke should follow the `HHMM` format where `HH` is Hour in day (0-23)
 and `MM` is Minute in hour (0-59).\
     Example: `1600` represents the time 16:59. 
---- 
+    
+***
 
 
 ### 3.1. Adding A Task : `todo`, `deadline`, `event`
