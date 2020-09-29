@@ -8,6 +8,7 @@ import duke.task.Task;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import static duke.components.Utils.convertTasksListToString;
 import static duke.constants.Messages.MESSAGE_FIND_FORMAT;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_NO_MATCH;
@@ -28,7 +29,6 @@ public class FindCommand extends Command {
         this.keyword = keyword.toLowerCase();
     }
 
-
     /**
      * Overrides execute method of class Command
      * to execute the find tasks by keyword command requested by user's input.
@@ -44,12 +44,14 @@ public class FindCommand extends Command {
                 .filter(task -> task.toString().toLowerCase().contains(keyword))
                 .collect(Collectors.toList());
 
-        if (matchingTasks.size() > 0) {
-            String listingMessage = String.format(MESSAGE_FIND_FORMAT, super.convertTasksListToString(matchingTasks));
+        String listingMessage = null;
 
-            return new CommandResult(String.format(MESSAGE_FORMAT, listingMessage));
+        if (matchingTasks.size() > 0) {
+            listingMessage = String.format(MESSAGE_FIND_FORMAT, convertTasksListToString(matchingTasks));
         } else {
-            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_NO_MATCH));
+            listingMessage = MESSAGE_NO_MATCH;
         }
+
+        return new CommandResult(String.format(MESSAGE_FORMAT, listingMessage));
     }
 }

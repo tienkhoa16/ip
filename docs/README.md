@@ -31,14 +31,14 @@ to get started!
 on Terminal (for macOS) or Command Prompt (for Windows) to start the app. 
 If the setup is correct, you should see something like the below:
     ```
-         ____________________________________________________________
-         Hello dude! I'm Duke
-         How can I help you?
-         ____________________________________________________________
-
-         ____________________________________________________________
-         You don't have any tasks.
-         ____________________________________________________________
+        ____________________________________________________________
+        Created data/duke.txt to store future tasks.
+        ____________________________________________________________
+        
+        ____________________________________________________________
+        Hello dude! I'm Duke
+        How can I help you?
+        ____________________________________________________________   
     ```
 
 1. To use Duke, simply type a valid command into the terminal and press <kbd>Enter</kbd> to run the command.\

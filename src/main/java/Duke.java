@@ -1,13 +1,15 @@
 import duke.commands.Command;
 import duke.commands.CommandResult;
 import duke.commands.ExitCommand;
-import duke.commands.ListCommand;
 import duke.components.ExceptionHandler;
 import duke.components.Parser;
 import duke.components.Storage;
 import duke.components.TasksList;
 import duke.components.Ui;
 import duke.exceptions.DukeException;
+
+import static duke.constants.Messages.MESSAGE_CREATED_NEW_DATA_FILE;
+import static duke.constants.Messages.MESSAGE_LOAD_SUCCESSFUL;
 
 /**
  * The Duke program implements an application that keeps track of the user's tasks.
@@ -24,14 +26,29 @@ public class Duke {
     private TasksList tasks;
 
     /**
-     * Constructs Duke object.
+     * Constructs Duke object by initialising Ui, Storage, Parser, ExceptionHandler objects
+     * and loads saved tasks if applicable.
      */
     public Duke() {
         ui = new Ui();
         storage = new Storage();
         parser = new Parser();
         exceptionHandler = new ExceptionHandler();
-        tasks = new TasksList();
+
+        try {
+            tasks = storage.loadData();
+
+            if (storage.getHasExistingDataFile()) {
+                ui.showResultToUser(MESSAGE_LOAD_SUCCESSFUL);
+            } else {
+                ui.showResultToUser(MESSAGE_CREATED_NEW_DATA_FILE);
+            }
+
+        } catch (DukeException e) {
+            ui.showResultToUser(exceptionHandler.handleCheckedExceptions(e));
+        } catch (Exception e) {
+            ui.showResultToUser(exceptionHandler.handleUncheckedExceptions(e));
+        }
     }
 
     /**
@@ -53,25 +70,10 @@ public class Duke {
     }
 
     /**
-     * Starts up Duke with welcome message and shows past tasks list.
+     * Starts up Duke with welcome message.
      */
     private void start() {
         ui.greetUser();
-        loadPastTasks();
-        ui.showResultToUser(new ListCommand().execute(tasks, storage).toString());
-    }
-
-    /**
-     * Loads past tasks data.
-     */
-    private void loadPastTasks() {
-        try {
-            tasks = storage.loadData();
-        } catch (DukeException e) {
-            ui.showResultToUser(exceptionHandler.handleCheckedExceptions(e));
-        } catch (Exception e) {
-            ui.showResultToUser(exceptionHandler.handleUncheckedExceptions(e));
-        }
     }
 
     /**

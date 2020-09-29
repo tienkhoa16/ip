@@ -5,10 +5,10 @@ import duke.exceptions.DuplicatedMarkAsDoneException;
 import duke.exceptions.EmptyDescriptionException;
 
 import static duke.components.Parser.splitTaskFromDataLine;
+import static duke.constants.Messages.MESSAGE_AN_EVENT;
+import static duke.constants.Messages.MESSAGE_A_DEADLINE;
+import static duke.constants.Messages.MESSAGE_A_TODO;
 import static duke.constants.Messages.TASK_SAVE_FORMAT;
-import static duke.constants.TaskConstants.AN_EVENT;
-import static duke.constants.TaskConstants.A_DEADLINE;
-import static duke.constants.TaskConstants.A_TODO;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
@@ -38,11 +38,11 @@ public abstract class Task {
     public Task(String description) throws EmptyDescriptionException {
         if (description.isEmpty()) {
             if (this instanceof Todo) {
-                throw new EmptyDescriptionException(A_TODO);
+                throw new EmptyDescriptionException(MESSAGE_A_TODO);
             } else if (this instanceof Deadline) {
-                throw new EmptyDescriptionException(A_DEADLINE);
+                throw new EmptyDescriptionException(MESSAGE_A_DEADLINE);
             } else if (this instanceof Event) {
-                throw new EmptyDescriptionException(AN_EVENT);
+                throw new EmptyDescriptionException(MESSAGE_AN_EVENT);
             }
         }
 

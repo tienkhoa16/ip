@@ -26,6 +26,23 @@ import static duke.constants.TaskConstants.TODO_ABBREVIATION;
  * A class that deals with loading tasks from the data file and saving tasks in the data file.
  */
 public class Storage {
+    private boolean hasExistingDataFile;
+
+    /**
+     * Constructs Storage class. By default, data file is assumed to be existed.
+     */
+    public Storage() {
+        hasExistingDataFile = true;
+    }
+
+    /**
+     * Returns boolean stating if data file has existed.
+     *
+     * @return If data file has existed.
+     */
+    public boolean getHasExistingDataFile() {
+        return hasExistingDataFile;
+    }
 
     /**
      * Returns tasks list from data file.
@@ -81,6 +98,7 @@ public class Storage {
      */
     private void createDataFile(Path pathToDataFile) throws DukeException {
         try {
+            hasExistingDataFile = false;
             Files.createFile(pathToDataFile);
         } catch (IOException e) {
             throw new DukeException(MESSAGE_IO_EXCEPTION + e.getMessage());
@@ -112,7 +130,9 @@ public class Storage {
             StringBuilder tasksData = new StringBuilder();
             FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());
 
-            tasks.getTasksList().forEach(task -> tasksData.append(task.encodeTask() + System.lineSeparator()));
+            for (Task task : tasks.getTasksList()) {
+                tasksData.append(task.encodeTask() + System.lineSeparator());
+            }
 
             fw.write(tasksData.toString());
 

@@ -2,10 +2,10 @@ package duke.commands;
 
 import duke.components.Storage;
 import duke.components.TasksList;
+import duke.components.Utils;
 import duke.exceptions.DukeException;
 import duke.task.Task;
 
-import static duke.components.Parser.convertToZeroBased;
 import static duke.constants.Messages.MESSAGE_DONE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_INVALID_ID;
@@ -36,7 +36,7 @@ public class DoneCommand extends Command {
     @Override
     public CommandResult execute(TasksList tasks, Storage storage) {
         try {
-            int indexZeroBased = convertToZeroBased(index);
+            int indexZeroBased = Utils.convertToZeroBased(index);
 
             Task task = tasks.getTasksList().get(indexZeroBased);
             task.markAsDone();

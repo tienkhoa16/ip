@@ -7,7 +7,6 @@ import duke.commands.DoneCommand;
 import duke.commands.ExitCommand;
 import duke.commands.FindCommand;
 import duke.commands.ListCommand;
-import duke.constants.CommandConstants;
 import duke.exceptions.EmptyKeywordException;
 import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandException;
@@ -15,19 +14,24 @@ import duke.exceptions.InvalidCommandException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static duke.constants.CommandConstants.COMMAND_BYE_WORD;
-import static duke.constants.CommandConstants.COMMAND_DEADLINE_WORD;
-import static duke.constants.CommandConstants.COMMAND_DELETE_WORD;
-import static duke.constants.CommandConstants.COMMAND_DONE_WORD;
-import static duke.constants.CommandConstants.COMMAND_EVENT_WORD;
-import static duke.constants.CommandConstants.COMMAND_FIND_WORD;
-import static duke.constants.CommandConstants.COMMAND_LIST_WORD;
+import static duke.constants.CommandConstants.COMMAND_ARGS_INDEX;
 import static duke.constants.CommandConstants.COMMAND_SPLIT_LIMIT;
-import static duke.constants.CommandConstants.COMMAND_TODO_WORD;
+import static duke.constants.CommandConstants.COMMAND_TYPE_INDEX;
+import static duke.constants.CommandConstants.COMMAND_WORD_BYE;
+import static duke.constants.CommandConstants.COMMAND_WORD_DEADLINE;
+import static duke.constants.CommandConstants.COMMAND_WORD_DELETE;
+import static duke.constants.CommandConstants.COMMAND_WORD_DONE;
+import static duke.constants.CommandConstants.COMMAND_WORD_EVENT;
+import static duke.constants.CommandConstants.COMMAND_WORD_FIND;
+import static duke.constants.CommandConstants.COMMAND_WORD_LIST;
+import static duke.constants.CommandConstants.COMMAND_WORD_TODO;
+import static duke.constants.CommandConstants.DESCRIPTION_START_INDEX;
+import static duke.constants.CommandConstants.EMPTY_STRING;
 import static duke.constants.CommandConstants.GREEDY_WHITE_SPACE;
+import static duke.constants.CommandConstants.INDEX_NOT_EXIST;
+import static duke.constants.Messages.MESSAGE_AN_EVENT;
+import static duke.constants.Messages.MESSAGE_A_DEADLINE;
 import static duke.constants.Messages.VERTICAL_BAR_REGREX;
-import static duke.constants.TaskConstants.AN_EVENT;
-import static duke.constants.TaskConstants.A_DEADLINE;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
@@ -51,25 +55,25 @@ public class Parser {
      */
     public Command parseCommand(String userInputString) throws InvalidCommandException, EmptyKeywordException {
         String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
-        String commandType = commandTypeAndParams[CommandConstants.COMMAND_TYPE_INDEX].toLowerCase();
-        String commandArgs = commandTypeAndParams[CommandConstants.COMMAND_ARGS_INDEX];
+        String commandType = commandTypeAndParams[COMMAND_TYPE_INDEX].toLowerCase();
+        String commandArgs = commandTypeAndParams[COMMAND_ARGS_INDEX];
 
         switch (commandType) {
-        case COMMAND_LIST_WORD:
+        case COMMAND_WORD_LIST:
             return new ListCommand();
-        case COMMAND_DONE_WORD:
+        case COMMAND_WORD_DONE:
             return new DoneCommand(commandArgs);
-        case COMMAND_TODO_WORD:
+        case COMMAND_WORD_TODO:
             return new AddCommand(TODO_ABBREVIATION, commandArgs);
-        case COMMAND_DEADLINE_WORD:
+        case COMMAND_WORD_DEADLINE:
             return new AddCommand(DEADLINE_ABBREVIATION, commandArgs);
-        case COMMAND_EVENT_WORD:
+        case COMMAND_WORD_EVENT:
             return new AddCommand(EVENT_ABBREVIATION, commandArgs);
-        case COMMAND_DELETE_WORD:
+        case COMMAND_WORD_DELETE:
             return new DeleteCommand(commandArgs);
-        case COMMAND_FIND_WORD:
+        case COMMAND_WORD_FIND:
             return new FindCommand(commandArgs);
-        case COMMAND_BYE_WORD:
+        case COMMAND_WORD_BYE:
             return new ExitCommand();
         default:
             throw new InvalidCommandException();
@@ -86,8 +90,7 @@ public class Parser {
         String[] split = rawUserInput.trim().split(GREEDY_WHITE_SPACE,
                 COMMAND_SPLIT_LIMIT);
 
-        return split.length == COMMAND_SPLIT_LIMIT ? split : new String[]{split[CommandConstants.COMMAND_TYPE_INDEX],
-                ""};
+        return split.length == COMMAND_SPLIT_LIMIT ? split : new String[]{split[COMMAND_TYPE_INDEX], EMPTY_STRING};
     }
 
     /**
@@ -140,16 +143,16 @@ public class Parser {
          */
         int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
 
-        if (indexOfExistingPrefix == CommandConstants.INDEX_NOT_EXIST) {
+        if (indexOfExistingPrefix == INDEX_NOT_EXIST) {
             if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
-                throw new EmptyTimeException(A_DEADLINE);
+                throw new EmptyTimeException(MESSAGE_A_DEADLINE);
             }
             if (taskTypeAbbrev.equals(EVENT_ABBREVIATION)) {
-                throw new EmptyTimeException(AN_EVENT);
+                throw new EmptyTimeException(MESSAGE_AN_EVENT);
             }
         }
 
-        return encoded.substring(CommandConstants.DESCRIPTION_START_INDEX, indexOfExistingPrefix).trim();
+        return encoded.substring(DESCRIPTION_START_INDEX, indexOfExistingPrefix).trim();
     }
 
     /**
@@ -191,26 +194,6 @@ public class Parser {
      * @return String without the sign.
      */
     public static String removePrefixSign(String string, String sign) {
-        return string.replace(sign, CommandConstants.EMPTY_STRING).trim();
-    }
-
-    /**
-     * Converts an integer in string representation from one-based numbering to zero-based numbering.
-     *
-     * @param index One-based integer in string representation to be converted.
-     * @return Integer with zero-based numbering.
-     */
-    public static int convertToZeroBased(String index) {
-        return Integer.parseInt(index) - CommandConstants.OFFSET;
-    }
-
-    /**
-     * Converts an integer from zero-based numbering to one-based numbering.
-     *
-     * @param index Zero-based integer to be converted.
-     * @return Integer with one-based numbering.
-     */
-    public static int convertToOneBased(int index) {
-        return index + CommandConstants.OFFSET;
+        return string.replace(sign, EMPTY_STRING).trim();
     }
 }

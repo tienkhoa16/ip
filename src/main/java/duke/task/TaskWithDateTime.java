@@ -8,9 +8,9 @@ import java.time.format.DateTimeParseException;
 
 import static duke.components.Parser.parseStringFormatDateTime;
 import static duke.components.Parser.splitTaskFromDataLine;
+import static duke.constants.Messages.MESSAGE_AN_EVENT;
+import static duke.constants.Messages.MESSAGE_A_DEADLINE;
 import static duke.constants.Messages.TASK_SAVE_FORMAT_DATE_TIME_EXTENSION;
-import static duke.constants.TaskConstants.AN_EVENT;
-import static duke.constants.TaskConstants.A_DEADLINE;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
@@ -35,9 +35,9 @@ public abstract class TaskWithDateTime extends Task {
 
         if (dateTime.isEmpty()) {
             if (this instanceof Deadline) {
-                throw new EmptyTimeException(A_DEADLINE);
+                throw new EmptyTimeException(MESSAGE_A_DEADLINE);
             } else if (this instanceof Event) {
-                throw new EmptyTimeException(AN_EVENT);
+                throw new EmptyTimeException(MESSAGE_AN_EVENT);
             }
         }
 

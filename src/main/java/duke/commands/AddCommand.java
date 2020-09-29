@@ -11,12 +11,11 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
+import static duke.commands.CommandResult.createAcknowledgeMsg;
 import static duke.components.Parser.extractActivityFromString;
 import static duke.components.Parser.extractTimeFromString;
 import static duke.constants.Messages.MESSAGE_ADD_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
-import static duke.constants.Messages.MESSAGE_PLURAL_NOUN;
-import static duke.constants.Messages.MESSAGE_SINGULAR_NOUN;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
@@ -29,7 +28,7 @@ public class AddCommand extends Command {
     private String description;
 
     /**
-     * Constructs AddCommand object inheriting from Command class.
+     * Constructs AddCommand object inheriting abstract class Command.
      *
      * @param taskTypeAbbrev Task type abbreviation of the task to be added.
      * @param description Description of the task to be added.
@@ -44,7 +43,7 @@ public class AddCommand extends Command {
      *
      * @return Created task.
      * @throws EmptyDescriptionException If task description is empty.
-     * @throws EmptyTimeException If task date/time is empty.
+     * @throws EmptyTimeException If task date time is empty.
      * @throws InvalidCommandException If command word is invalid.
      */
     private Task createTask() throws EmptyDescriptionException, EmptyTimeException, InvalidCommandException {
@@ -58,15 +57,13 @@ public class AddCommand extends Command {
             //Fallthrough
         case EVENT_ABBREVIATION:
             String activity = extractActivityFromString(taskTypeAbbrev, description);
-            String time = null;
+            String time = extractTimeFromString(description, taskTypeAbbrev);
 
             switch (taskTypeAbbrev) {
             case DEADLINE_ABBREVIATION:
-                time = extractTimeFromString(description, DEADLINE_ABBREVIATION);
                 task = new Deadline(activity, time);
                 break;
             case EVENT_ABBREVIATION:
-                time = extractTimeFromString(description, EVENT_ABBREVIATION);
                 task = new Event(activity, time);
                 break;
             default:
@@ -91,20 +88,12 @@ public class AddCommand extends Command {
     @Override
     public CommandResult execute(TasksList tasks, Storage storage) {
         try {
-            Task task = null;
-            task = createTask();
+            Task task = createTask();
 
             tasks.getTasksList().add(task);
             storage.saveData(tasks);
 
-            int numOfTasks = tasks.getNumberOfTasks();
-            String acknowledgeMsg = null;
-
-            if (numOfTasks > 1) {
-                acknowledgeMsg = String.format(MESSAGE_ADD_ACK, task.toString(), numOfTasks, MESSAGE_PLURAL_NOUN);
-            } else {
-                acknowledgeMsg = String.format(MESSAGE_ADD_ACK, task.toString(), numOfTasks, MESSAGE_SINGULAR_NOUN);
-            }
+            String acknowledgeMsg = createAcknowledgeMsg(MESSAGE_ADD_ACK, tasks, task);
 
             return new CommandResult(String.format(MESSAGE_FORMAT, acknowledgeMsg));
         } catch (DukeException e) {
