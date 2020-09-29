@@ -7,6 +7,7 @@ import duke.commands.DoneCommand;
 import duke.commands.ExitCommand;
 import duke.commands.FindCommand;
 import duke.commands.ListCommand;
+import duke.constants.CommandConstants;
 import duke.exceptions.EmptyKeywordException;
 import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandException;
@@ -14,14 +15,16 @@ import duke.exceptions.InvalidCommandException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static duke.constants.CommandWords.COMMAND_BYE_WORD;
-import static duke.constants.CommandWords.COMMAND_DEADLINE_WORD;
-import static duke.constants.CommandWords.COMMAND_DELETE_WORD;
-import static duke.constants.CommandWords.COMMAND_DONE_WORD;
-import static duke.constants.CommandWords.COMMAND_EVENT_WORD;
-import static duke.constants.CommandWords.COMMAND_FIND_WORD;
-import static duke.constants.CommandWords.COMMAND_LIST_WORD;
-import static duke.constants.CommandWords.COMMAND_TODO_WORD;
+import static duke.constants.CommandConstants.COMMAND_BYE_WORD;
+import static duke.constants.CommandConstants.COMMAND_DEADLINE_WORD;
+import static duke.constants.CommandConstants.COMMAND_DELETE_WORD;
+import static duke.constants.CommandConstants.COMMAND_DONE_WORD;
+import static duke.constants.CommandConstants.COMMAND_EVENT_WORD;
+import static duke.constants.CommandConstants.COMMAND_FIND_WORD;
+import static duke.constants.CommandConstants.COMMAND_LIST_WORD;
+import static duke.constants.CommandConstants.COMMAND_SPLIT_LIMIT;
+import static duke.constants.CommandConstants.COMMAND_TODO_WORD;
+import static duke.constants.CommandConstants.GREEDY_WHITE_SPACE;
 import static duke.constants.Messages.VERTICAL_BAR_REGREX;
 import static duke.constants.TaskConstants.AN_EVENT;
 import static duke.constants.TaskConstants.A_DEADLINE;
@@ -48,8 +51,8 @@ public class Parser {
      */
     public Command parseCommand(String userInputString) throws InvalidCommandException, EmptyKeywordException {
         String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
-        String commandType = commandTypeAndParams[0].toLowerCase();
-        String commandArgs = commandTypeAndParams[1];
+        String commandType = commandTypeAndParams[CommandConstants.COMMAND_TYPE_INDEX].toLowerCase();
+        String commandArgs = commandTypeAndParams[CommandConstants.COMMAND_ARGS_INDEX];
 
         switch (commandType) {
         case COMMAND_LIST_WORD:
@@ -74,15 +77,17 @@ public class Parser {
     }
 
     /**
-     * Splits raw user input into command word and command arguments string.
+     * Splits raw user's input into command word and command arguments string.
      *
      * @param rawUserInput User's raw input.
      * @return Size 2 array; first element is the command type and second element is the arguments string.
      */
     private String[] splitCommandWordAndArgs(String rawUserInput) {
-        String[] split = rawUserInput.trim().split("\\s+", 2);
+        String[] split = rawUserInput.trim().split(GREEDY_WHITE_SPACE,
+                COMMAND_SPLIT_LIMIT);
 
-        return split.length == 2 ? split : new String[]{split[0], ""};
+        return split.length == COMMAND_SPLIT_LIMIT ? split : new String[]{split[CommandConstants.COMMAND_TYPE_INDEX],
+                ""};
     }
 
     /**
@@ -135,7 +140,7 @@ public class Parser {
          */
         int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
 
-        if (indexOfExistingPrefix == -1) {
+        if (indexOfExistingPrefix == CommandConstants.INDEX_NOT_EXIST) {
             if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
                 throw new EmptyTimeException(A_DEADLINE);
             }
@@ -144,7 +149,7 @@ public class Parser {
             }
         }
 
-        return encoded.substring(0, indexOfExistingPrefix).trim();
+        return encoded.substring(CommandConstants.DESCRIPTION_START_INDEX, indexOfExistingPrefix).trim();
     }
 
     /**
@@ -186,7 +191,7 @@ public class Parser {
      * @return String without the sign.
      */
     public static String removePrefixSign(String string, String sign) {
-        return string.replace(sign, "").trim();
+        return string.replace(sign, CommandConstants.EMPTY_STRING).trim();
     }
 
     /**
@@ -196,7 +201,7 @@ public class Parser {
      * @return Integer with zero-based numbering.
      */
     public static int convertToZeroBased(String index) {
-        return Integer.parseInt(index) - 1;
+        return Integer.parseInt(index) - CommandConstants.OFFSET;
     }
 
     /**
@@ -206,6 +211,6 @@ public class Parser {
      * @return Integer with one-based numbering.
      */
     public static int convertToOneBased(int index) {
-        return index + 1;
+        return index + CommandConstants.OFFSET;
     }
 }

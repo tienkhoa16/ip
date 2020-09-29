@@ -22,4 +22,7 @@ public final class TaskConstants {
     public static final char TODO_ABBREVIATION = 'T';
     public static final String TASK_INPUT_DATE_TIME_FORMAT = "d/M/yyyy HHmm";
     public static final String TASK_OUTPUT_DATE_TIME_FORMAT = "d MMMM yyyy, h.mma";
+    public static final String TASK_STRING_REPRESENTATION = "[%s][%s] %s";
+    public static final String DEADLINE_STRING_REPRESENTATION = "%s (by: %s)";
+    public static final String EVENT_STRING_REPRESENTATION = "%s (at: %s)";
 }

@@ -6,18 +6,18 @@ import duke.exceptions.EmptyTimeException;
 
 import java.time.format.DateTimeParseException;
 
-import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
-import static duke.constants.TaskConstants.TASK_DESCRIPTION_INDEX;
-import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
-import static duke.constants.TaskConstants.TASK_TIME_INDEX;
+import static duke.components.Parser.parseStringFormatDateTime;
+import static duke.components.Parser.splitTaskFromDataLine;
 import static duke.constants.Messages.TASK_SAVE_FORMAT_DATE_TIME_EXTENSION;
 import static duke.constants.TaskConstants.AN_EVENT;
 import static duke.constants.TaskConstants.A_DEADLINE;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
+import static duke.constants.TaskConstants.TASK_DESCRIPTION_INDEX;
 import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
-import static duke.components.Parser.parseStringFormatDateTime;
-import static duke.components.Parser.splitTaskFromDataLine;
+import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
+import static duke.constants.TaskConstants.TASK_TIME_INDEX;
 
 public abstract class TaskWithDateTime extends Task {
     private String dateTime;
@@ -91,10 +91,13 @@ public abstract class TaskWithDateTime extends Task {
             }
 
             if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-                decodedTask.isDone = true;
+                decodedTask.markAsDone();
             }
+
         } catch (DukeException e) {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
 
         return decodedTask;

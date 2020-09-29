@@ -10,6 +10,8 @@ import static duke.constants.Messages.MESSAGE_DELETE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_INVALID_ID;
 import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
+import static duke.constants.Messages.MESSAGE_PLURAL_NOUN;
+import static duke.constants.Messages.MESSAGE_SINGULAR_NOUN;
 
 /**
  * A representation of the command for deleting a task from the list.
@@ -44,7 +46,16 @@ public class DeleteCommand extends Command {
             storage.saveData(tasks);
 
             int numOfTasks = tasks.getNumberOfTasks();
-            String acknowledgeMsg = String.format(MESSAGE_DELETE_ACK, taskToDelete.toString(), numOfTasks);
+
+            String acknowledgeMsg = null;
+
+            if (numOfTasks > 1) {
+                acknowledgeMsg = String.format(MESSAGE_DELETE_ACK, taskToDelete.toString(), numOfTasks,
+                        MESSAGE_PLURAL_NOUN);
+            } else {
+                acknowledgeMsg = String.format(MESSAGE_DELETE_ACK, taskToDelete.toString(), numOfTasks,
+                        MESSAGE_SINGULAR_NOUN);
+            }
 
             return new CommandResult(String.format(MESSAGE_FORMAT, acknowledgeMsg));
         } catch (DukeException e) {

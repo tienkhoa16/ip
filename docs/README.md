@@ -31,10 +31,14 @@ to get started!
 on Terminal (for macOS) or Command Prompt (for Windows) to start the app. 
 If the setup is correct, you should see something like the below:
     ```
-        ____________________________________________________________
-        Hello dude! I'm Duke
-        How can I help you?
-        ____________________________________________________________
+         ____________________________________________________________
+         Hello dude! I'm Duke
+         How can I help you?
+         ____________________________________________________________
+
+         ____________________________________________________________
+         You don't have any tasks.
+         ____________________________________________________________
     ```
 
 1. To use Duke, simply type a valid command into the terminal and press <kbd>Enter</kbd> to run the command.\
@@ -68,7 +72,10 @@ Below is an example of Task Index:
     Example: `1/10/2020` represents the date October 1st 2020.
 - Time that you input to Duke should follow the `HHMM` format where `HH` is Hour in day (0-23)
 and `MM` is Minute in hour (0-59).\
-    Example: `1600` represents the time 16:59. 
+    Example: `1600` represents the time 16:59.
+- Parameters cannot be reordered.
+    Example: If the command specifies `DESCRIPTION /by DATE TIME`,
+    `/by DATE TIME DESCRIPTION` will result to invalid command. 
     
 ***
 
@@ -84,7 +91,7 @@ There are 3 types of task that you can add to Duke:
          ____________________________________________________________
          Got it. I've added this task:
          [T][X] CS2113 Team Meeting
-         Now you have 1 tasks in the list.
+         Now you have 1 task in the list.
          ____________________________________________________________
     ```
   
@@ -118,10 +125,10 @@ Format: `list`\
 Expected outcome:
 ```
     ____________________________________________________________
-    Here are the tasks in your list:
+    Here is the list of your tasks:
     1. [T][X] CS2113 Team Meeting
-    2. [E][X] Google Day 2020 (at: 9 September 2020, 3.00PM)
-    3. [D][X] CS2113 Individual Project (by: 2/10/2020)
+    2. [D][X] CS2113 Individual Project (by: 2 October 2020, 11.59PM)
+    3. [E][X] Google Day 2020 (at: 9 September 2020, 3.00PM)
     ____________________________________________________________
 ``` 
 
@@ -147,7 +154,7 @@ Expected outcome:
 ```
     ____________________________________________________________
     Noted. I've removed this task:
-    [E][X] Google Day 2020 (at: 9 September 2020, 3.00PM)
+    [D][X] CS2113 Individual Project (by: 2 October 2020, 11.59PM)
     Now you have 2 tasks in the list.
     ____________________________________________________________
 ``` 
@@ -160,9 +167,8 @@ Example of usage: `find CS2113`\
 Expected outcome:
 ```
     ____________________________________________________________
-    Here are the matching tasks in your list:
+    Here is the list of matching tasks:
     1. [T][/] CS2113 Team Meeting
-    2. [D][X] CS2113 Individual Project (by: 2/10/2020)
     ____________________________________________________________
 ``` 
 

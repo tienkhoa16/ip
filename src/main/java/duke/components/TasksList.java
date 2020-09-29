@@ -11,7 +11,7 @@ public class TasksList {
     protected ArrayList<Task> tasks;
 
     /**
-     * Constructs Task List object.
+     * Constructs TasksList object.
      */
     public TasksList() {
         tasks = new ArrayList<>();

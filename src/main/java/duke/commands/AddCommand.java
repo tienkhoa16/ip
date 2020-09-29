@@ -15,6 +15,8 @@ import static duke.components.Parser.extractActivityFromString;
 import static duke.components.Parser.extractTimeFromString;
 import static duke.constants.Messages.MESSAGE_ADD_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
+import static duke.constants.Messages.MESSAGE_PLURAL_NOUN;
+import static duke.constants.Messages.MESSAGE_SINGULAR_NOUN;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
@@ -96,7 +98,13 @@ public class AddCommand extends Command {
             storage.saveData(tasks);
 
             int numOfTasks = tasks.getNumberOfTasks();
-            String acknowledgeMsg = String.format(MESSAGE_ADD_ACK, task.toString(), numOfTasks);
+            String acknowledgeMsg = null;
+
+            if (numOfTasks > 1) {
+                acknowledgeMsg = String.format(MESSAGE_ADD_ACK, task.toString(), numOfTasks, MESSAGE_PLURAL_NOUN);
+            } else {
+                acknowledgeMsg = String.format(MESSAGE_ADD_ACK, task.toString(), numOfTasks, MESSAGE_SINGULAR_NOUN);
+            }
 
             return new CommandResult(String.format(MESSAGE_FORMAT, acknowledgeMsg));
         } catch (DukeException e) {

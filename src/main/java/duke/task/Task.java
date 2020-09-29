@@ -4,21 +4,22 @@ import duke.exceptions.DukeException;
 import duke.exceptions.DuplicatedMarkAsDoneException;
 import duke.exceptions.EmptyDescriptionException;
 
-import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
-import static duke.constants.TaskConstants.TASK_DESCRIPTION_INDEX;
-import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
+import static duke.components.Parser.splitTaskFromDataLine;
 import static duke.constants.Messages.TASK_SAVE_FORMAT;
 import static duke.constants.TaskConstants.AN_EVENT;
 import static duke.constants.TaskConstants.A_DEADLINE;
 import static duke.constants.TaskConstants.A_TODO;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
+import static duke.constants.TaskConstants.TASK_DESCRIPTION_INDEX;
 import static duke.constants.TaskConstants.TASK_DONE_ICON;
 import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
+import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
+import static duke.constants.TaskConstants.TASK_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TASK_UNDONE_ICON;
 import static duke.constants.TaskConstants.TASK_UNDONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
-import static duke.components.Parser.splitTaskFromDataLine;
 
 /**
  * A base class for task.
@@ -111,11 +112,11 @@ public abstract class Task {
     /**
      * Overrides toString method of class Object to return status icon and task description.
      *
-     * @return Task status icon and task description.
+     * @return Task type, status icon and description.
      */
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return String.format(TASK_STRING_REPRESENTATION, getTaskAbbreviation(), getStatusIcon(), getDescription());
     }
 
     /**
@@ -148,11 +149,13 @@ public abstract class Task {
             }
 
             if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-                decodedTask.isDone = true;
+                decodedTask.markAsDone();
             }
 
         } catch (DukeException e) {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
 
         return decodedTask;

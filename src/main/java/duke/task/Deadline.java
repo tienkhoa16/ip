@@ -3,7 +3,7 @@ package duke.task;
 import duke.exceptions.EmptyDescriptionException;
 import duke.exceptions.EmptyTimeException;
 
-import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.constants.TaskConstants.DEADLINE_STRING_REPRESENTATION;
 
 /**
  * A representation of a deadline task.
@@ -14,9 +14,9 @@ public class Deadline extends TaskWithDateTime {
      * Constructs a new Deadline object inheriting from Task class.
      *
      * @param description Deadline description.
-     * @param by Deadline date.
-     * @throws EmptyDescriptionException If task description is empty.
-     * @throws EmptyTimeException If task time is empty.
+     * @param by Deadline date time.
+     * @throws EmptyDescriptionException If deadline description is empty.
+     * @throws EmptyTimeException If deadline date time is empty.
      */
     public Deadline(String description, String by) throws EmptyDescriptionException, EmptyTimeException {
         super(description, by);
@@ -24,12 +24,12 @@ public class Deadline extends TaskWithDateTime {
 
     /**
      * Overrides toString method of class Task
-     * to return task type, status icon, description and deadline date.
+     * to return task type, status icon, description and deadline date time.
      *
-     * @return Task type, status icon, description and deadline date.
+     * @return Task type, status icon, description and deadline date time.
      */
     @Override
     public String toString() {
-        return "[" + DEADLINE_ABBREVIATION + "]" + super.toString() + " (by: " + getDateTime() + ")";
+        return String.format(DEADLINE_STRING_REPRESENTATION, super.toString(), getDateTime());
     }
 }

@@ -5,7 +5,6 @@ import duke.exceptions.LoadingException;
 import duke.exceptions.SavingException;
 import duke.task.Task;
 import duke.task.TaskWithDateTime;
-import duke.components.TasksList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,10 +16,10 @@ import java.util.Scanner;
 
 import static duke.constants.DataFileConfig.PATH_TO_DATA_FILE;
 import static duke.constants.DataFileConfig.PATH_TO_DATA_FOLDER;
-import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
 import static duke.constants.Messages.MESSAGE_IO_EXCEPTION;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
+import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
 
 /**
@@ -113,9 +112,7 @@ public class Storage {
             StringBuilder tasksData = new StringBuilder();
             FileWriter fw = new FileWriter(PATH_TO_DATA_FILE.toString());
 
-            for (Task task : tasks.getTasksList()) {
-                tasksData.append(task.encodeTask() + System.lineSeparator());
-            }
+            tasks.getTasksList().forEach(task -> tasksData.append(task.encodeTask() + System.lineSeparator()));
 
             fw.write(tasksData.toString());
 
