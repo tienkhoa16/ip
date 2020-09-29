@@ -8,7 +8,7 @@
 3.2. [Listing Tasks: `list`](#32-listing-tasks-list)\
 3.3. [Marking A Task As Done: `done`](#33-marking-a-task-as-done-done)\
 3.4. [Deleting A Task : `delete`](#34-deleting-a-task--delete)\
-3.5. [Finding A Task : `find`](#35-finding-a-task--find)\
+3.5. [Finding Tasks : `find`](#35-finding-tasks--find)\
 3.6. [Exiting Duke : `bye`](#36-exiting-duke--bye)
 1. [**Command Summary**](#4-command-summary)
 
@@ -159,7 +159,7 @@ Expected outcome:
     ____________________________________________________________
 ``` 
 
-### 3.5. Finding A Task : `find`
+### 3.5. Finding Tasks : `find`
 Finds tasks in Duke by searching for a keyword.
 
 Format: `find KEYWORD`\
