@@ -50,7 +50,7 @@ If the setup is correct, you should see something like the below:
 
     - `list` : Views all tasks added to Duke.
     - `deadline CS2113 Individual Project /by 2/10/2020 2359` : Adds a deadline called `CS2113 Individual Project`
-    which is due on `2/10/2020 2359` to Duke.
+    which is due on `2 October 2020, 11.59PM` to Duke.
     - `bye` : Exits Duke.
 
 1. A summary of all the features available in Duke can be found in [Section 4. Command Summary](#4-command-summary).\
@@ -71,13 +71,13 @@ Below is an example of Task Index:
     ![Image of Task Index](./TaskIndex.png)
 
 - Dates that you input to Duke should follow the `D/M/YYYY` format.\
-    Example: `1/10/2020` represents the date October 1st 2020.
+    Example: `1/10/2020` represents the date 1 October 2020.
 - Time that you input to Duke should follow the `HHMM` format where `HH` is hour in day (0-23)
 and `MM` is minute in hour (0-59).\
-    Example: `1600` represents the time 16:59.
+    Example: `1600` represents the time 4:59PM.
 - Parameters cannot be reordered.
     Example: If the command specifies `DESCRIPTION /by DATE TIME`,
-    `/by DATE TIME DESCRIPTION` will result to invalid command. 
+    `/by DATE TIME DESCRIPTION` will result to an invalid command. 
     
 ***
 
