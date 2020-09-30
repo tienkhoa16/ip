@@ -168,11 +168,13 @@ public class Parser {
             if (countDeadlineTag == ONE_APPEARANCE && countEventTag < ONE_APPEARANCE) {
                 isValid = true;
             }
+
             break;
         case EVENT_ABBREVIATION:
             if (countEventTag == ONE_APPEARANCE && countDeadlineTag < ONE_APPEARANCE) {
                 isValid = true;
             }
+
             break;
         default:
             isValid = false;
@@ -190,7 +192,7 @@ public class Parser {
      * @return Task time argument WITHOUT tag.
      */
     public static String extractTimeFromString(String encoded, Character taskTypeAbbrev) {
-        String commandTag = null;
+        String commandTag = EMPTY_STRING;
 
         if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
             commandTag = DEADLINE_TAG;
