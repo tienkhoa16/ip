@@ -20,8 +20,7 @@ public final class Messages {
     public static final String MESSAGE_EMPTY_TASKS_LIST = "You don't have any tasks.";
     public static final String MESSAGE_EXIT = "Bye buddy. Hope to see you again soon!";
     public static final String MESSAGE_FIND_FORMAT = "Here is the list of matching tasks:%s";
-    public static final String MESSAGE_FORMAT = HORIZONTAL_LINE + LS
-            + "%s" + System.lineSeparator()
+    public static final String MESSAGE_FORMAT = HORIZONTAL_LINE + LS + "%s" + System.lineSeparator()
             + HORIZONTAL_LINE + System.lineSeparator();
     public static final String MESSAGE_CREATED_NEW_DATA_FILE = String.format(
             MESSAGE_FORMAT, "Created data/duke.txt to store future tasks.");
@@ -29,37 +28,25 @@ public final class Messages {
     public static final String MESSAGE_LOAD_SUCCESSFUL = String.format(
             MESSAGE_FORMAT, "Loading saved tasks completed.");
     public static final String MESSAGE_NUMBER_OF_TASKS = "Now you have %d task%s in the list.";
-    public static final String MESSAGE_DELETE_ACK = MESSAGE_DELETE_TITLE + LS
-            + "%s" + LS
-            + MESSAGE_NUMBER_OF_TASKS;
-    public static final String MESSAGE_ADD_ACK = MESSAGE_ADD_TITLE + LS
-            + "%s" + LS
-            + MESSAGE_NUMBER_OF_TASKS;
+    public static final String MESSAGE_DELETE_ACK = MESSAGE_DELETE_TITLE + LS + "%s" + LS + MESSAGE_NUMBER_OF_TASKS;
+    public static final String MESSAGE_ADD_ACK = MESSAGE_ADD_TITLE + LS + "%s" + LS + MESSAGE_NUMBER_OF_TASKS;
     public static final String MESSAGE_PLURAL_NOUN = "s";
     public static final String MESSAGE_SINGULAR_NOUN = "";
-    public static final String MESSAGE_WELCOME = "Hello dude! I'm Duke" + LS
-            + "How can I help you?";
+    public static final String MESSAGE_WELCOME = "Hello dude! I'm Duke" + LS + "How can I help you?";
     public static final String SAD_FACE = ":(  OOPS!!! ";
     public static final String MESSAGE_NO_MATCH = SAD_FACE + "There are no results that match your keyword.";
     public static final String MESSAGE_LOADING_ERROR = SAD_FACE + "An error has occurred while loading data.";
     public static final String MESSAGE_SAVING_ERROR = SAD_FACE + "An error has occurred while saving data.";
-    public static final String MESSAGE_INVALID_COMMAND_WORD = SAD_FACE
-            + "I'm sorry, but I don't know what that means :-(";
-    public static final String MESSAGE_INVALID_TAG = SAD_FACE
-            + "Command tag is invalid." + LS
+    public static final String MESSAGE_INVALID_COMMAND_WORD = SAD_FACE + "Sorry, but I don't know what that means.";
+    public static final String MESSAGE_INVALID_TAG = SAD_FACE + "Command tag is invalid." + LS
             + "- For adding a deadline, use /by" + LS
             + "- For adding an event, use /at";
-    public static final String MESSAGE_EMPTY_DESCRIPTION = SAD_FACE
-            + "The description of %s cannot be empty.";
+    public static final String MESSAGE_EMPTY_DESCRIPTION = SAD_FACE + "The description of %s cannot be empty.";
     public static final String MESSAGE_EMPTY_KEYWORD = SAD_FACE + "Keyword cannot be empty.";
-    public static final String MESSAGE_EMPTY_TIME = SAD_FACE
-            + "The date and time of %s cannot be empty.";
-    public static final String MESSAGE_INVALID_ID_RANGE = SAD_FACE
-            + "Task ID is out of range.";
-    public static final String MESSAGE_DUPLICATED_MARK = SAD_FACE
-            + "%s has been done earlier.";
-    public static final String MESSAGE_INVALID_ID = SAD_FACE
-            + "Expected an integer for task ID.";
+    public static final String MESSAGE_EMPTY_TIME = SAD_FACE + "The date and time of %s cannot be empty.";
+    public static final String MESSAGE_INVALID_ID_RANGE = SAD_FACE + "Task ID is out of range.";
+    public static final String MESSAGE_DUPLICATED_MARK = SAD_FACE + "%s has been done earlier.";
+    public static final String MESSAGE_INVALID_ID = SAD_FACE + "Expected an integer for task ID.";
     public static final String MESSAGE_IO_EXCEPTION = SAD_FACE + "Something went wrong: ";
     public static final String TASK_ENCODE_FORMAT = "%s | %s | %s";
     public static final String TASK_ENCODE_FORMAT_DATE_TIME_EXTENSION = "%s | %s";
