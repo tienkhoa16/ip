@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_INVALID_COMMAND_WORD;
 public class InvalidCommandWordException extends DukeException {
 
     /**
-     * Constructs InvalidCommandException object inheriting from DukeException.
+     * Constructs InvalidCommandException object inheriting class DukeException.
      */
     public InvalidCommandWordException() {
         super(MESSAGE_INVALID_COMMAND_WORD);

@@ -8,9 +8,9 @@ import static duke.constants.Messages.MESSAGE_EMPTY_DESCRIPTION;
 public class EmptyDescriptionException extends DukeException {
 
     /**
-     * Constructs EmptyDescriptionException object inheriting from DukeException.
+     * Constructs EmptyDescriptionException object inheriting class DukeException.
      *
-     * @param taskType Task type of the task with empty description.
+     * @param taskType Type of the task with empty description.
      */
     public EmptyDescriptionException(String taskType) {
         super(String.format(MESSAGE_EMPTY_DESCRIPTION, taskType));

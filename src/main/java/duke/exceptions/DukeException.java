@@ -7,7 +7,7 @@ import static duke.constants.Messages.MESSAGE_FORMAT;
  */
 public class DukeException extends Exception {
     /**
-     * Constructor for class.
+     * Constructs DukeException object inheriting class Exception.
      *
      * @param message Error message.
      */

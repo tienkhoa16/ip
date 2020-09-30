@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_LOADING_ERROR;
 public class LoadingException extends DukeException {
 
     /**
-     * Constructs LoadingException object inheriting from DukeException.
+     * Constructs LoadingException object inheriting class DukeException.
      */
     public LoadingException() {
         super(MESSAGE_LOADING_ERROR);

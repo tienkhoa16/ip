@@ -8,9 +8,9 @@ import static duke.constants.Messages.MESSAGE_EMPTY_TIME;
 public class EmptyTimeException extends DukeException {
 
     /**
-     * Constructs EmptyTimeException object inheriting from DukeException.
+     * Constructs EmptyTimeException object inheriting class DukeException.
      *
-     * @param taskType Task type of the task with empty date time.
+     * @param taskType Type of task with empty date time.
      */
     public EmptyTimeException(String taskType) {
         super(String.format(MESSAGE_EMPTY_TIME, taskType));
