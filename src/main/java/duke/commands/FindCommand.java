@@ -17,7 +17,7 @@ public class FindCommand extends Command {
     private String keyword;
 
     /**
-     * Constructs FindCommand object inheriting from Command class.
+     * Constructs FindCommand object inheriting abstract class Command.
      *
      * @throws EmptyKeywordException If keyword is empty.
      */

@@ -9,7 +9,7 @@ import duke.commands.FindCommand;
 import duke.commands.ListCommand;
 import duke.exceptions.EmptyKeywordException;
 import duke.exceptions.EmptyTimeException;
-import duke.exceptions.InvalidCommandException;
+import duke.exceptions.InvalidCommandWordException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,10 +50,10 @@ public class Parser {
      *
      * @param userInputString User's raw input string.
      * @return Associated command.
-     * @throws InvalidCommandException If command word is invalid.
+     * @throws InvalidCommandWordException If command word is invalid.
      * @throws EmptyKeywordException If user's keyword input for find command is empty.
      */
-    public Command parseCommand(String userInputString) throws InvalidCommandException, EmptyKeywordException {
+    public Command parseCommand(String userInputString) throws InvalidCommandWordException, EmptyKeywordException {
         String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[COMMAND_TYPE_INDEX].toLowerCase();
         String commandArgs = commandTypeAndParams[COMMAND_ARGS_INDEX];
@@ -76,7 +76,7 @@ public class Parser {
         case COMMAND_WORD_BYE:
             return new ExitCommand();
         default:
-            throw new InvalidCommandException();
+            throw new InvalidCommandWordException();
         }
     }
 
@@ -124,17 +124,25 @@ public class Parser {
     }
 
     /**
-     * Extracts substring representing task activity description from command arguments.
+     * Extracts task description from command arguments.
      *
      * @param taskTypeAbbrev Task type abbreviation.
-     * @param encoded command arguments.
-     * @return Task activity description.
+     * @param encoded Command arguments.
+     * @return Task description.
      * @throws EmptyTimeException If no prefix (/by, /at) is found in user's input.
      */
-    public static String extractActivityFromString(Character taskTypeAbbrev, String encoded)
+    public static String extractDescriptionFromString(Character taskTypeAbbrev, String encoded)
             throws EmptyTimeException {
         int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
         int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
+
+        if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION) && (indexOfDeadlinePrefix == INDEX_NOT_EXIST)) {
+            throw new EmptyTimeException(MESSAGE_A_DEADLINE);
+        }
+
+        if (taskTypeAbbrev.equals(EVENT_ABBREVIATION) && (indexOfEventPrefix == INDEX_NOT_EXIST)) {
+            throw new EmptyTimeException(MESSAGE_AN_EVENT);
+        }
 
         /*
          * Description is leading substring up to data prefix string.
@@ -142,15 +150,6 @@ public class Parser {
          * then prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
          */
         int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
-
-        if (indexOfExistingPrefix == INDEX_NOT_EXIST) {
-            if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
-                throw new EmptyTimeException(MESSAGE_A_DEADLINE);
-            }
-            if (taskTypeAbbrev.equals(EVENT_ABBREVIATION)) {
-                throw new EmptyTimeException(MESSAGE_AN_EVENT);
-            }
-        }
 
         return encoded.substring(DESCRIPTION_START_INDEX, indexOfExistingPrefix).trim();
     }
@@ -171,9 +170,10 @@ public class Parser {
             taskPrefix = TASK_DATA_PREFIX_EVENT;
         }
 
-        int indexOfDeadlinePrefix = encoded.indexOf(taskPrefix);
+        int indexOfExistingPrefix = encoded.indexOf(taskPrefix);
+        String timeWithPrefix = encoded.substring(indexOfExistingPrefix, encoded.length()).trim();
 
-        return removePrefixSign(encoded.substring(indexOfDeadlinePrefix, encoded.length()).trim(), taskPrefix);
+        return removePrefixSign(timeWithPrefix, taskPrefix);
     }
 
     /**

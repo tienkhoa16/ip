@@ -14,7 +14,7 @@ import static duke.constants.Messages.MESSAGE_LIST_FORMAT;
 public class ListCommand extends Command {
 
     /**
-     * Overrides execute method of class Command to execute the listing tasks list command requested by user's input.
+     * Overrides execute method of class Command to execute the listing tasks command requested by user's input.
      *
      * @param tasks Tasks list managing all user's tasks.
      * @param storage Storage to save data when required.

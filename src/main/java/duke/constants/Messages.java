@@ -43,13 +43,13 @@ public final class Messages {
     public static final String MESSAGE_NO_MATCH = SAD_FACE + "There are no results that match your keyword.";
     public static final String MESSAGE_LOADING_ERROR = SAD_FACE + "An error has occurred while loading data.";
     public static final String MESSAGE_SAVING_ERROR = SAD_FACE + "An error has occurred while saving data.";
-    public static final String MESSAGE_INVALID_INPUT_WORD = SAD_FACE
+    public static final String MESSAGE_INVALID_COMMAND_WORD = SAD_FACE
             + "I'm sorry, but I don't know what that means :-(";
     public static final String MESSAGE_EMPTY_DESCRIPTION = SAD_FACE
             + "The description of %s cannot be empty.";
     public static final String MESSAGE_EMPTY_KEYWORD = SAD_FACE + "Keyword cannot be empty.";
     public static final String MESSAGE_EMPTY_TIME = SAD_FACE
-            + "The date/time of %s cannot be empty.";
+            + "The date and time of %s cannot be empty.";
     public static final String MESSAGE_INVALID_ID_RANGE = SAD_FACE
             + "Task ID is out of range.";
     public static final String MESSAGE_DUPLICATED_MARK = SAD_FACE

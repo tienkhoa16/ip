@@ -2,11 +2,11 @@ package duke.commands;
 
 import duke.components.Storage;
 import duke.components.TasksList;
-import duke.components.Utils;
 import duke.exceptions.DukeException;
 import duke.task.Task;
 
 import static duke.commands.CommandResult.createAcknowledgeMsg;
+import static duke.components.Utils.convertToZeroBased;
 import static duke.constants.Messages.MESSAGE_DELETE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_INVALID_ID;
@@ -19,7 +19,7 @@ public class DeleteCommand extends Command {
     private String index;
 
     /**
-     * Constructs DeleteCommand object inheriting from Command class.
+     * Constructs DeleteCommand object inheriting abstract class Command.
      *
      * @param index Index in one-based numbering of the task to be deleted.
      */
@@ -37,7 +37,7 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(TasksList tasks, Storage storage) {
         try {
-            int indexZeroBased = Utils.convertToZeroBased(index);
+            int indexZeroBased = convertToZeroBased(index);
 
             Task taskToDelete = tasks.getTasksList().get(indexZeroBased);
             tasks.getTasksList().remove(indexZeroBased);

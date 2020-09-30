@@ -5,14 +5,14 @@ import duke.components.TasksList;
 import duke.exceptions.DukeException;
 import duke.exceptions.EmptyDescriptionException;
 import duke.exceptions.EmptyTimeException;
-import duke.exceptions.InvalidCommandException;
+import duke.exceptions.InvalidCommandWordException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
 import static duke.commands.CommandResult.createAcknowledgeMsg;
-import static duke.components.Parser.extractActivityFromString;
+import static duke.components.Parser.extractDescriptionFromString;
 import static duke.components.Parser.extractTimeFromString;
 import static duke.constants.Messages.MESSAGE_ADD_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
@@ -25,57 +25,17 @@ import static duke.constants.TaskConstants.TODO_ABBREVIATION;
  */
 public class AddCommand extends Command {
     private char taskTypeAbbrev;
-    private String description;
+    private String commandArgs;
 
     /**
      * Constructs AddCommand object inheriting abstract class Command.
      *
      * @param taskTypeAbbrev Task type abbreviation of the task to be added.
-     * @param description Description of the task to be added.
+     * @param commandArgs Command arguments from user's input.
      */
-    public AddCommand(char taskTypeAbbrev, String description) {
+    public AddCommand(char taskTypeAbbrev, String commandArgs) {
         this.taskTypeAbbrev = taskTypeAbbrev;
-        this.description = description;
-    }
-
-    /**
-     * Creates the task according to the task type abbreviation and the description of the task.
-     *
-     * @return Created task.
-     * @throws EmptyDescriptionException If task description is empty.
-     * @throws EmptyTimeException If task date time is empty.
-     * @throws InvalidCommandException If command word is invalid.
-     */
-    private Task createTask() throws EmptyDescriptionException, EmptyTimeException, InvalidCommandException {
-        Task task = null;
-
-        switch (taskTypeAbbrev) {
-        case TODO_ABBREVIATION:
-            task = new Todo(description);
-            break;
-        case DEADLINE_ABBREVIATION:
-            //Fallthrough
-        case EVENT_ABBREVIATION:
-            String activity = extractActivityFromString(taskTypeAbbrev, description);
-            String time = extractTimeFromString(description, taskTypeAbbrev);
-
-            switch (taskTypeAbbrev) {
-            case DEADLINE_ABBREVIATION:
-                task = new Deadline(activity, time);
-                break;
-            case EVENT_ABBREVIATION:
-                task = new Event(activity, time);
-                break;
-            default:
-                throw new InvalidCommandException();
-            }
-
-            break;
-        default:
-            throw new InvalidCommandException();
-        }
-
-        return task;
+        this.commandArgs = commandArgs;
     }
 
     /**
@@ -99,5 +59,45 @@ public class AddCommand extends Command {
         } catch (DukeException e) {
             return new CommandResult(e.getMessage());
         }
+    }
+
+    /**
+     * Creates a task based on user's input.
+     *
+     * @return Created task.
+     * @throws EmptyDescriptionException If task description is empty.
+     * @throws EmptyTimeException If task date time is empty.
+     * @throws InvalidCommandWordException If command word is invalid.
+     */
+    private Task createTask() throws EmptyDescriptionException, EmptyTimeException, InvalidCommandWordException {
+        Task task = null;
+
+        switch (taskTypeAbbrev) {
+        case TODO_ABBREVIATION:
+            task = new Todo(commandArgs);
+            break;
+        case DEADLINE_ABBREVIATION:
+            //Fallthrough
+        case EVENT_ABBREVIATION:
+            String activity = extractDescriptionFromString(taskTypeAbbrev, commandArgs);
+            String time = extractTimeFromString(commandArgs, taskTypeAbbrev);
+
+            switch (taskTypeAbbrev) {
+            case DEADLINE_ABBREVIATION:
+                task = new Deadline(activity, time);
+                break;
+            case EVENT_ABBREVIATION:
+                task = new Event(activity, time);
+                break;
+            default:
+                throw new InvalidCommandWordException();
+            }
+
+            break;
+        default:
+            throw new InvalidCommandWordException();
+        }
+
+        return task;
     }
 }

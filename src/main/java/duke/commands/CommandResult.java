@@ -32,12 +32,12 @@ public class CommandResult {
     }
 
     /**
-     * Gets acknowledge message after executing a command.
+     * Creates acknowledge message after executing a command.
      *
      * @param messageFormat Format of the acknowledge message.
      * @param tasks Tasks list managing all user's tasks.
      * @param task Task applied the command.
-     * @return Acknowledge message for executing the command.
+     * @return Acknowledge message after executing the command.
      */
     public static String createAcknowledgeMsg(String messageFormat, TasksList tasks, Task task) {
         int numOfTasks = tasks.getNumberOfTasks();
