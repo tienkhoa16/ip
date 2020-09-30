@@ -7,6 +7,7 @@ public final class TaskConstants {
     public static final char DEADLINE_ABBREVIATION = 'D';
     public static final String DEADLINE_STRING_REPRESENTATION = "%s (by: %s)";
     public static final String DEADLINE_TAG = "/by";
+    public static final int DETAILS_START_INDEX = 6;
     public static final char EVENT_ABBREVIATION = 'E';
     public static final String EVENT_STRING_REPRESENTATION = "%s (at: %s)";
     public static final String EVENT_TAG = "/at";

@@ -12,6 +12,7 @@ import static duke.components.Utils.convertTasksListToString;
 import static duke.constants.Messages.MESSAGE_FIND_FORMAT;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_NO_MATCH;
+import static duke.constants.TaskConstants.DETAILS_START_INDEX;
 
 public class FindCommand extends Command {
     private String keyword;
@@ -41,7 +42,7 @@ public class FindCommand extends Command {
     public CommandResult execute(TasksList tasks, Storage storage) {
 
         ArrayList<Task> matchingTasks = (ArrayList<Task>) tasks.getTasksList().stream()
-                .filter(task -> task.toString().toLowerCase().contains(keyword))
+                .filter(task -> task.toString().substring(DETAILS_START_INDEX).toLowerCase().contains(keyword))
                 .collect(Collectors.toList());
 
         String listingMessage = null;

@@ -27,7 +27,7 @@ public class ExitCommand extends Command {
      * Checks if user wants to exit Duke by checking given command.
      *
      * @param command The command to be checked.
-     * @return If the command is an object of type ExitCommand.
+     * @return Whether the command is an object of type ExitCommand.
      */
     public static boolean isExit(Command command) {
         return command instanceof ExitCommand;

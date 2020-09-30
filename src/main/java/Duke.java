@@ -26,7 +26,7 @@ public class Duke {
     private TasksList tasks;
 
     /**
-     * Constructs Duke object by initialising Ui, Storage, Parser, ExceptionHandler objects
+     * Constructs Duke object by initialising Ui, Storage, Parser, ExceptionHandler, TasksList objects
      * and loads saved tasks if applicable.
      */
     public Duke() {
@@ -34,6 +34,7 @@ public class Duke {
         storage = new Storage();
         parser = new Parser();
         exceptionHandler = new ExceptionHandler();
+        tasks = new TasksList();
 
         try {
             tasks = storage.loadData();
@@ -43,7 +44,6 @@ public class Duke {
             } else {
                 ui.showResultToUser(MESSAGE_CREATED_NEW_DATA_FILE);
             }
-
         } catch (DukeException e) {
             ui.showResultToUser(exceptionHandler.handleCheckedExceptions(e));
         } catch (Exception e) {

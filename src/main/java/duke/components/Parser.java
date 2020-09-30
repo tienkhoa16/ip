@@ -28,7 +28,8 @@ import static duke.constants.CommandConstants.COMMAND_WORD_TODO;
 import static duke.constants.CommandConstants.DESCRIPTION_START_INDEX;
 import static duke.constants.CommandConstants.EMPTY_STRING;
 import static duke.constants.CommandConstants.GREEDY_WHITE_SPACE;
-import static duke.constants.CommandConstants.INDEX_NOT_EXIST;
+import static duke.constants.CommandConstants.OFFSET;
+import static duke.constants.CommandConstants.ONE_APPEARANCE;
 import static duke.constants.Messages.VERTICAL_BAR_REGREX;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.DEADLINE_TAG;
@@ -129,31 +130,56 @@ public class Parser {
      * @return Task description.
      * @throws InvalidTagException If command tag is invalid in user's input.
      */
-    public static String extractDescriptionFromString(Character taskTypeAbbrev, String encoded)
+    public static String extractDescriptionFromString(char taskTypeAbbrev, String encoded)
             throws InvalidTagException {
+
+        if (!checkTagValidity(taskTypeAbbrev, encoded)) {
+            throw new InvalidTagException();
+        }
+
         int indexOfDeadlineTag = encoded.indexOf(DEADLINE_TAG);
         int indexOfEventTag = encoded.indexOf(EVENT_TAG);
 
-        if (indexOfDeadlineTag >= DESCRIPTION_START_INDEX && indexOfEventTag >= DESCRIPTION_START_INDEX) {
-            throw new InvalidTagException();
-        }
-
-        if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION) && (indexOfDeadlineTag == INDEX_NOT_EXIST)) {
-            throw new InvalidTagException();
-        }
-
-        if (taskTypeAbbrev.equals(EVENT_ABBREVIATION) && (indexOfEventTag == INDEX_NOT_EXIST)) {
-            throw new InvalidTagException();
-        }
-
         /*
          * Description is leading substring up to command tag string.
-         * If tag of deadline exists (indexOfDeadlineTag >= 0),
-         * then tag of event doesn't (indexOfEventPrefix == -1) and vice versa.
+         * If tag of deadline exists (i.e. indexOfDeadlineTag >= 0),
+         * then tag of event doesn't (i.e. indexOfEventPrefix == -1) and vice versa.
          */
         int indexOfExistingTag = Math.max(indexOfDeadlineTag, indexOfEventTag);
 
         return encoded.substring(DESCRIPTION_START_INDEX, indexOfExistingTag).trim();
+    }
+
+    /**
+     * Checks the validity of command tag from user's input command arguments.
+     *
+     * @param taskTypeAbbrev Task type abbreviation.
+     * @param encoded Command arguments.
+     * @return Whether the command tag is valid.
+     */
+    private static boolean checkTagValidity(char taskTypeAbbrev, String encoded) {
+        boolean isValid = false;
+
+        int countDeadlineTag = encoded.split(DEADLINE_TAG).length - OFFSET;
+        int countEventTag = encoded.split(EVENT_TAG).length - OFFSET;
+
+        switch (taskTypeAbbrev) {
+        case DEADLINE_ABBREVIATION:
+            if (countDeadlineTag == ONE_APPEARANCE && countEventTag < ONE_APPEARANCE) {
+                isValid = true;
+            }
+            break;
+        case EVENT_ABBREVIATION:
+            if (countEventTag == ONE_APPEARANCE && countDeadlineTag < ONE_APPEARANCE) {
+                isValid = true;
+            }
+            break;
+        default:
+            isValid = false;
+            break;
+        }
+
+        return isValid;
     }
 
     /**
