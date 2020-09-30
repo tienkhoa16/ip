@@ -10,13 +10,14 @@ import static duke.constants.CommandConstants.OFFSET;
 import static duke.constants.Messages.LISTING_FORMAT;
 
 /**
- * A class containing utilities used in Duke.
+ * A class containing utility methods used in Duke.
  */
 public class Utils {
+
     /**
-     * Converts an integer in string representation from one-based numbering to zero-based numbering.
+     * Converts an integer in string format from one-based numbering to zero-based numbering.
      *
-     * @param index One-based integer in string representation to be converted.
+     * @param index One-based integer in string format to be converted.
      * @return Integer with zero-based numbering.
      */
     public static int convertToZeroBased(String index) {

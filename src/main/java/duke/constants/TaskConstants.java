@@ -6,11 +6,11 @@ package duke.constants;
 public final class TaskConstants {
     public static final char DEADLINE_ABBREVIATION = 'D';
     public static final String DEADLINE_STRING_REPRESENTATION = "%s (by: %s)";
+    public static final String DEADLINE_TAG = "/by";
     public static final char EVENT_ABBREVIATION = 'E';
     public static final String EVENT_STRING_REPRESENTATION = "%s (at: %s)";
+    public static final String EVENT_TAG = "/at";
     public static final int TASK_ABBREVIATION_INDEX = 0;
-    public static final String TASK_DATA_PREFIX_DEADLINE = "/by";
-    public static final String TASK_DATA_PREFIX_EVENT = "/at";
     public static final int TASK_DESCRIPTION_INDEX = 2;
     public static final String TASK_DONE_ICON = "/";
     public static final String TASK_DONE_STRING_REPRESENTATION = "1";

@@ -6,6 +6,7 @@ import duke.exceptions.DukeException;
 import duke.exceptions.EmptyDescriptionException;
 import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandWordException;
+import duke.exceptions.InvalidTagException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -68,8 +69,10 @@ public class AddCommand extends Command {
      * @throws EmptyDescriptionException If task description is empty.
      * @throws EmptyTimeException If task date time is empty.
      * @throws InvalidCommandWordException If command word is invalid.
+     * @throws InvalidTagException If command tag is invalid.
      */
-    private Task createTask() throws EmptyDescriptionException, EmptyTimeException, InvalidCommandWordException {
+    private Task createTask() throws EmptyDescriptionException, EmptyTimeException,
+            InvalidCommandWordException, InvalidTagException {
         Task task = null;
 
         switch (taskTypeAbbrev) {

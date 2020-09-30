@@ -19,6 +19,9 @@ import static duke.constants.TaskConstants.TASK_DONE_STRING_REPRESENTATION;
 import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
 import static duke.constants.TaskConstants.TASK_TIME_INDEX;
 
+/**
+ * A base class for task with date time.
+ */
 public abstract class TaskWithDateTime extends Task {
     protected String dateTime;
 

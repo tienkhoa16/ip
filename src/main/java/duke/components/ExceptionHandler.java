@@ -12,7 +12,7 @@ public class ExceptionHandler {
     /**
      * Handles checked exceptions.
      *
-     * @param e DukeException.
+     * @param e Checked exceptions in Duke.
      * @return Error message.
      */
     public String handleCheckedExceptions(DukeException e) {
@@ -22,7 +22,7 @@ public class ExceptionHandler {
     /**
      * Handles unchecked exceptions.
      *
-     * @param e Exception.
+     * @param e Unchecked exception in Duke.
      * @return Error message.
      */
     public String handleUncheckedExceptions(Exception e) {

@@ -29,16 +29,16 @@ public class Storage {
     private boolean hasExistingDataFile;
 
     /**
-     * Constructs Storage class. By default, data file is assumed to be existed.
+     * Constructs Storage object where data file is assumed to be existed.
      */
     public Storage() {
         hasExistingDataFile = true;
     }
 
     /**
-     * Returns boolean stating if data file has existed.
+     * Returns boolean stating if data file is existed.
      *
-     * @return If data file has existed.
+     * @return Boolean stating if data file is existed.
      */
     public boolean getHasExistingDataFile() {
         return hasExistingDataFile;

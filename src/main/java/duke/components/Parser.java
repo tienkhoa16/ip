@@ -8,8 +8,8 @@ import duke.commands.ExitCommand;
 import duke.commands.FindCommand;
 import duke.commands.ListCommand;
 import duke.exceptions.EmptyKeywordException;
-import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidCommandWordException;
+import duke.exceptions.InvalidTagException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,13 +29,11 @@ import static duke.constants.CommandConstants.DESCRIPTION_START_INDEX;
 import static duke.constants.CommandConstants.EMPTY_STRING;
 import static duke.constants.CommandConstants.GREEDY_WHITE_SPACE;
 import static duke.constants.CommandConstants.INDEX_NOT_EXIST;
-import static duke.constants.Messages.MESSAGE_AN_EVENT;
-import static duke.constants.Messages.MESSAGE_A_DEADLINE;
 import static duke.constants.Messages.VERTICAL_BAR_REGREX;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
+import static duke.constants.TaskConstants.DEADLINE_TAG;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
-import static duke.constants.TaskConstants.TASK_DATA_PREFIX_DEADLINE;
-import static duke.constants.TaskConstants.TASK_DATA_PREFIX_EVENT;
+import static duke.constants.TaskConstants.EVENT_TAG;
 import static duke.constants.TaskConstants.TASK_INPUT_DATE_TIME_FORMAT;
 import static duke.constants.TaskConstants.TASK_OUTPUT_DATE_TIME_FORMAT;
 import static duke.constants.TaskConstants.TODO_ABBREVIATION;
@@ -59,16 +57,16 @@ public class Parser {
         String commandArgs = commandTypeAndParams[COMMAND_ARGS_INDEX];
 
         switch (commandType) {
-        case COMMAND_WORD_LIST:
-            return new ListCommand();
-        case COMMAND_WORD_DONE:
-            return new DoneCommand(commandArgs);
         case COMMAND_WORD_TODO:
             return new AddCommand(TODO_ABBREVIATION, commandArgs);
         case COMMAND_WORD_DEADLINE:
             return new AddCommand(DEADLINE_ABBREVIATION, commandArgs);
         case COMMAND_WORD_EVENT:
             return new AddCommand(EVENT_ABBREVIATION, commandArgs);
+        case COMMAND_WORD_LIST:
+            return new ListCommand();
+        case COMMAND_WORD_DONE:
+            return new DoneCommand(commandArgs);
         case COMMAND_WORD_DELETE:
             return new DeleteCommand(commandArgs);
         case COMMAND_WORD_FIND:
@@ -114,9 +112,9 @@ public class Parser {
     }
 
     /**
-     * Parses input user's data and time format.
+     * Parses user's input date time format.
      *
-     * @param stringFormatDateTime Input user's date and time format.
+     * @param stringFormatDateTime User's input date time format.
      * @return Parsed date and time format.
      */
     public static String parseStringFormatDateTime(String stringFormatDateTime) {
@@ -129,51 +127,66 @@ public class Parser {
      * @param taskTypeAbbrev Task type abbreviation.
      * @param encoded Command arguments.
      * @return Task description.
-     * @throws EmptyTimeException If no prefix (/by, /at) is found in user's input.
+     * @throws InvalidTagException If command tag is invalid in user's input.
      */
     public static String extractDescriptionFromString(Character taskTypeAbbrev, String encoded)
-            throws EmptyTimeException {
-        int indexOfDeadlinePrefix = encoded.indexOf(TASK_DATA_PREFIX_DEADLINE);
-        int indexOfEventPrefix = encoded.indexOf(TASK_DATA_PREFIX_EVENT);
+            throws InvalidTagException {
+        int indexOfDeadlineTag = encoded.indexOf(DEADLINE_TAG);
+        int indexOfEventTag = encoded.indexOf(EVENT_TAG);
 
-        if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION) && (indexOfDeadlinePrefix == INDEX_NOT_EXIST)) {
-            throw new EmptyTimeException(MESSAGE_A_DEADLINE);
+        if (indexOfDeadlineTag >= DESCRIPTION_START_INDEX && indexOfEventTag >= DESCRIPTION_START_INDEX) {
+            throw new InvalidTagException();
         }
 
-        if (taskTypeAbbrev.equals(EVENT_ABBREVIATION) && (indexOfEventPrefix == INDEX_NOT_EXIST)) {
-            throw new EmptyTimeException(MESSAGE_AN_EVENT);
+        if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION) && (indexOfDeadlineTag == INDEX_NOT_EXIST)) {
+            throw new InvalidTagException();
+        }
+
+        if (taskTypeAbbrev.equals(EVENT_ABBREVIATION) && (indexOfEventTag == INDEX_NOT_EXIST)) {
+            throw new InvalidTagException();
         }
 
         /*
-         * Description is leading substring up to data prefix string.
-         * If prefix of deadline exists (indexOfDeadlinePrefix >= 0),
-         * then prefix of event doesn't (indexOfEventPrefix == -1) and vice versa.
+         * Description is leading substring up to command tag string.
+         * If tag of deadline exists (indexOfDeadlineTag >= 0),
+         * then tag of event doesn't (indexOfEventPrefix == -1) and vice versa.
          */
-        int indexOfExistingPrefix = Math.max(indexOfDeadlinePrefix, indexOfEventPrefix);
+        int indexOfExistingTag = Math.max(indexOfDeadlineTag, indexOfEventTag);
 
-        return encoded.substring(DESCRIPTION_START_INDEX, indexOfExistingPrefix).trim();
+        return encoded.substring(DESCRIPTION_START_INDEX, indexOfExistingTag).trim();
     }
 
     /**
-     * Extracts substring representing task time from command arguments.
+     * Extracts task time from command arguments.
      *
-     * @param encoded String to be decoded.
+     * @param encoded String containing task time including tag.
      * @param taskTypeAbbrev Abbreviation of task type.
-     * @return Task time argument WITHOUT prefix.
+     * @return Task time argument WITHOUT tag.
      */
     public static String extractTimeFromString(String encoded, Character taskTypeAbbrev) {
-        String taskPrefix = "";
+        String commandTag = null;
 
         if (taskTypeAbbrev.equals(DEADLINE_ABBREVIATION)) {
-            taskPrefix = TASK_DATA_PREFIX_DEADLINE;
+            commandTag = DEADLINE_TAG;
         } else if (taskTypeAbbrev.equals(EVENT_ABBREVIATION)) {
-            taskPrefix = TASK_DATA_PREFIX_EVENT;
+            commandTag = EVENT_TAG;
         }
 
-        int indexOfExistingPrefix = encoded.indexOf(taskPrefix);
-        String timeWithPrefix = encoded.substring(indexOfExistingPrefix, encoded.length()).trim();
+        int indexOfExistingTag = encoded.indexOf(commandTag);
+        String timeWithTag = encoded.substring(indexOfExistingTag, encoded.length()).trim();
 
-        return removePrefixSign(timeWithPrefix, taskPrefix);
+        return removeTag(timeWithTag, commandTag);
+    }
+
+    /**
+     * Removes a tag (/by, /at, etc.) from a string.
+     *
+     * @param string String to remove tag.
+     * @param tag Tag to be removed.
+     * @return String without the tag.
+     */
+    public static String removeTag(String string, String tag) {
+        return string.replace(tag, EMPTY_STRING).trim();
     }
 
     /**
@@ -184,16 +197,5 @@ public class Parser {
      */
     public static String[] splitTaskFromDataLine(String dataLine) {
         return dataLine.trim().split(VERTICAL_BAR_REGREX);
-    }
-
-    /**
-     * Removes a sign (/by, /at, etc.) from parameter string.
-     *
-     * @param string Parameter as a string.
-     * @param sign Parameter sign to be removed.
-     * @return String without the sign.
-     */
-    public static String removePrefixSign(String string, String sign) {
-        return string.replace(sign, EMPTY_STRING).trim();
     }
 }
