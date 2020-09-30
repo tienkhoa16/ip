@@ -16,9 +16,10 @@
 
 Duke is for those who **prefer to use a desktop app for keeping track of tasks**.
 More importantly, Duke is **optimised for the Command Line Interface** (CLI) which is beneficial if you can type fast.
-If you have trouble tracking your deadlines and event dates, Duke can help you manage by saving your data into a file
-and showing it when you start Duke again. Interested? Jump to the [Section 2. “Quick Start”](#2-quick-start) 
-to get started!
+If you have trouble tracking your deadlines and event dates, Duke can help you manage by saving your task list into 
+a data file and loading it when you start Duke again. 
+
+Interested? Jump to the [Section 2. “Quick Start”](#2-quick-start) to get started!
 
 ## 2. Quick Start
 1. Ensure you have Java `11` or above installed in your Computer.
@@ -43,7 +44,7 @@ If the setup is correct, you should see something like the below:
     ```
 
 1. To use Duke, simply type a valid command into the terminal and press <kbd>Enter</kbd> to run the command.\
-    Example: Typing `list` command and pressing <kbd>Enter</kbd> will list past tasks added to Duke.
+    Example: Typing `list` command and pressing <kbd>Enter</kbd> will list tasks added to Duke.
 
 1. Some example commands you can try:
 
@@ -83,8 +84,17 @@ and `MM` is minute in hour (0-59).\
 
 ### 3.1. Adding A Task : `todo`, `deadline`, `event`
 Adds a task to Duke for tracking purposes.
+
+Each task type in Duke is denoted by its abbreviation. Task completion is denoted by
+`[/]` and `[X]` symbols where `[/]` indicates task has been done while 
+`[X]` indicates task has not been done.
+
+After adding a task to the task list, Duke will automatically save the list to
+`[YOUR_DUKE_HOME_FOLDER]/data/duke.txt`.
+
 There are 3 types of task that you can add to Duke:
-- `todo` - a task with only a description.
+
+- `todo` - a task with only a description, represented by `[T]` in Duke.
 
     Format: `todo DESCRIPTION`\
     Example of usage: `todo CS2113 Team Meeting`\
@@ -98,7 +108,7 @@ There are 3 types of task that you can add to Duke:
          ____________________________________________________________
     ```
   
-- `deadline` - a task with a description and the deadline.
+- `deadline` - a task with a description and a deadline, represented by `[D]` in Duke.
 
     Format: `deadline DESCRIPTION /by DATE TIME`\
     Example of usage: `deadline CS2113 Individual Project /by 2/10/2020 2359`\
@@ -111,12 +121,17 @@ There are 3 types of task that you can add to Duke:
          Now you have 2 tasks in the list.
          ____________________________________________________________
     ```
+  
+    :bulb: Although other date time formats are accepted, it is recommended
+    for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have
+    optimal performance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
    
-- `event` - a task with a description, the date and time of the event.
+- `event` - a task with a description and date and time of the event, represented by `[E]` in Duke.
 
     Format: `event DESCRIPTION /at DATE TIME`\
     Example of usage: `event Google Day 2020 /at 9/9/2020 1500`\
     Expected outcome:
+    
     ```
          ____________________________________________________________
          Got it. I've added this task:
@@ -124,6 +139,10 @@ There are 3 types of task that you can add to Duke:
          Now you have 3 tasks in the list.
          ____________________________________________________________
     ``` 
+  
+    :bulb: Although other date time formats are accepted, it is recommended
+    for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have
+    optimal performance.   
 
 ### 3.2. Listing Tasks: `list`
 Lists all tasks in Duke with numbering according to the order they are added to Duke.
@@ -143,6 +162,9 @@ Expected outcome:
 ### 3.3. Marking A Task As Done: `done`
 Marks a task in Duke as done.
 
+After marking a task in task list as done, Duke will automatically save the list to
+`[YOUR_DUKE_HOME_FOLDER]/data/duke.txt`.
+
 Format: `done INDEX`\
 Example of usage: `done 1`\
 Expected outcome:
@@ -154,8 +176,14 @@ Expected outcome:
     ____________________________________________________________
 ``` 
 
+:bulb: If the task has been marked as done previously, 
+Duke will show a warning stating the duplicated mark as done.  
+
 ### 3.4. Deleting A Task : `delete`
 Deletes a task from Duke.
+
+After deleting a task from the task list, Duke will automatically save the list to
+`[YOUR_DUKE_HOME_FOLDER]/data/duke.txt`.
 
 Format: `delete INDEX`\
 Example of usage: `delete 2`\
@@ -170,7 +198,9 @@ Expected outcome:
 ``` 
 
 ### 3.5. Finding Tasks : `find`
-Finds tasks in Duke by searching for a keyword.
+Finds tasks in Duke by searching for a keyword which can be a number,
+a word, a phrase, a month, etc. Duke will filter and display tasks 
+whose description or date time matches the keyword.
 
 Format: `find KEYWORD`\
 Example of usage: `find CS2113`\
@@ -181,7 +211,7 @@ Expected outcome:
     Here is the list of matching tasks:
     1. [T][/] CS2113 Team Meeting
     ____________________________________________________________
-``` 
+```  
 
 ### 3.6. Exiting Duke : `bye`
 Exits Duke.
