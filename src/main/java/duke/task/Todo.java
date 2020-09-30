@@ -8,7 +8,7 @@ import duke.exceptions.EmptyDescriptionException;
 public class Todo extends Task {
 
     /**
-     * Constructs a new Todo object inheriting from Task class.
+     * Constructs Todo object inheriting abstract class Task.
      *
      * @param description Todo description.
      * @throws EmptyDescriptionException If todo description is empty.

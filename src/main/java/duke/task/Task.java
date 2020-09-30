@@ -8,7 +8,7 @@ import static duke.components.Parser.splitTaskFromDataLine;
 import static duke.constants.Messages.MESSAGE_AN_EVENT;
 import static duke.constants.Messages.MESSAGE_A_DEADLINE;
 import static duke.constants.Messages.MESSAGE_A_TODO;
-import static duke.constants.Messages.TASK_SAVE_FORMAT;
+import static duke.constants.Messages.TASK_ENCODE_FORMAT;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
@@ -25,12 +25,12 @@ import static duke.constants.TaskConstants.TODO_ABBREVIATION;
  * A base class for task.
  */
 public abstract class Task {
+    protected char taskTypeAbbrev;
     protected String description;
     protected boolean isDone;
 
     /**
-     * Constructs a new Task object.
-     * By default, initially, task status is set as not done.
+     * Constructs Task object. By default, initially, task status is set as not done.
      *
      * @param description Task description.
      * @throws EmptyDescriptionException If task description is empty.
@@ -46,17 +46,53 @@ public abstract class Task {
             }
         }
 
-        this.description = description;
-        isDone = false;
+        setTaskTypeAbbrev();
+        setDescription(description);
+        setIsDone(false);
     }
 
     /**
-     * Returns an icon according task's status.
+     * Sets task description.
+     */
+    private void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Sets task status.
+     */
+    private void setIsDone(boolean isDone) {
+        this.isDone = isDone;
+    }
+
+    /**
+     * Sets task type abbreviation.
+     */
+    private void setTaskTypeAbbrev() {
+        if (this instanceof Todo) {
+            taskTypeAbbrev = TODO_ABBREVIATION;
+        } else if (this instanceof Deadline) {
+            taskTypeAbbrev = DEADLINE_ABBREVIATION;
+        } else if (this instanceof Event) {
+            taskTypeAbbrev = EVENT_ABBREVIATION;
+        }
+    }
+
+    /**
+     * Returns task description.
      *
-     * @return Icon according task's status.
+     * @return Task description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns an icon representing task's status.
+     *
+     * @return Icon representing task's status.
      */
     public String getStatusIcon() {
-        // Return task status icon
         return (isDone ? TASK_DONE_ICON : TASK_UNDONE_ICON);
     }
 
@@ -70,71 +106,54 @@ public abstract class Task {
     }
 
     /**
-     * Returns task description.
+     * Returns task type abbreviation.
      *
-     * @return Task description.
+     * @return Task type abbreviation.
      */
-    public String getDescription() {
-        return description;
+    public char getTaskTypeAbbrev() {
+        return taskTypeAbbrev;
     }
 
     /**
      * Marks task status as done.
      *
-     * @throws DuplicatedMarkAsDoneException If task has been marked as done.
+     * @throws DuplicatedMarkAsDoneException If task has been marked as done previously.
      */
     public void markAsDone() throws DuplicatedMarkAsDoneException {
         if (isDone) {
             throw new DuplicatedMarkAsDoneException(description);
         }
-        isDone = true;
+
+        setIsDone(true);
     }
 
     /**
-     * Returns string representing task type abbreviation.
-     *
-     * @return Task type abbreviation.
-     */
-    public char getTaskAbbreviation() {
-        char abbreviation = 0;
-
-        if (this instanceof Todo) {
-            abbreviation = TODO_ABBREVIATION;
-        } else if (this instanceof Deadline) {
-            abbreviation = DEADLINE_ABBREVIATION;
-        } else if (this instanceof Event) {
-            abbreviation = EVENT_ABBREVIATION;
-        }
-
-        return abbreviation;
-    }
-
-    /**
-     * Overrides toString method of class Object to return status icon and task description.
+     * Overrides toString method of class Object to return task type abbreviation, status icon and description.
      *
      * @return Task type, status icon and description.
      */
     @Override
     public String toString() {
-        return String.format(TASK_STRING_REPRESENTATION, getTaskAbbreviation(), getStatusIcon(), getDescription());
+        return String.format(TASK_STRING_REPRESENTATION, getTaskTypeAbbrev(), getStatusIcon(), getDescription());
     }
 
     /**
-     * Formats information in a task for it to be saved and decoded in future.
+     * Encodes information in a task for it to be saved and decoded in future.
      *
      * @return Encoded string with all information in the task.
      */
     public String encodeTask() {
-        return String.format(TASK_SAVE_FORMAT, getTaskAbbreviation(), getIsDone(), getDescription());
+        return String.format(TASK_ENCODE_FORMAT, getTaskTypeAbbrev(), getIsDone(), getDescription());
     }
 
     /**
      * Deciphers a string containing information of a task.
      *
-     * @param encodedTask String containing encoded information of the task.
-     * @return Task object with information from encodedTask.
+     * @param encodedTask Encoded string with information of the task.
+     * @return Task object with information decoded from encodedTask.
+     * @throws DukeException If there is exception while decoding the task.
      */
-    public static Task decodeTask(String encodedTask) {
+    public static Task decodeTask(String encodedTask) throws DukeException {
         String[] taskTypeAndDetails = splitTaskFromDataLine(encodedTask);
 
         Character taskAbbrev = encodedTask.charAt(TASK_ABBREVIATION_INDEX);
@@ -143,19 +162,12 @@ public abstract class Task {
 
         Task decodedTask = null;
 
-        try {
-            if (taskAbbrev.equals(TODO_ABBREVIATION)) {
-                decodedTask = new Todo(taskDescription);
-            }
+        if (taskAbbrev.equals(TODO_ABBREVIATION)) {
+            decodedTask = new Todo(taskDescription);
+        }
 
-            if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-                decodedTask.markAsDone();
-            }
-
-        } catch (DukeException e) {
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
+            decodedTask.markAsDone();
         }
 
         return decodedTask;

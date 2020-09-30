@@ -57,7 +57,7 @@ public final class Messages {
     public static final String MESSAGE_INVALID_ID = SAD_FACE
             + "Expected an integer for task ID.";
     public static final String MESSAGE_IO_EXCEPTION = SAD_FACE + "Something went wrong: ";
-    public static final String TASK_SAVE_FORMAT = "%s | %s | %s";
-    public static final String TASK_SAVE_FORMAT_DATE_TIME_EXTENSION = "%s | %s";
+    public static final String TASK_ENCODE_FORMAT = "%s | %s | %s";
+    public static final String TASK_ENCODE_FORMAT_DATE_TIME_EXTENSION = "%s | %s";
     public static final String VERTICAL_BAR_REGREX = " \\| ";
 }

@@ -11,7 +11,7 @@ import static duke.constants.TaskConstants.DEADLINE_STRING_REPRESENTATION;
 public class Deadline extends TaskWithDateTime {
 
     /**
-     * Constructs a new Deadline object inheriting from Task class.
+     * Constructs Deadline object inheriting abstract class TaskWithDateTime.
      *
      * @param description Deadline description.
      * @param by Deadline date time.

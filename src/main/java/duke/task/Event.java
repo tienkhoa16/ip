@@ -11,11 +11,11 @@ import static duke.constants.TaskConstants.EVENT_STRING_REPRESENTATION;
 public class Event extends TaskWithDateTime {
 
     /**
-     * Constructs a new Event object inheriting from Task class.
+     * Constructs Event object inheriting abstract class TaskWithDateTime.
      *
      * @param description Event description.
      * @param at Event date time.
-     * @throws EmptyDescriptionException If task description is empty.
+     * @throws EmptyDescriptionException If event description is empty.
      * @throws EmptyTimeException If event date time is empty.
      */
     public Event(String description, String at) throws EmptyDescriptionException, EmptyTimeException {

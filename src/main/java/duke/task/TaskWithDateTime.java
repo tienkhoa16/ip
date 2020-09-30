@@ -10,7 +10,7 @@ import static duke.components.Parser.parseStringFormatDateTime;
 import static duke.components.Parser.splitTaskFromDataLine;
 import static duke.constants.Messages.MESSAGE_AN_EVENT;
 import static duke.constants.Messages.MESSAGE_A_DEADLINE;
-import static duke.constants.Messages.TASK_SAVE_FORMAT_DATE_TIME_EXTENSION;
+import static duke.constants.Messages.TASK_ENCODE_FORMAT_DATE_TIME_EXTENSION;
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.TASK_ABBREVIATION_INDEX;
@@ -20,7 +20,7 @@ import static duke.constants.TaskConstants.TASK_STATUS_INDEX;
 import static duke.constants.TaskConstants.TASK_TIME_INDEX;
 
 public abstract class TaskWithDateTime extends Task {
-    private String dateTime;
+    protected String dateTime;
 
     /**
      * Constructs TaskWithDateTime object.
@@ -58,22 +58,23 @@ public abstract class TaskWithDateTime extends Task {
     }
 
     /**
-     * Converts the task into a string in save format.
+     * Overrides encodeTask method of class Task to encode task with date time information.
      *
-     * @return A string in save format.
+     * @return Encoded string with all information in the task.
      */
     @Override
     public String encodeTask() {
-        return String.format(TASK_SAVE_FORMAT_DATE_TIME_EXTENSION, super.encodeTask(), dateTime);
+        return String.format(TASK_ENCODE_FORMAT_DATE_TIME_EXTENSION, super.encodeTask(), dateTime);
     }
 
     /**
      * Deciphers a string containing information of a task.
      *
-     * @param encodedTask String containing encoded information of the task.
-     * @return TaskWithDateTime object with information from encodedTask.
+     * @param encodedTask Encoded string with information of the task.
+     * @return TaskWithDateTime object with information decoded from encodedTask.
+     * @throws DukeException If there is exception while decoding the task.
      */
-    public static TaskWithDateTime decodeTask(String encodedTask) {
+    public static TaskWithDateTime decodeTask(String encodedTask) throws DukeException {
         String[] taskTypeAndDetails = splitTaskFromDataLine(encodedTask);
 
         Character taskAbbrev = encodedTask.charAt(TASK_ABBREVIATION_INDEX);
@@ -83,21 +84,14 @@ public abstract class TaskWithDateTime extends Task {
 
         TaskWithDateTime decodedTask = null;
 
-        try {
-            if (taskAbbrev.equals(DEADLINE_ABBREVIATION)) {
-                decodedTask = new Deadline(taskDescription, taskTime);
-            } else if (taskAbbrev.equals(EVENT_ABBREVIATION)) {
-                decodedTask = new Event(taskDescription, taskTime);
-            }
+        if (taskAbbrev.equals(DEADLINE_ABBREVIATION)) {
+            decodedTask = new Deadline(taskDescription, taskTime);
+        } else if (taskAbbrev.equals(EVENT_ABBREVIATION)) {
+            decodedTask = new Event(taskDescription, taskTime);
+        }
 
-            if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
-                decodedTask.markAsDone();
-            }
-
-        } catch (DukeException e) {
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        if (taskStatus.equals(TASK_DONE_STRING_REPRESENTATION)) {
+            decodedTask.markAsDone();
         }
 
         return decodedTask;
