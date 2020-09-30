@@ -39,8 +39,8 @@ public final class Messages {
     public static final String MESSAGE_SAVING_ERROR = SAD_FACE + "An error has occurred while saving data.";
     public static final String MESSAGE_INVALID_COMMAND_WORD = SAD_FACE + "Sorry, but I don't know what that means.";
     public static final String MESSAGE_INVALID_TAG = SAD_FACE + "Command tag is invalid." + LS
-            + "- For adding a deadline, use /by" + LS
-            + "- For adding an event, use /at";
+            + "- For adding a deadline, use /by D/M/YYYY HHMM" + LS
+            + "- For adding an event, use /at D/M/YYYY HHMM";
     public static final String MESSAGE_EMPTY_DESCRIPTION = SAD_FACE + "The description of %s cannot be empty.";
     public static final String MESSAGE_EMPTY_KEYWORD = SAD_FACE + "Keyword cannot be empty.";
     public static final String MESSAGE_EMPTY_TIME = SAD_FACE + "The date and time of %s cannot be empty.";
