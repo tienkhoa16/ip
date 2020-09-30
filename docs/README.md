@@ -30,6 +30,7 @@ to get started!
 1. In the home folder for Duke, launch the jar file using the `java -jar duke.jar` command 
 on Terminal (for macOS) or Command Prompt (for Windows) to start the app. 
 If the setup is correct, you should see something like the below:
+
     ```
         ____________________________________________________________
         Created data/duke.txt to store future tasks.
@@ -70,8 +71,8 @@ Below is an example of Task Index:
 
 - Dates that you input to Duke should follow the `D/M/YYYY` format.\
     Example: `1/10/2020` represents the date October 1st 2020.
-- Time that you input to Duke should follow the `HHMM` format where `HH` is Hour in day (0-23)
-and `MM` is Minute in hour (0-59).\
+- Time that you input to Duke should follow the `HHMM` format where `HH` is hour in day (0-23)
+and `MM` is minute in hour (0-59).\
     Example: `1600` represents the time 16:59.
 - Parameters cannot be reordered.
     Example: If the command specifies `DESCRIPTION /by DATE TIME`,
@@ -83,10 +84,12 @@ and `MM` is Minute in hour (0-59).\
 ### 3.1. Adding A Task : `todo`, `deadline`, `event`
 Adds a task to Duke for tracking purposes.
 There are 3 types of task that you can add to Duke:
-- `todo` - a task with only a description.\
+- `todo` - a task with only a description.
+
     Format: `todo DESCRIPTION`\
     Example of usage: `todo CS2113 Team Meeting`\
     Expected outcome:
+    
     ```
          ____________________________________________________________
          Got it. I've added this task:
@@ -95,18 +98,22 @@ There are 3 types of task that you can add to Duke:
          ____________________________________________________________
     ```
   
-- `deadline` - a task with a description and the deadline.\
+- `deadline` - a task with a description and the deadline.
+
     Format: `deadline DESCRIPTION /by DATE TIME`\
     Example of usage: `deadline CS2113 Individual Project /by 2/10/2020 2359`\
     Expected outcome:
+    
     ```
          ____________________________________________________________
          Got it. I've added this task:
          [D][X] CS2113 Individual Project (by: 2 October 2020, 11.59PM)
          Now you have 2 tasks in the list.
          ____________________________________________________________
-    ``` 
-- `event` - a task with a description, the date and time of the event.\
+    ```
+   
+- `event` - a task with a description, the date and time of the event.
+
     Format: `event DESCRIPTION /at DATE TIME`\
     Example of usage: `event Google Day 2020 /at 9/9/2020 1500`\
     Expected outcome:
@@ -123,6 +130,7 @@ Lists all tasks in Duke with numbering according to the order they are added to 
 
 Format: `list`\
 Expected outcome:
+
 ```
     ____________________________________________________________
     Here is the list of your tasks:
@@ -138,6 +146,7 @@ Marks a task in Duke as done.
 Format: `done INDEX`\
 Example of usage: `done 1`\
 Expected outcome:
+
 ```
     ____________________________________________________________
     Nice! I've marked this task as done:
@@ -151,6 +160,7 @@ Deletes a task from Duke.
 Format: `delete INDEX`\
 Example of usage: `delete 2`\
 Expected outcome:
+
 ```
     ____________________________________________________________
     Noted. I've removed this task:
@@ -165,6 +175,7 @@ Finds tasks in Duke by searching for a keyword.
 Format: `find KEYWORD`\
 Example of usage: `find CS2113`\
 Expected outcome:
+
 ```
     ____________________________________________________________
     Here is the list of matching tasks:
@@ -177,6 +188,7 @@ Exits Duke.
 
 Format: `bye`\
 Expected outcome:
+
 ```
     ____________________________________________________________
     Bye buddy. Hope to see you again soon!
