@@ -10,7 +10,8 @@
 3.4. [Deleting A Task : `delete`](#34-deleting-a-task--delete)\
 3.5. [Finding Tasks : `find`](#35-finding-tasks--find)\
 3.6. [Exiting Duke : `bye`](#36-exiting-duke--bye)
-1. [**Command Summary**](#4-command-summary)
+1. [**FAQ**](#4-faq)
+1. [**Command Summary**](#5-command-summary)
 
 ## 1. Introduction
 
@@ -122,9 +123,8 @@ There are 3 types of task that you can add to Duke:
          ____________________________________________________________
     ```
   
-    :bulb: Although other date time formats are accepted, it is recommended
-    for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have
-    optimal performance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    |:bulb:| Although other date time formats are accepted, it is recommended for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have optimal performance.|
+    |------|:-------------------------------------------|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
    
 - `event` - a task with a description and date and time of the event, represented by `[E]` in Duke.
 
@@ -140,9 +140,8 @@ There are 3 types of task that you can add to Duke:
          ____________________________________________________________
     ``` 
   
-    :bulb: Although other date time formats are accepted, it is recommended
-    for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have
-    optimal performance.   
+    | :bulb: | Although other date time formats are accepted, it is recommended for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have optimal performance.|
+    |---|:--------------------------|   
 
 ### 3.2. Listing Tasks: `list`
 Lists all tasks in Duke with numbering according to the order they are added to Duke.
@@ -176,8 +175,8 @@ Expected outcome:
     ____________________________________________________________
 ``` 
 
-:bulb: If the task has been marked as done previously, 
-Duke will show a warning stating the duplicated mark as done.  
+| :bulb: | If the task has been marked as done previously, Duke will show a warning about the duplicated mark as done.|
+|--------|:---------------|  
 
 ### 3.4. Deleting A Task : `delete`
 Deletes a task from Duke.
@@ -225,7 +224,17 @@ Expected outcome:
     ____________________________________________________________
 ``` 
 
-## 4. Command Summary
+## 4. FAQ
+Below are the answers to some frequently asked questions about Duke:
+
+**Q:** Can I use Duke on another operating systems apart from Windows?\
+**A:** Yes. Duke is compatible with Windows, macOS and Linux. 
+
+**Q:** How do I transfer my data to another Computer?\
+**A:** Install Duke in the other computer and overwrite the empty data file 
+`duke.txt` it creates in `data` folder with `duke.txt` of your previous Duke `data` folder.
+
+## 5. Command Summary
 
 Below is the summary of all the features available in Duke:
 
