@@ -10,6 +10,7 @@ import duke.commands.ListCommand;
 import duke.exceptions.EmptyKeywordException;
 import duke.exceptions.InvalidCommandWordException;
 import duke.exceptions.InvalidTagException;
+import duke.exceptions.RedundantParamException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,8 +53,10 @@ public class Parser {
      * @return Associated command.
      * @throws InvalidCommandWordException If command word is invalid.
      * @throws EmptyKeywordException If user's keyword input for find command is empty.
+     * @throws RedundantParamException If redundant parameters are provided.
      */
-    public Command parseCommand(String userInputString) throws InvalidCommandWordException, EmptyKeywordException {
+    public Command parseCommand(String userInputString) throws InvalidCommandWordException, EmptyKeywordException,
+            RedundantParamException {
         String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
         String commandType = commandTypeAndParams[COMMAND_TYPE_INDEX].toLowerCase();
         String commandArgs = commandTypeAndParams[COMMAND_ARGS_INDEX];
@@ -66,7 +69,7 @@ public class Parser {
         case COMMAND_WORD_EVENT:
             return new AddCommand(EVENT_ABBREVIATION, commandArgs);
         case COMMAND_WORD_LIST:
-            return new ListCommand();
+            return new ListCommand(commandArgs);
         case COMMAND_WORD_DONE:
             return new DoneCommand(commandArgs);
         case COMMAND_WORD_DELETE:
@@ -74,7 +77,7 @@ public class Parser {
         case COMMAND_WORD_FIND:
             return new FindCommand(commandArgs);
         case COMMAND_WORD_BYE:
-            return new ExitCommand();
+            return new ExitCommand(commandArgs);
         default:
             throw new InvalidCommandWordException();
         }

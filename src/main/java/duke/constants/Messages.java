@@ -44,9 +44,10 @@ public final class Messages {
     public static final String MESSAGE_EMPTY_DESCRIPTION = SAD_FACE + "The description of %s cannot be empty.";
     public static final String MESSAGE_EMPTY_KEYWORD = SAD_FACE + "Keyword cannot be empty.";
     public static final String MESSAGE_EMPTY_TIME = SAD_FACE + "The date and time of %s cannot be empty.";
-    public static final String MESSAGE_INVALID_ID_RANGE = SAD_FACE + "INDEX is out of range.";
+    public static final String MESSAGE_REDUNDANT_PARAM = SAD_FACE + "%s command does not take parameters.";
+    public static final String MESSAGE_INVALID_INDEX_RANGE = SAD_FACE + "INDEX is out of range.";
     public static final String MESSAGE_DUPLICATED_MARK = SAD_FACE + "%s has been done earlier.";
-    public static final String MESSAGE_INVALID_ID = SAD_FACE + "Expected an integer for INDEX.";
+    public static final String MESSAGE_INVALID_INDEX = SAD_FACE + "Expected an integer for INDEX.";
     public static final String MESSAGE_IO_EXCEPTION = SAD_FACE + "Something went wrong: ";
     public static final String TASK_ENCODE_FORMAT = "%s | %s | %s";
     public static final String TASK_ENCODE_FORMAT_DATE_TIME_EXTENSION = "%s | %s";

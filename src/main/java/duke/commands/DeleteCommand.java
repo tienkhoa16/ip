@@ -9,8 +9,8 @@ import static duke.commands.CommandResult.createAcknowledgeMsg;
 import static duke.components.Utils.convertToZeroBased;
 import static duke.constants.Messages.MESSAGE_DELETE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
-import static duke.constants.Messages.MESSAGE_INVALID_ID;
-import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
+import static duke.constants.Messages.MESSAGE_INVALID_INDEX;
+import static duke.constants.Messages.MESSAGE_INVALID_INDEX_RANGE;
 
 /**
  * A representation of the command for deleting a task from the list.
@@ -50,9 +50,9 @@ public class DeleteCommand extends Command {
         } catch (DukeException e) {
             return new CommandResult(e.getMessage());
         } catch (IndexOutOfBoundsException e) {
-            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_ID_RANGE));
+            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_INDEX_RANGE));
         } catch (NumberFormatException e) {
-            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_ID));
+            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_INDEX));
         }
     }
 }

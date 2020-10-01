@@ -8,8 +8,8 @@ import duke.task.Task;
 import static duke.components.Utils.convertToZeroBased;
 import static duke.constants.Messages.MESSAGE_DONE_ACK;
 import static duke.constants.Messages.MESSAGE_FORMAT;
-import static duke.constants.Messages.MESSAGE_INVALID_ID;
-import static duke.constants.Messages.MESSAGE_INVALID_ID_RANGE;
+import static duke.constants.Messages.MESSAGE_INVALID_INDEX;
+import static duke.constants.Messages.MESSAGE_INVALID_INDEX_RANGE;
 
 /**
  * A representation of the command for marking a task from the list as done.
@@ -49,9 +49,9 @@ public class DoneCommand extends Command {
         } catch (DukeException e) {
             return new CommandResult(e.getMessage());
         } catch (IndexOutOfBoundsException e) {
-            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_ID_RANGE));
+            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_INDEX_RANGE));
         } catch (NumberFormatException e) {
-            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_ID));
+            return new CommandResult(String.format(MESSAGE_FORMAT, MESSAGE_INVALID_INDEX));
         }
     }
 }

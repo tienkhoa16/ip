@@ -2,7 +2,9 @@ package duke.commands;
 
 import duke.components.Storage;
 import duke.components.TasksList;
+import duke.exceptions.RedundantParamException;
 
+import static duke.constants.CommandConstants.COMMAND_WORD_BYE;
 import static duke.constants.Messages.MESSAGE_EXIT;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 
@@ -10,6 +12,18 @@ import static duke.constants.Messages.MESSAGE_FORMAT;
  * A representation of the command for exiting Duke.
  */
 public class ExitCommand extends Command {
+
+    /**
+     * Constructs ExitCommand object inheriting abstract class Command.
+     *
+     * @param commandArgs Command arguments from user's input.
+     * @throws RedundantParamException If parameters are provided to Exit Command.
+     */
+    public ExitCommand(String commandArgs) throws RedundantParamException {
+        if (!commandArgs.isEmpty()) {
+            throw new RedundantParamException(COMMAND_WORD_BYE);
+        }
+    }
 
     /**
      * Overrides execute method of class Command to execute exit command requested by user's input.
