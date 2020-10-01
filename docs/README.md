@@ -158,6 +158,9 @@ Expected outcome:
     ____________________________________________________________
 ``` 
 
+| :warning: | A warning will show if redundant parameters are provided.|
+|---|:--------------------------|   
+
 ### 3.3. Marking A Task As Done: `done`
 Marks a task in Duke as done.
 
@@ -223,6 +226,9 @@ Expected outcome:
     Bye buddy. Hope to see you again soon!
     ____________________________________________________________
 ``` 
+
+| :warning: | A warning will show if redundant parameters are provided.|
+|---|:--------------------------|   
 
 ## 4. FAQ
 Below are the answers to some frequently asked questions about Duke:
