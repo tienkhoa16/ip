@@ -60,7 +60,7 @@ If the setup is correct, you should see something like the below:
 ## 3. Features 
 
 ***
-**Command Format**
+:information_source: **Command Format**
 
 - Words that are in `UPPER_CASE` are the parameters to be supplied by you.\
 Example: in `todo DESCRIPTION`, `DESCRIPTION` is a parameter which can be used as `todo CS2113 Team Meeting`.
