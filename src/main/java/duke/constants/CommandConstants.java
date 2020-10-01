@@ -4,6 +4,7 @@ package duke.constants;
  * Constants related to command specified by user's input.
  */
 public final class CommandConstants {
+    public static final int CHECK_VALIDITY_SPLIT_LIMIT = -1;
     public static final int COMMAND_ARGS_INDEX = 1;
     public static final int COMMAND_SPLIT_LIMIT = 2;
     public static final int COMMAND_TYPE_INDEX = 0;

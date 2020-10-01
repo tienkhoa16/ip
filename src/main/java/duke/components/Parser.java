@@ -14,6 +14,7 @@ import duke.exceptions.InvalidTagException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static duke.constants.CommandConstants.CHECK_VALIDITY_SPLIT_LIMIT;
 import static duke.constants.CommandConstants.COMMAND_ARGS_INDEX;
 import static duke.constants.CommandConstants.COMMAND_SPLIT_LIMIT;
 import static duke.constants.CommandConstants.COMMAND_TYPE_INDEX;
@@ -160,8 +161,8 @@ public class Parser {
     private static boolean checkTagValidity(char taskTypeAbbrev, String encoded) {
         boolean isValid = false;
 
-        int countDeadlineTag = encoded.split(DEADLINE_TAG).length - OFFSET;
-        int countEventTag = encoded.split(EVENT_TAG).length - OFFSET;
+        int countDeadlineTag = encoded.split(DEADLINE_TAG, CHECK_VALIDITY_SPLIT_LIMIT).length - OFFSET;
+        int countEventTag = encoded.split(EVENT_TAG, CHECK_VALIDITY_SPLIT_LIMIT).length - OFFSET;
 
         switch (taskTypeAbbrev) {
         case DEADLINE_ABBREVIATION:

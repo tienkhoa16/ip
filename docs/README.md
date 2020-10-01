@@ -70,14 +70,14 @@ Below is an example of Task Index:
 
     ![Image of Task Index](./TaskIndex.png)
 
-- Dates that you input to Duke should follow the `D/M/YYYY` format.\
+- Dates that you input to Duke should follow `D/M/YYYY` format.\
     Example: `1/10/2020` represents the date 1 October 2020.
-- Time that you input to Duke should follow the `HHMM` format where `HH` is hour in day (0-23)
+- Time that you input to Duke should follow `HHMM` format where `HH` is hour in day (0-23)
 and `MM` is minute in hour (0-59).\
     Example: `1600` represents the time 4:59PM.
 - Parameters cannot be reordered.
     Example: If the command specifies `DESCRIPTION /by DATE TIME`,
-    `/by DATE TIME DESCRIPTION` will result to an invalid command. 
+    `/by DATE TIME DESCRIPTION` will result in an invalid command. 
     
 ***
 
