@@ -59,7 +59,7 @@ If the setup is correct, you should see something like the below:
 
 ## 3. Features 
 
-<div class="Box Box--blue">
+***
 :information_source: **Command Format**
 
 - Words that are in `UPPER_CASE` are the parameters to be supplied by you.\
@@ -80,7 +80,7 @@ and `MM` is minute in hour (0-59).\
     Example: If the command specifies `DESCRIPTION /by DATE TIME`,
     `/by DATE TIME DESCRIPTION` will result in an invalid command. 
     
-</div>
+***
 
 
 ### 3.1. Adding A Task : `todo`, `deadline`, `event`
