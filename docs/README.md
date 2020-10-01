@@ -1,17 +1,17 @@
 # Duke User Guide
 
 ## Table of Contents
-1. [**Introduction**](#1-introduction)
-1. [**Quick Start**](#2-quick-start)
-1. [**Features**](#3-features)\
-3.1. [Adding A Task : `todo`, `deadline`, `event`](#31-adding-a-task--todo-deadline-event)\
-3.2. [Listing Tasks: `list`](#32-listing-tasks-list)\
-3.3. [Marking A Task As Done: `done`](#33-marking-a-task-as-done-done)\
-3.4. [Deleting A Task : `delete`](#34-deleting-a-task--delete)\
-3.5. [Finding Tasks : `find`](#35-finding-tasks--find)\
-3.6. [Exiting Duke : `bye`](#36-exiting-duke--bye)
-1. [**FAQ**](#4-faq)
-1. [**Command Summary**](#5-command-summary)
+1. [**Introduction**](#introduction)
+1. [**Quick Start**](#quick-start)
+1. [**Features**](#features)\
+3.1. [Adding A Task : `todo`, `deadline`, `event`](#adding-a-task--codetodocode-codedeadlinecode-codeeventcode)\
+3.2. [Listing Tasks: `list`](#listing-tasks-codelistcode)\
+3.3. [Marking A Task As Done: `done`](#marking-a-task-as-done-codedonecode)\
+3.4. [Deleting A Task : `delete`](#deleting-a-task--codedeletecode)\
+3.5. [Finding Tasks : `find`](#finding-tasks--codefindcode)\
+3.6. [Exiting Duke : `bye`](#exiting-duke--codebyecode)
+1. [**FAQ**](#faq)
+1. [**Command Summary**](#command-summary)
 
 ## 1. Introduction
 
@@ -20,7 +20,7 @@ More importantly, Duke is **optimised for the Command Line Interface** (CLI) whi
 If you have trouble tracking your deadlines and event dates, Duke can help you manage by saving your task list into 
 a data file and loading it when you start Duke again. 
 
-Interested? Jump to the [Section 2. “Quick Start”](#2-quick-start) to get started!
+Interested? Jump to the [Section 2. “Quick Start”](#quick-start) to get started!
 
 ## 2. Quick Start
 1. Ensure you have Java `11` or above installed in your Computer.
@@ -54,8 +54,8 @@ If the setup is correct, you should see something like the below:
     which is due on `2 October 2020, 11.59PM` to Duke.
     - `bye` : Exits Duke.
 
-1. A summary of all the features available in Duke can be found in [Section 4. Command Summary](#4-command-summary).\
-   Refer to [Section 3. "Features"](#3-features) for the detailed instructions of the various commands of Duke.  
+1. A summary of all the features available in Duke can be found in [Section 5. Command Summary](#command-summary).\
+   Refer to [Section 3. "Features"](#features) for the detailed instructions of the various commands of Duke.  
 
 ## 3. Features 
 
@@ -66,7 +66,7 @@ If the setup is correct, you should see something like the below:
 Example: in `todo DESCRIPTION`, `DESCRIPTION` is a parameter which can be used as `todo CS2113 Team Meeting`.
 - The `INDEX` used in various commands is a number specifying the order of a task in the tasks list.
 This number can be found on the left of a task after running `list` command.
-You can refer to [Section 3.2. Listing Tasks: `list`](#32-listing-tasks-list) to have more information about `list` command.\
+You can refer to [Section 3.2. Listing Tasks: `list`](#listing-tasks-codelistcode) to have more information about `list` command.\
 Below is an example of Task Index:
 
     ![Image of Task Index](./TaskIndex.png)
