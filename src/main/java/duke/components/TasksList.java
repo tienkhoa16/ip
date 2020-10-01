@@ -34,4 +34,32 @@ public class TasksList {
     public int getNumberOfTasks() {
         return tasks.size();
     }
+
+    /**
+     * Adds a task to tasks list.
+     *
+     * @param task Task to add.
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    /**
+     * Returns the task at the specified index in tasks list.
+     *
+     * @param index Index of task in zero-based numbering.
+     * @return Task at the specified index.
+     */
+    public Task getTask(int index) {
+        return tasks.get(index);
+    }
+
+    /**
+     * Removes the task at the specified index in tasks list.
+     *
+     * @param index Index of task in zero-based numbering.
+     */
+    public void removeTask(int index) {
+        tasks.remove(index);
+    }
 }

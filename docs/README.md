@@ -201,8 +201,8 @@ Expected outcome:
 
 ### 3.5. Finding Tasks : `find`
 Finds tasks in Duke by searching for a keyword which can be a number,
-a word, a phrase, a month, etc. Duke will filter and display tasks 
-whose description or date time matches the keyword.
+a word or a phrase. Duke will filter and display tasks 
+whose details, including description and date time, match the keyword.
 
 Format: `find KEYWORD`\
 Example of usage: `find CS2113`\

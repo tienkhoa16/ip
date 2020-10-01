@@ -66,12 +66,12 @@ public class Storage {
 
                     switch (encodedTask.charAt(TASK_ABBREVIATION_INDEX)) {
                     case TODO_ABBREVIATION:
-                        tasks.getTasksList().add(Task.decodeTask(encodedTask));
+                        tasks.addTask(Task.decodeTask(encodedTask));
                         break;
                     case DEADLINE_ABBREVIATION:
                         // Fallthrough
                     case EVENT_ABBREVIATION:
-                        tasks.getTasksList().add(TaskWithDateTime.decodeTask(encodedTask));
+                        tasks.addTask(TaskWithDateTime.decodeTask(encodedTask));
                         break;
                     default:
                         throw new LoadingException();

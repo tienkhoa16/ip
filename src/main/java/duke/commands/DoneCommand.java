@@ -38,7 +38,7 @@ public class DoneCommand extends Command {
         try {
             int indexZeroBased = convertToZeroBased(index);
 
-            Task task = tasks.getTasksList().get(indexZeroBased);
+            Task task = tasks.getTask(indexZeroBased);
             task.markAsDone();
 
             storage.saveData(tasks);

@@ -39,8 +39,8 @@ public class DeleteCommand extends Command {
         try {
             int indexZeroBased = convertToZeroBased(index);
 
-            Task taskToDelete = tasks.getTasksList().get(indexZeroBased);
-            tasks.getTasksList().remove(indexZeroBased);
+            Task taskToDelete = tasks.getTask(indexZeroBased);
+            tasks.removeTask(indexZeroBased);
 
             storage.saveData(tasks);
 

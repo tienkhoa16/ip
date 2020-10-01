@@ -51,7 +51,7 @@ public class AddCommand extends Command {
         try {
             Task task = createTask();
 
-            tasks.getTasksList().add(task);
+            tasks.addTask(task);
             storage.saveData(tasks);
 
             String acknowledgeMsg = createAcknowledgeMsg(MESSAGE_ADD_ACK, tasks, task);
