@@ -25,7 +25,7 @@ Interested? Jump to the [Section 2. “Quick Start”](#quick-start) to get star
 ## 2. Quick Start
 1. Ensure you have Java `11` or above installed in your Computer.
 
-1. Download the latest `duke.jar` [here]().
+1. Download the latest `duke.jar` [here](https://github.com/tienkhoa16/ip/releases/tag/A-Release).
 
 1. Copy the file to the folder you want to use as the home folder for Duke.
 
