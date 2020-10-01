@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_EMPTY_TIME;
 public class EmptyTimeException extends DukeException {
 
     /**
-     * Constructs EmptyTimeException object inheriting class DukeException.
+     * Constructs EmptyTimeException object inheriting abstract class DukeException.
      *
      * @param taskType Type of task with empty date time.
      */

@@ -41,9 +41,9 @@ public class Event extends TaskWithDateTime {
 
     /**
      * Overrides toString method of class Task
-     * to return task type, status icon, description and event time.
+     * to get string representation of Event including task type, status icon, description and event time.
      *
-     * @return Task type, status icon, description and event time.
+     * @return String representation of Event.
      */
     @Override
     public String toString() {

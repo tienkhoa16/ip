@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_INVALID_SAVE_FORMAT;
 public class InvalidSaveFormatException extends DukeException {
 
     /**
-     * Constructs InvalidSaveFormatException object inheriting class DukeException.
+     * Constructs InvalidSaveFormatException object inheriting abstract class DukeException.
      *
      * @param encodedLine The specific line in the data file that is causing the error.
      */

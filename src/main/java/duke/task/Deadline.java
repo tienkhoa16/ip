@@ -41,9 +41,9 @@ public class Deadline extends TaskWithDateTime {
 
     /**
      * Overrides toString method of class Task
-     * to return task type, status icon, description and deadline date time.
+     * to get string representation of Deadline including task type, status icon, description and deadline date time.
      *
-     * @return Task type, status icon, description and deadline date time.
+     * @return String representation of Deadline.
      */
     @Override
     public String toString() {

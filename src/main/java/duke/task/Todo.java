@@ -22,10 +22,12 @@ public class Todo extends Task {
     }
 
     /**
-     * Constructs Todo object inheriting abstract class Task. Creates a completed/uncompleted todo.
+     * Constructs Todo object inheriting abstract class Task.
+     * Creates a completed/uncompleted todo.
      *
      * @param description Description of todo.
      * @param isDone String representation of task status ("1" for completed, "0" for uncompleted).
+     * @throws EmptyDescriptionException If todo description is empty.
      */
     public Todo(String description, String isDone) throws EmptyDescriptionException {
         super(description, isDone);

@@ -5,7 +5,8 @@ import static duke.constants.Messages.MESSAGE_FORMAT;
 /**
  * A base class for the checked exceptions in Duke.
  */
-public class DukeException extends Exception {
+public abstract class DukeException extends Exception {
+
     /**
      * Constructs DukeException object inheriting class Exception.
      *

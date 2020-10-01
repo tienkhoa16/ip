@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_DUPLICATED_MARK;
 public class DuplicatedMarkAsDoneException extends DukeException {
 
     /**
-     * Constructs DuplicatedMarkAsDoneException object inheriting class DukeException.
+     * Constructs DuplicatedMarkAsDoneException object inheriting abstract class DukeException.
      *
      * @param taskDescription Description of duplicated marked as done task.
      */

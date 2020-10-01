@@ -1,7 +1,6 @@
 package duke.components;
 
-import java.util.Scanner;
-
+import static duke.constants.CommandConstants.SCANNER;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_WELCOME;
 
@@ -9,14 +8,6 @@ import static duke.constants.Messages.MESSAGE_WELCOME;
  * A class deals with interactions with the user.
  */
 public class Ui {
-
-    /**
-     * This variable is declared for the whole class (instead of declaring it
-     * inside the getCommand() method to facilitate automated testing using
-     * the I/O redirection technique. If not, only the first line of the input
-     * text file will be processed.
-     */
-    public static final Scanner SCANNER = new Scanner(System.in);
 
     /**
      * Shows a result message to the user.

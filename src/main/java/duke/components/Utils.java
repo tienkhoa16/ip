@@ -37,6 +37,7 @@ public class Utils {
     /**
      * Converts tasks list from ArrayList to string representation.
      *
+     * @param tasks Tasks list managing all user's tasks.
      * @return String representation of tasks list.
      */
     public static String convertTasksListToString(ArrayList<Task> tasks) {

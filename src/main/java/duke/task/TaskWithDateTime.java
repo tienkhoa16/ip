@@ -16,7 +16,7 @@ public abstract class TaskWithDateTime extends Task {
     protected String dateTime;
 
     /**
-     * Constructs TaskWithDateTime object.
+     * Constructs TaskWithDateTime object inheriting abstract class Task.
      *
      * @param description Description of task.
      * @param dateTime Date and time of task.
@@ -46,7 +46,7 @@ public abstract class TaskWithDateTime extends Task {
     /**
      * Returns the date and time of the task.
      *
-     * @return Date and time.
+     * @return Task date and time.
      */
     public String getDateTime() {
         return dateTime;

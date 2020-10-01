@@ -1,7 +1,9 @@
 package duke.constants;
 
+import java.util.Scanner;
+
 /**
- * Constants related to command specified by user's input.
+ * Constants related to user's input command.
  */
 public final class CommandConstants {
     public static final int CHECK_VALIDITY_SPLIT_LIMIT = -1;
@@ -21,4 +23,5 @@ public final class CommandConstants {
     public static final String GREEDY_WHITE_SPACE = "\\s+";
     public static final int OFFSET = 1;
     public static final int ONE_APPEARANCE = 1;
+    public static final Scanner SCANNER = new Scanner(System.in);
 }

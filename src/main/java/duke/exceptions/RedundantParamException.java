@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_REDUNDANT_PARAM;
 public class RedundantParamException extends DukeException {
 
     /**
-     * Constructs RedundantParamException object inheriting class DukeException.
+     * Constructs RedundantParamException object inheriting abstract class DukeException.
      *
      * @param commandWord Command with redundant input parameters.
      */

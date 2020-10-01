@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_INVALID_TAG;
 public class InvalidTagException extends DukeException {
 
     /**
-     * Constructs InvalidTagException object inheriting class DukeException.
+     * Constructs InvalidTagException object inheriting abstract class DukeException.
      */
     public InvalidTagException() {
         super(MESSAGE_INVALID_TAG);

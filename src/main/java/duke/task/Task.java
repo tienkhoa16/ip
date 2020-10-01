@@ -89,10 +89,10 @@ public abstract class Task {
     }
 
     /**
-     * Overrides toString method of class Object to get string representation of task
+     * Overrides toString method of class Object to get string representation of Task
      * including task type abbreviation, status icon and description.
      *
-     * @return String representation of task.
+     * @return String representation of Task.
      */
     @Override
     public String toString() {

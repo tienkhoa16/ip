@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import static duke.components.Utils.convertTasksListToString;
+import static duke.constants.CommandConstants.ONE_APPEARANCE;
 import static duke.constants.Messages.MESSAGE_FIND_FORMAT;
 import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_NO_MATCH;
@@ -20,6 +21,7 @@ public class FindCommand extends Command {
     /**
      * Constructs FindCommand object inheriting abstract class Command.
      *
+     * @param keyword Keyword for searching.
      * @throws EmptyKeywordException If keyword is empty.
      */
     public FindCommand(String keyword) throws EmptyKeywordException {
@@ -47,7 +49,7 @@ public class FindCommand extends Command {
 
         String listingMessage = null;
 
-        if (matchingTasks.size() > 0) {
+        if (matchingTasks.size() >= ONE_APPEARANCE) {
             listingMessage = String.format(MESSAGE_FIND_FORMAT, convertTasksListToString(matchingTasks));
         } else {
             listingMessage = MESSAGE_NO_MATCH;

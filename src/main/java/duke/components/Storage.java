@@ -147,6 +147,7 @@ public class Storage {
     /**
      * Encodes information in a task for it to be saved and decoded in future.
      *
+     * @param task Task to encode.
      * @return Encoded string with all information of the task.
      */
     private String encodeTask(Task task) {

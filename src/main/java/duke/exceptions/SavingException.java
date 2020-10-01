@@ -8,7 +8,7 @@ import static duke.constants.Messages.MESSAGE_SAVING_ERROR;
 public class SavingException extends DukeException {
 
     /**
-     * Constructs SavingException object inheriting class DukeException.
+     * Constructs SavingException object inheriting abstract class DukeException.
      *
      * @param message The cause of the error.
      */
