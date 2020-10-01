@@ -8,8 +8,8 @@ public final class Messages {
     public static final String LINE_PREFIX = "\t ";
     public static final String HORIZONTAL_LINE = LINE_PREFIX
             + "____________________________________________________________";
-    public static final String LISTING_FORMAT = System.lineSeparator() + LINE_PREFIX + "%d. %s";
     public static final String LS = System.lineSeparator() + LINE_PREFIX;
+    public static final String LISTING_FORMAT = LS + "%d. %s";
     public static final String MESSAGE_ADD_TITLE = "Got it. I've added this task:";
     public static final String MESSAGE_AN_EVENT = "an event";
     public static final String MESSAGE_A_DEADLINE = "a deadline";
@@ -35,8 +35,10 @@ public final class Messages {
     public static final String MESSAGE_WELCOME = "Hello dude! I'm Duke" + LS + "How can I help you?";
     public static final String SAD_FACE = ":(  OOPS!!! ";
     public static final String MESSAGE_NO_MATCH = SAD_FACE + "There are no results that match your keyword.";
-    public static final String MESSAGE_LOADING_ERROR = SAD_FACE + "An error has occurred while loading data.";
-    public static final String MESSAGE_SAVING_ERROR = SAD_FACE + "An error has occurred while saving data.";
+    public static final String MESSAGE_LOADING_ERROR = SAD_FACE + "An error has occurred while loading data."
+            + LS + "%s";
+    public static final String MESSAGE_SAVING_ERROR = SAD_FACE + "An error has occurred while saving data."
+            + LS + "%s";
     public static final String MESSAGE_INVALID_COMMAND_WORD = SAD_FACE + "Sorry, but I don't know what that means.";
     public static final String MESSAGE_INVALID_TAG = SAD_FACE + "Command tag is invalid." + LS
             + "- For deadline, use tag /by D/M/YYYY HHMM" + LS
@@ -48,7 +50,7 @@ public final class Messages {
     public static final String MESSAGE_INVALID_INDEX_RANGE = SAD_FACE + "INDEX is out of range.";
     public static final String MESSAGE_DUPLICATED_MARK = SAD_FACE + "%s has been done earlier.";
     public static final String MESSAGE_INVALID_INDEX = SAD_FACE + "Expected an integer for INDEX.";
-    public static final String MESSAGE_IO_EXCEPTION = SAD_FACE + "Something went wrong: ";
+    public static final String MESSAGE_INVALID_SAVE_FORMAT = SAD_FACE + "Save format '%s' is invalid.";
     public static final String TASK_ENCODE_FORMAT = "%s | %s | %s";
     public static final String TASK_ENCODE_FORMAT_DATE_TIME_EXTENSION = "%s | %s";
     public static final String VERTICAL_BAR_REGREX = " \\| ";

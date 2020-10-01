@@ -9,8 +9,10 @@ public class SavingException extends DukeException {
 
     /**
      * Constructs SavingException object inheriting class DukeException.
+     *
+     * @param message The cause of the error.
      */
-    public SavingException() {
-        super(MESSAGE_SAVING_ERROR);
+    public SavingException(String message) {
+        super(String.format(MESSAGE_SAVING_ERROR, message));
     }
 }

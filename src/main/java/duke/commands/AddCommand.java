@@ -79,9 +79,7 @@ public class AddCommand extends Command {
         case TODO_ABBREVIATION:
             task = new Todo(commandArgs);
             break;
-        case DEADLINE_ABBREVIATION:
-            //Fallthrough
-        case EVENT_ABBREVIATION:
+        default:
             String activity = extractDescriptionFromString(taskTypeAbbrev, commandArgs);
             String time = extractTimeFromString(commandArgs, taskTypeAbbrev);
 
@@ -97,8 +95,6 @@ public class AddCommand extends Command {
             }
 
             break;
-        default:
-            throw new InvalidCommandWordException();
         }
 
         return task;

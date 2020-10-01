@@ -9,8 +9,10 @@ public class LoadingException extends DukeException {
 
     /**
      * Constructs LoadingException object inheriting class DukeException.
+     *
+     * @param message The cause of the error.
      */
-    public LoadingException() {
-        super(MESSAGE_LOADING_ERROR);
+    public LoadingException(String message) {
+        super(String.format(MESSAGE_LOADING_ERROR, message));
     }
 }
