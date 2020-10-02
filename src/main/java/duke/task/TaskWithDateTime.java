@@ -1,7 +1,7 @@
 package duke.task;
 
+import duke.exceptions.EmptyDateTimeException;
 import duke.exceptions.EmptyDescriptionException;
-import duke.exceptions.EmptyTimeException;
 
 import java.time.format.DateTimeParseException;
 
@@ -22,17 +22,17 @@ public abstract class TaskWithDateTime extends Task {
      * @param dateTime Date and time of task.
      * @param isDone String representation of task status ("1" for completed, "0" for uncompleted).
      * @throws EmptyDescriptionException If task description is empty.
-     * @throws EmptyTimeException If task date time is empty.
+     * @throws EmptyDateTimeException If task date time is empty.
      */
     public TaskWithDateTime(String description, String dateTime, String isDone) throws EmptyDescriptionException,
-            EmptyTimeException {
+            EmptyDateTimeException {
         super(description, isDone);
 
         if (dateTime.isEmpty()) {
             if (this instanceof Deadline) {
-                throw new EmptyTimeException(MESSAGE_A_DEADLINE);
+                throw new EmptyDateTimeException(MESSAGE_A_DEADLINE);
             } else if (this instanceof Event) {
-                throw new EmptyTimeException(MESSAGE_AN_EVENT);
+                throw new EmptyDateTimeException(MESSAGE_AN_EVENT);
             }
         }
 

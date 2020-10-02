@@ -3,11 +3,12 @@ package duke.commands;
 import duke.components.TasksList;
 import duke.task.Task;
 
+import static duke.constants.CommandConstants.ONE_TASK;
 import static duke.constants.Messages.MESSAGE_PLURAL_NOUN;
 import static duke.constants.Messages.MESSAGE_SINGULAR_NOUN;
 
 /**
- * Result shown to user after executing the requested command.
+ * A class representing result shown to user after executing the requested command.
  */
 public class CommandResult {
     private String feedbackMessage;
@@ -42,7 +43,7 @@ public class CommandResult {
     public static String createAcknowledgeMsg(String messageFormat, TasksList tasks, Task task) {
         int numOfTasks = tasks.getNumberOfTasks();
 
-        if (numOfTasks > 1) {
+        if (numOfTasks > ONE_TASK) {
             return String.format(messageFormat, task.toString(), numOfTasks, MESSAGE_PLURAL_NOUN);
         } else {
             return String.format(messageFormat, task.toString(), numOfTasks, MESSAGE_SINGULAR_NOUN);

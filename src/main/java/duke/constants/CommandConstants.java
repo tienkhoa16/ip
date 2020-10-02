@@ -23,5 +23,6 @@ public final class CommandConstants {
     public static final String GREEDY_WHITE_SPACE = "\\s+";
     public static final int OFFSET = 1;
     public static final int ONE_APPEARANCE = 1;
+    public static final int ONE_TASK = 1;
     public static final Scanner SCANNER = new Scanner(System.in);
 }

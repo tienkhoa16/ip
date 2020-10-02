@@ -1,7 +1,7 @@
 package duke.components;
 
+import duke.exceptions.EmptyDateTimeException;
 import duke.exceptions.EmptyDescriptionException;
-import duke.exceptions.EmptyTimeException;
 import duke.exceptions.InvalidSaveFormatException;
 import duke.exceptions.LoadingException;
 import duke.exceptions.SavingException;
@@ -60,10 +60,10 @@ public class Storage {
      * @return Tasks list from data file.
      * @throws InvalidSaveFormatException If data line in Duke has invalid encode format.
      * @throws EmptyDescriptionException If task description is empty.
-     * @throws EmptyTimeException If task date time is empty.
+     * @throws EmptyDateTimeException If task date time is empty.
      * @throws LoadingException If there are failed or interrupted I/O operations.
      */
-    public TasksList loadData() throws InvalidSaveFormatException, EmptyDescriptionException, EmptyTimeException,
+    public TasksList loadData() throws InvalidSaveFormatException, EmptyDescriptionException, EmptyDateTimeException,
             LoadingException {
         TasksList tasks = new TasksList();
 
@@ -110,7 +110,7 @@ public class Storage {
     /**
      * Creates data folder.
      *
-     * @param pathToDataFolder Path to data file.
+     * @param pathToDataFolder Path to data folder.
      * @throws LoadingException If there are failed or interrupted I/O operations.
      */
     private void createDataFolder(Path pathToDataFolder) throws LoadingException {
@@ -175,10 +175,10 @@ public class Storage {
      * @return Task object with information decoded from encodedTask.
      * @throws InvalidSaveFormatException If data line in Duke has invalid encode format.
      * @throws EmptyDescriptionException If task description is empty.
-     * @throws EmptyTimeException If task date time is empty.
+     * @throws EmptyDateTimeException If task date time is empty.
      */
     private Task decodeTask(String encodedTask) throws InvalidSaveFormatException, EmptyDescriptionException,
-            EmptyTimeException {
+            EmptyDateTimeException {
         try {
 
             String[] taskTypeAndDetails = splitTaskFromDataLine(encodedTask);

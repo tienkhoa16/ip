@@ -15,6 +15,9 @@ import static duke.constants.Messages.MESSAGE_FORMAT;
 import static duke.constants.Messages.MESSAGE_NO_MATCH;
 import static duke.constants.TaskConstants.TASK_DETAILS_START_INDEX;
 
+/**
+ * A representation of the command for finding tasks by keyword.
+ */
 public class FindCommand extends Command {
     private String keyword;
 

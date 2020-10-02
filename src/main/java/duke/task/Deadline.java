@@ -1,7 +1,7 @@
 package duke.task;
 
+import duke.exceptions.EmptyDateTimeException;
 import duke.exceptions.EmptyDescriptionException;
-import duke.exceptions.EmptyTimeException;
 
 import static duke.constants.TaskConstants.DEADLINE_ABBREVIATION;
 import static duke.constants.TaskConstants.DEADLINE_STRING_REPRESENTATION;
@@ -19,9 +19,9 @@ public class Deadline extends TaskWithDateTime {
      * @param description Deadline description.
      * @param by Deadline date time.
      * @throws EmptyDescriptionException If deadline description is empty.
-     * @throws EmptyTimeException If deadline date time is empty.
+     * @throws EmptyDateTimeException If deadline date time is empty.
      */
-    public Deadline(String description, String by) throws EmptyDescriptionException, EmptyTimeException {
+    public Deadline(String description, String by) throws EmptyDescriptionException, EmptyDateTimeException {
         this(description, by, TASK_UNDONE_STRING_REPRESENTATION);
     }
 
@@ -33,9 +33,10 @@ public class Deadline extends TaskWithDateTime {
      * @param by Deadline date time.
      * @param isDone String representation of task status ("1" for completed, "0" for uncompleted).
      * @throws EmptyDescriptionException If deadline description is empty.
-     * @throws EmptyTimeException If deadline date time is empty.
+     * @throws EmptyDateTimeException If deadline date time is empty.
      */
-    public Deadline(String description, String by, String isDone) throws EmptyDescriptionException, EmptyTimeException {
+    public Deadline(String description, String by, String isDone) throws EmptyDescriptionException,
+            EmptyDateTimeException {
         super(description, by, isDone);
     }
 

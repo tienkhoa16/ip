@@ -45,7 +45,7 @@ public final class Messages {
             + "- For event, use tag /at D/M/YYYY HHMM";
     public static final String MESSAGE_EMPTY_DESCRIPTION = SAD_FACE + "The description of %s cannot be empty.";
     public static final String MESSAGE_EMPTY_KEYWORD = SAD_FACE + "Keyword cannot be empty.";
-    public static final String MESSAGE_EMPTY_TIME = SAD_FACE + "The date and time of %s cannot be empty.";
+    public static final String MESSAGE_EMPTY_DATE_TIME = SAD_FACE + "The date and time of %s cannot be empty.";
     public static final String MESSAGE_REDUNDANT_PARAM = SAD_FACE + "%s command does not take parameters.";
     public static final String MESSAGE_INVALID_INDEX_RANGE = SAD_FACE + "INDEX is out of range.";
     public static final String MESSAGE_DUPLICATED_MARK = SAD_FACE + "%s has been done earlier.";

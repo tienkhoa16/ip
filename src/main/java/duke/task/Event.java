@@ -1,7 +1,7 @@
 package duke.task;
 
+import duke.exceptions.EmptyDateTimeException;
 import duke.exceptions.EmptyDescriptionException;
-import duke.exceptions.EmptyTimeException;
 
 import static duke.constants.TaskConstants.EVENT_ABBREVIATION;
 import static duke.constants.TaskConstants.EVENT_STRING_REPRESENTATION;
@@ -19,9 +19,9 @@ public class Event extends TaskWithDateTime {
      * @param description Event description.
      * @param at Event date time.
      * @throws EmptyDescriptionException If event description is empty.
-     * @throws EmptyTimeException If event date time is empty.
+     * @throws EmptyDateTimeException If event date time is empty.
      */
-    public Event(String description, String at) throws EmptyDescriptionException, EmptyTimeException {
+    public Event(String description, String at) throws EmptyDescriptionException, EmptyDateTimeException {
         this(description, at, TASK_UNDONE_STRING_REPRESENTATION);
     }
 
@@ -33,9 +33,10 @@ public class Event extends TaskWithDateTime {
      * @param at Event date time.
      * @param isDone String representation of task status ("1" for completed, "0" for uncompleted).
      * @throws EmptyDescriptionException If event description is empty.
-     * @throws EmptyTimeException If event date time is empty.
+     * @throws EmptyDateTimeException If event date time is empty.
      */
-    public Event(String description, String at, String isDone) throws EmptyDescriptionException, EmptyTimeException {
+    public Event(String description, String at, String isDone) throws EmptyDescriptionException,
+            EmptyDateTimeException {
         super(description, at, isDone);
     }
 
