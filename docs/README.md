@@ -180,7 +180,7 @@ Expected outcome:
     ____________________________________________________________
 ``` 
 
-| :bulb: | If the task has been marked as done previously, Duke will show a warning about the duplicated mark as done.|
+| :warning: | If the task has been marked as done previously, Duke will show a warning about the duplicated mark as done.|
 |--------|:---------------|  
 
 ### 3.4. Deleting A Task : `delete`
