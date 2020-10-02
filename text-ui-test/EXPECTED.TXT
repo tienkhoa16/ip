@@ -1,4 +1,8 @@
 	 ____________________________________________________________
+	 Created data/duke.txt to store future tasks.
+	 ____________________________________________________________
+
+	 ____________________________________________________________
 	 Hello dude! I'm Duke
 	 How can I help you?
 	 ____________________________________________________________
@@ -6,19 +10,13 @@
 Enter your command: 	 ____________________________________________________________
 	 Got it. I've added this task:
 	 [T][X] read book
-	 Now you have 1 tasks in the list.
+	 Now you have 1 task in the list.
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
 	 Got it. I've added this task:
-	 [D][X] return book (by: Sunday)
+	 [D][X] return book (by: 10 October 2020, 8.00AM)
 	 Now you have 2 tasks in the list.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 Here are the tasks in your list:
-	 1. [T][X] read book
-	 2. [D][X] return book (by: Sunday)
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
@@ -28,9 +26,9 @@ Enter your command: 	 __________________________________________________________
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 Here are the tasks in your list:
+	 Here is the list of your tasks:
 	 1. [T][X] read book
-	 2. [D][X] return book (by: Sunday)
+	 2. [D][X] return book (by: 10 October 2020, 8.00AM)
 	 3. [E][X] project meeting (at: Mon 2-4pm)
 	 ____________________________________________________________
 
@@ -41,7 +39,7 @@ Enter your command: 	 __________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
 	 Nice! I've marked this task as done:
-	 [D][/] return book (by: Sunday)
+	 [D][/] return book (by: 10 October 2020, 8.00AM)
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
@@ -50,82 +48,24 @@ Enter your command: 	 __________________________________________________________
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 Here are the tasks in your list:
+	 Here is the list of matching tasks:
 	 1. [T][/] read book
-	 2. [D][/] return book (by: Sunday)
-	 3. [E][/] project meeting (at: Mon 2-4pm)
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The description of a todo cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The date/time of a deadline cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The date/time of a deadline cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The description of a deadline cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The date/time of an event cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The description of an event cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The date/time of a deadline cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The date/time of an event cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! The date/time of an event cannot be empty.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! Task ID is out of range
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! Task ID is out of range
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! read book has been done earlier.
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! Expected an integer for task ID.
+	 2. [D][/] return book (by: 10 October 2020, 8.00AM)
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
 	 Noted. I've removed this task:
-	 [D][/] return book (by: Sunday)
+	 [E][/] project meeting (at: Mon 2-4pm)
 	 Now you have 2 tasks in the list.
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! Task ID is out of range
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! Task ID is out of range
-	 ____________________________________________________________
-
-Enter your command: 	 ____________________________________________________________
-	 ☹  OOPS!!! Expected an integer for task ID.
+	 Here is the list of your tasks:
+	 1. [T][/] read book
+	 2. [D][/] return book (by: 10 October 2020, 8.00AM)
 	 ____________________________________________________________
 
 Enter your command: 	 ____________________________________________________________
 	 Bye buddy. Hope to see you again soon!
 	 ____________________________________________________________
+
