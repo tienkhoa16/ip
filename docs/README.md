@@ -10,15 +10,15 @@
 3.4. [Deleting A Task : `delete`](#deleting-a-task--codedeletecode)\
 3.5. [Finding Tasks : `find`](#finding-tasks--codefindcode)\
 3.6. [Exiting Duke : `bye`](#exiting-duke--codebyecode)
-1. [**FAQ**](#faq)
 1. [**Command Summary**](#command-summary)
+1. [**FAQ**](#faq)
 
 ## 1. Introduction
 
 Duke is for those who **prefer to use a desktop app for keeping track of tasks**.
 More importantly, Duke is **optimised for the Command Line Interface** (CLI) which is beneficial if you can type fast.
 If you have trouble tracking your deadlines and event dates, Duke can help you manage by saving your task list into 
-a data file and loading it when you start Duke again. 
+a data file and loading it when you start the app again. 
 
 Interested? Jump to the [Section 2. “Quick Start”](#quick-start) to get started!
 
@@ -30,7 +30,7 @@ Interested? Jump to the [Section 2. “Quick Start”](#quick-start) to get star
 1. Copy the file to the folder you want to use as the home folder for Duke.
 
 1. In the home folder for Duke, launch the jar file using the `java -jar duke.jar` command 
-on Terminal (for macOS) or Command Prompt (for Windows) to start the app. 
+on Command Prompt (for Windows) or Terminal (for macOS and Linux) to start the app. 
 If the setup is correct, you should see something like the below:
 
     ```
@@ -54,8 +54,8 @@ If the setup is correct, you should see something like the below:
     which is due on `2 October 2020, 11.59PM` to Duke.
     - `bye` : Exits Duke.
 
-1. A summary of all the features available in Duke can be found in [Section 5. Command Summary](#command-summary).\
-   Refer to [Section 3. "Features"](#features) for the detailed instructions of the various commands of Duke.  
+1. A summary of all the commands available in Duke can be found in [Section 4. Command Summary](#command-summary).\
+   Refer to [Section 3. "Features"](#features) for the detailed instructions of the various features of Duke.  
 
 ## 3. Features 
 
@@ -65,18 +65,18 @@ If the setup is correct, you should see something like the below:
 - Words that are in `UPPER_CASE` are the parameters to be supplied by you.\
 Example: in `todo DESCRIPTION`, `DESCRIPTION` is a parameter which can be used as `todo CS2113 Team Meeting`.
 - The `INDEX` used in various commands is a number specifying the order of a task in the tasks list.
-This number can be found on the left of a task after running `list` command.
+This number can be found on the left of a task after running `list` command.\
 You can refer to [Section 3.2. Listing Tasks: `list`](#listing-tasks-codelistcode) to have more information about `list` command.\
 Below is an example of Task Index:
 
     ![Image of Task Index](./TaskIndex.png)
 
-- Dates that you input to Duke should follow `D/M/YYYY` format.\
+- `DATE` that you input to Duke should follow `D/M/YYYY` format.\
     Example: `1/10/2020` represents the date 1 October 2020.
-- Time that you input to Duke should follow `HHMM` format where `HH` is hour in day (0-23)
+- `TIME` that you input to Duke should follow `HHMM` format where `HH` is hour in day (0-23)
 and `MM` is minute in hour (0-59).\
     Example: `1600` represents the time 4:59PM.
-- Parameters cannot be reordered.
+- Parameters cannot be reordered.\
     Example: If the command specifies `DESCRIPTION /by DATE TIME`,
     `/by DATE TIME DESCRIPTION` will result in an invalid command. 
     
@@ -123,7 +123,7 @@ There are 3 types of task that you can add to Duke:
          ____________________________________________________________
     ```
   
-    |:bulb:| Although other date time formats are accepted, it is recommended for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have optimal performance.|
+    |:bulb:| Although other date time formats are accepted, it is recommended for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have the optimal performance.|
     |------|:-------------------------------------------|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
    
 - `event` - a task with a description and date and time of the event, represented by `[E]` in Duke.
@@ -140,7 +140,7 @@ There are 3 types of task that you can add to Duke:
          ____________________________________________________________
     ``` 
   
-    | :bulb: | Although other date time formats are accepted, it is recommended for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have optimal performance.|
+    | :bulb: | Although other date time formats are accepted, it is recommended for `DATE TIME` to follow `D/M/YYYY HHMM` format so that `find` command can have the optimal performance.|
     |---|:--------------------------|   
 
 ### 3.2. Listing Tasks: `list`
@@ -230,17 +230,7 @@ Expected outcome:
 | :warning: | A warning will show if redundant parameters are provided.|
 |---|:--------------------------|   
 
-## 4. FAQ
-Below are the answers to some frequently asked questions about Duke:
-
-**Q:** Can I use Duke on another operating systems apart from Windows?\
-**A:** Yes. Duke is compatible with Windows, macOS and Linux. 
-
-**Q:** How do I transfer my data to another Computer?\
-**A:** Install Duke in the other computer and overwrite the empty data file 
-`duke.txt` it creates in `data` folder with `duke.txt` of your previous Duke `data` folder.
-
-## 5. Command Summary
+## 4. Command Summary
 
 Below is the summary of all the features available in Duke:
 
@@ -252,3 +242,17 @@ Below is the summary of all the features available in Duke:
 **Delete** | `delete INDEX`<br><br> Example: `delete 2`
 **Find** | `find KEYWORD`<br><br> Example: `find CS2113`
 **Exit** | `bye`
+
+## 5. FAQ
+Below are the answers to some frequently asked questions about Duke:
+
+**Q:** Can I use Duke on another operating systems apart from Windows?\
+**A:** Yes. Duke is compatible with Windows, macOS and Linux. 
+
+**Q:** How do I transfer my data to another Computer?\
+**A:** Install Duke in the other computer and overwrite the empty data file 
+`duke.txt` it creates in `data` folder with `duke.txt` of your previous Duke `data` folder.
+
+**Q:** Can I exit Duke without typing `bye` command?\
+**A:** Yes. Your data is saved automatically to `duke.txt` whenever your task list changes.
+Therefore, you can exit Duke worry-free.
