@@ -20,7 +20,7 @@ More importantly, Duke is **optimised for the Command Line Interface** (CLI) whi
 If you have trouble tracking your deadlines and event dates, Duke can help you manage by saving your task list into 
 a data file and loading it when you start the app again. 
 
-Interested? Jump to the [Section 2. “Quick Start”](#quick-start) to get started!
+Interested? Jump to the [Section 2. Quick Start](#quick-start) to get started!
 
 ## 2. Quick Start
 1. Ensure you have Java `11` or above installed in your Computer.
@@ -54,8 +54,8 @@ If the setup is correct, you should see something like the below:
     which is due on `2 October 2020, 11.59PM` to Duke.
     - `bye` : Exits Duke.
 
-1. A summary of all the commands available in Duke can be found in [Section 4. Command Summary](#command-summary).\
-   Refer to [Section 3. "Features"](#features) for the detailed instructions of the various features of Duke.  
+1. A summary of all the supported commands in Duke can be found in [Section 4. Command Summary](#command-summary).\
+   Refer to [Section 3. Features](#features) for the detailed instructions of the various features of Duke.  
 
 ## 3. Features 
 
@@ -82,6 +82,8 @@ and `MM` is minute in hour (0-59).\
     
 ***
 
+
+Below are the supported features in Duke: 
 
 ### 3.1. Adding A Task : `todo`, `deadline`, `event`
 Adds a task to Duke for tracking purposes.
@@ -232,7 +234,7 @@ Expected outcome:
 
 ## 4. Command Summary
 
-Below is the summary of all the features available in Duke:
+Below is the summary of all the supported features in Duke:
 
 **Action** | **Format, Examples** 
 |------|-----------------|
